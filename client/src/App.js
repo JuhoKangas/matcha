@@ -1,14 +1,15 @@
-import Title from './components/Title'
 import React from 'react'
 import './index.css'
+import { UsersContextProvider } from './context/UsersContext'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-export const UserContext = React.createContext()
-
-function App() {
+const App = () => {
   return (
-    <UserContext.Provider value="Hello Juho">
-      <Title />
-    </UserContext.Provider>
+    <UsersContextProvider>
+      <Router>
+        <Routes>{/* bunch of routes here */}</Routes>
+      </Router>
+    </UsersContextProvider>
   )
 }
 
