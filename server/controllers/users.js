@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+require('express-async-errors')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
 
@@ -9,16 +10,30 @@ usersRouter.get('/', async (request, response) => {
 })
 
 usersRouter.post('/', async (request, response) => {
-  const data = await db.query(
+  const data = request.body
+  const query = await db.query(
     'INSERT INTO users(username, firstname, lastname, age) VALUES ($1, $2, $3, $4) RETURNING *',
-    [
-      request.body.username,
-      request.body.firstname,
-      request.body.lastname,
-      request.body.age,
-    ]
+    [data.username, data.firstname, data.lastname, data.age]
   )
-  response.status(200).send(data)
+  response.status(200).send(query.rows[0])
+})
+
+usersRouter.put('/:id/:field', async (request, response) => {
+  const id = request.params.id
+  const field = request.params.field
+  const data = request.body
+
+  const query = await db.query(
+    `UPDATE users SET ${field} = $1 WHERE id = $2 RETURNING *`,
+    [data[field], id]
+  )
+  response.status(200).send(query.rows[0])
+})
+
+usersRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
+  const query = await db.query('DELETE FROM users WHERE id = $1', [id])
+  response.status(204).end()
 })
 
 module.exports = usersRouter
