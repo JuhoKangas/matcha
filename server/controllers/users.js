@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 require('express-async-errors')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
+const format = require('pg-format')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query('SELECT * FROM users')
@@ -23,9 +24,14 @@ usersRouter.put('/:id/:field', async (request, response) => {
   const field = request.params.field
   const data = request.body
 
+  // Using pg-format to dynamically update column securely
   const query = await db.query(
-    `UPDATE users SET ${field} = $1 WHERE id = $2 RETURNING *`,
-    [data[field], id]
+    format(
+      'UPDATE users SET %I = %L WHERE id = %L RETURNING *',
+      field,
+      data[field],
+      id
+    )
   )
   response.status(200).send(query.rows[0])
 })
