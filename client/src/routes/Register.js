@@ -7,9 +7,10 @@ const Register = (props) => {
     <div>
       <h1>Register</h1>
       <div>
-        username
+        <label htmlFor="username">Username</label>
         <input
-          className="border-2 rounded border-neutral-800 ml-4 outline-none focus:border-slate-500"
+          name="username"
+          className="border-2 rounded border-neutral-800 ml-4 outline-none focus:border-slate-500 focus:ring focus:ring-blue-700 ring-offset-1"
           {...username}
         />
       </div>
