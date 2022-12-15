@@ -33,7 +33,7 @@ const CreateUserForm = (props) => {
           />
         </div>
         <div className="flex flex-col px-8 w-full sm:w-96">
-          <label className="text-sm ml-2 mb-1" htmlFor="firsName">
+          <label className="text-sm ml-2 mb-1" htmlFor="firstName">
             First Name
           </label>
           <input
@@ -53,7 +53,7 @@ const CreateUserForm = (props) => {
           />
         </div>
         <div className="flex flex-col px-8 w-full sm:w-96">
-          <label className="text-sm ml-2 mb-1" htmlFor="email">
+          <label className="text-sm ml-2 mb-1" htmlFor="age">
             Age
           </label>
           <input
