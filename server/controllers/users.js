@@ -7,7 +7,7 @@ const format = require('pg-format')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query('SELECT * FROM users ORDER BY id')
-  response.status(200).send({ data: data.rows })
+  response.json({ data })
 })
 
 usersRouter.post('/', async (request, response) => {
