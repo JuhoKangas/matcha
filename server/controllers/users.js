@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-require('express-async-errors')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
 const format = require('pg-format')
@@ -25,6 +24,7 @@ usersRouter.put('/:id/:field', async (request, response) => {
   const data = request.body
 
   // Using pg-format to dynamically update column securely
+  // %I stands for identifier, %L is literal, %s would just be a string
   const query = await db.query(
     format(
       'UPDATE users SET %I = %L WHERE id = %L RETURNING *',
