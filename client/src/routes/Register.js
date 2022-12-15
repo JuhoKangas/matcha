@@ -1,19 +1,15 @@
-import { useField } from '../hooks'
+import userService from '../services/users'
+import CreateUserForm from '../components/createUserForm'
 
 const Register = (props) => {
-  const username = useField('text')
+  const submitUser = (newUser) => {
+    userService.create(newUser).then((res) => console.log(res))
+  }
 
   return (
     <div>
       <h1>Register</h1>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          name="username"
-          className="border-2 rounded border-neutral-800 ml-4 outline-none focus:border-slate-500 focus:ring focus:ring-blue-700 ring-offset-1"
-          {...username}
-        />
-      </div>
+      <CreateUserForm handleSubmit={submitUser} />
     </div>
   )
 }
