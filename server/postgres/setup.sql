@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   age INT NOT NULL,
   gender_identity VARCHAR(1000) NOT NULL,
 	gender_interest VARCHAR(1000) DEFAULT 'Everyone',
-  tags INT NOT NULL,
+  tags INT[],
 	bio VARCHAR(1000) DEFAULT 'none',
 	city VARCHAR(1000),
 	country VARCHAR(1000),
