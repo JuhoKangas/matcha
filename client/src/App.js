@@ -9,6 +9,7 @@ import Login from './routes/Login'
 import Footer from './components/Footer'
 
 const App = () => {
+  console.log('hehe')
   return (
     <UsersContextProvider>
       <div className="flex flex-col h-screen justify-between">
