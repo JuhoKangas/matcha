@@ -2,16 +2,22 @@ const loginRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const db = require('../db/index')
-const { authenticateJWT } = require('../utils/middleware')
 
-loginRouter.post('/', authenticateJWT, async (req, res) => {
+loginRouter.post('/', async (req, res) => {
   const { email, password } = req.body
 
-  const user = await db.query('SELECT * FROM users WHERE email = $1', email)
-  const passwordCorrect =
-    user === null ? false : await bcrypt.compare(password, user.password)
+  const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
+  const user = data.rows[0]
 
-  if (!(user && passwordCorrect)) {
+  if (!user) {
+    return res.status(401).json({
+      error: 'invalid username or password',
+    })
+  }
+
+  const passwordCorrect = await bcrypt.compare(password, user.password)
+
+  if (!passwordCorrect) {
     return res.status(401).json({
       error: 'invalid username or password',
     })
@@ -26,7 +32,5 @@ loginRouter.post('/', authenticateJWT, async (req, res) => {
 
   res.status(200).send({ token, username: user.username, id: user.id })
 })
-
-// Todo: add test for using the authenticateJWT as middleware
 
 module.exports = loginRouter
