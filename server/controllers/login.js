@@ -2,8 +2,9 @@ const loginRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const db = require('../db/index')
+const { authenticateJWT } = require('../utils/middleware')
 
-loginRouter.post('/', async (req, res) => {
+loginRouter.post('/', authenticateJWT, async (req, res) => {
   const { email, password } = req.body
 
   const user = await db.query('SELECT * FROM users WHERE email = $1', email)
