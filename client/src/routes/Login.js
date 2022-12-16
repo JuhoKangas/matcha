@@ -34,7 +34,7 @@ const Login = ({ setToken }) => {
 
   return (
     <div className="">
-      <h1 className="landing-heading">Log in to your account</h1>
+      <h1 className="">Log in to your account</h1>
 
       <h3 className="">Login Form</h3>
       <form onSubmit={login}>
