@@ -1,11 +1,13 @@
-import React from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import { useDispatch, useSelector } from "react-redux"
-import { initializeUser } from "../reducers/userReducer"
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { initializeUser } from '../reducers/userReducer'
+import { useCookies } from 'react-cookie'
 
 const Login = ({ setToken }) => {
   const dispatch = useDispatch()
+  const [cookie, setCookie, removeCookie] = useCookies(['user'])
 
   const navigate = useNavigate()
   const user = useSelector(({ user }) => user)
@@ -15,17 +17,18 @@ const Login = ({ setToken }) => {
     const email = event.target.email.value
     const password = event.target.password.value
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const response = await axios.post('http://localhost:3001/login', {
         email,
         password,
       })
-      event.target.email.value = ""
-      event.target.password.value = ""
+      event.target.email.value = ''
+      event.target.password.value = ''
 
-      if (response.status === 201) {
-        dispatch(initializeUser(response.data.user.id))
-        console.log(`login submit user id: ${user.id}`)
-        navigate("/home")
+      if (response.status === 200) {
+        dispatch(initializeUser(response.data.id))
+        console.log(`login submit response: ${response}`)
+        setCookie('Authorization', response.data.token)
+        navigate('/home')
       }
     } catch (error) {
       console.log(error)

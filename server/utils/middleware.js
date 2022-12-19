@@ -13,9 +13,7 @@ const authenticateJWT = (request, response, next) => {
   const authHeader = request.headers.authorization
 
   if (authHeader) {
-    const token = authHeader.split(' ')[1]
-
-    jwt.verify(token, process.env.SECRET, (err, user) => {
+    jwt.verify(authHeader, process.env.SECRET, (err, user) => {
       if (err) {
         return response.status(403).json({ error: 'invalid token' })
       }
