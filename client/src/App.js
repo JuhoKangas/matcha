@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './index.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-//import Navbar from './components/Navbar'
+import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
 import Footer from './components/Footer'
@@ -22,10 +22,10 @@ const App = () => {
   console.log(user)
 
   return (
-    <div className="flex flex-col h-screen justify-between">
-      {/* <Navbar /> */}
+    <div className="flex flex-col h-screen justify-between bg-almost-black">
       <div className="mb-auto">
         <Router>
+      	<Navbar />
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             {user && <Route path="/home" element={<Home />}></Route>}
