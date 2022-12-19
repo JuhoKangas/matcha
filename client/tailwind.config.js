@@ -6,6 +6,13 @@ module.exports = {
 	fontFamily: {
         'montserrat': ['Montserrat', 'sans-serif']
       },
+	  colors: {
+		'almost-black': '#232931',
+		'gray-dark': '#393E46',
+		'almost-white': '#EEEEEE',
+		'chitty-chitty': '#007991',
+		'bang-bang': '#78FFD6',
+	  },
   },
   plugins: [require('@tailwindcss/forms'),],
 }
