@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { getIP } from '../utils/getIP'
 
 const Register = () => {
   const navigate = useNavigate()
@@ -49,6 +50,7 @@ const Register = () => {
         country: formData.country,
         password: formData.password,
         email: formData.email,
+        ip: await getIP(),
       })
 
       if (response.status === 201) {
