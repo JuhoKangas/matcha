@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
-import { initializeUser } from '../reducers/userReducer'
-import { useCookies } from 'react-cookie'
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import { useDispatch, useSelector } from "react-redux"
+import { initializeUser } from "../reducers/userReducer"
+import { useCookies } from "react-cookie"
 
 const Login = ({ setToken }) => {
   const dispatch = useDispatch()
-  const [cookie, setCookie, removeCookie] = useCookies(['user'])
+  const [cookie, setCookie, removeCookie] = useCookies(["user"])
   const [coordinates, setCoordinates] = useState(null)
 
   const navigate = useNavigate()
@@ -33,19 +33,23 @@ const Login = ({ setToken }) => {
     const email = event.target.email.value
     const password = event.target.password.value
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post("http://localhost:3001/login", {
         email,
         password,
         coordinates,
       })
-      event.target.email.value = ''
-      event.target.password.value = ''
+      event.target.email.value = ""
+      event.target.password.value = ""
 
-    if (user.id) { // this is trial error situation
-      navigate("/home")
+      if (response.status === 200) {
+        dispatch(initializeUser(response.data.id))
+        console.log(`login submit response: ${response}`)
+        setCookie("Authorization", response.data.token)
+        navigate("/home")
+      }
+    } catch (error) {
+      console.log(error)
     }
-  } catch (err) {
-    console.log(err)
   }
 
   return (
@@ -66,11 +70,8 @@ const Login = ({ setToken }) => {
         >
           <div className="mb-4">
             <label
-             
               className="block font-montserrat mb-2 text-almost-white"
-             
               htmlFor="email"
-            
             >
               Email
             </label>
