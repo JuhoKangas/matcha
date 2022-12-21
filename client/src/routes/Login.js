@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,9 +8,25 @@ import { useCookies } from 'react-cookie'
 const Login = ({ setToken }) => {
   const dispatch = useDispatch()
   const [cookie, setCookie, removeCookie] = useCookies(['user'])
+  const [coordinates, setCoordinates] = useState(null)
 
   const navigate = useNavigate()
   const user = useSelector(({ user }) => user)
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setCoordinates({
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude,
+          })
+        },
+        // todo: Handle error with notification or not at all
+        (err) => console.log(err)
+      )
+    }
+  }, [])
 
   const login = async (event) => {
     event.preventDefault()
@@ -20,6 +36,7 @@ const Login = ({ setToken }) => {
       const response = await axios.post('http://localhost:3001/login', {
         email,
         password,
+        coordinates,
       })
       event.target.email.value = ''
       event.target.password.value = ''
@@ -38,8 +55,10 @@ const Login = ({ setToken }) => {
   return (
     <div className="flex flex-col">
       <div>
-        <h1 className="text-center font-montserrat font-bold leading-tight text-almost-white
-		 text-4xl mt-20 mb-20">
+        <h1
+          className="text-center font-montserrat font-bold leading-tight text-almost-white
+		 text-4xl mt-20 mb-20"
+        >
           Log in to your account
         </h1>
       </div>
@@ -50,7 +69,10 @@ const Login = ({ setToken }) => {
           className="bg-white shadow-sm rounded px-10 pt-10 pb-8 mb-4"
         >
           <div className="mb-4">
-            <label className="block font-montserrat mb-2 text-almost-white" htmlFor="email">
+            <label
+              className="block font-montserrat mb-2 text-almost-white"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -72,7 +94,10 @@ const Login = ({ setToken }) => {
           </div>
 
           <div className="mb-6">
-            <label className="block font-montserrat mb-2 text-almost-white" htmlFor="password">
+            <label
+              className="block font-montserrat mb-2 text-almost-white"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
