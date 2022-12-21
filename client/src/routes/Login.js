@@ -44,6 +44,8 @@ const Login = ({ setToken }) => {
     if (user.id) { // this is trial error situation
       navigate("/home")
     }
+  } catch (err) {
+    console.log(err)
   }
 
   return (
