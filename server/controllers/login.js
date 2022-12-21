@@ -15,6 +15,7 @@ loginRouter.post('/', async (req, res) => {
     })
   }
 
+  //comment out if manually created user (due to password not being hashed)
   const passwordCorrect = await bcrypt.compare(password, user.password)
 
   if (!passwordCorrect) {
@@ -40,7 +41,15 @@ loginRouter.post('/', async (req, res) => {
 
   const token = jwt.sign(userForToken, process.env.SECRET)
 
-  res.status(200).send({ token, username: user.username, id: user.id })
+  //res.status(200).send({ token, username: user.username, id: user.id })
+  res
+    .status(200)
+    .cookie('token', token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+      path: '/',
+    })
+    .send({ username: user.username, id: user.id })
 })
 
 module.exports = loginRouter

@@ -41,14 +41,8 @@ const Login = ({ setToken }) => {
       event.target.email.value = ''
       event.target.password.value = ''
 
-      if (response.status === 200) {
-        dispatch(initializeUser(response.data.id))
-        console.log(`login submit response: ${response}`)
-        setCookie('Authorization', response.data.token)
-        navigate('/home')
-      }
-    } catch (error) {
-      console.log(error)
+    if (user.id) { // this is trial error situation
+      navigate("/home")
     }
   }
 
@@ -70,8 +64,11 @@ const Login = ({ setToken }) => {
         >
           <div className="mb-4">
             <label
+             
               className="block font-montserrat mb-2 text-almost-white"
+             
               htmlFor="email"
+            
             >
               Email
             </label>
@@ -128,7 +125,7 @@ const Login = ({ setToken }) => {
           <hr />
           <div className="flex items-center justify-center mt-5 mb-5">
             <a
-              class="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
+              className="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
               href="#"
             >
               Forgot password?
@@ -137,10 +134,10 @@ const Login = ({ setToken }) => {
           <hr />
           <div className="flex items-center justify-center mt-5">
             <a
-              class="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
+              className="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
               href="#"
             >
-              Already have an account? Sign in!
+              Not yet a member? Create an account!
             </a>
           </div>
         </form>
