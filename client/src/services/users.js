@@ -13,12 +13,13 @@ const create = (newUser) => {
   return request.then((res) => res.data)
 }
 
-const checkUser = (email, password) => {
+const checkUser = (email, password, coordinates) => {
   return axios.post(
     loginUrl,
     {
       email,
       password,
+	  coordinates
     },
     { withCredentials: true }
   )

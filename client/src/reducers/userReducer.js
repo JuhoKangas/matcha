@@ -20,11 +20,11 @@ export const initializeUser = (userId) => {
   }
 }
 
-export const loginUser = (email, password) => {
+export const loginUser = (email, password, coordinates) => {
   console.log("in reducer.")
   return async (dispatch) => {
     console.log("in reducer async.")
-    const response = await userService.checkUser(email, password)
+    const response = await userService.checkUser(email, password, coordinates)
     console.log("in reducer response", response)
     console.log("in reducer response status", response.status)
     if (response.status === 200) {

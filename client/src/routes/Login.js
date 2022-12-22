@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { initializeUser } from "../reducers/userReducer"
+import { initializeUser, loginUser } from "../reducers/userReducer"
 import { useCookies } from "react-cookie"
 
 const Login = ({ setToken }) => {
@@ -32,24 +32,11 @@ const Login = ({ setToken }) => {
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
-    try {
-      const response = await axios.post("http://localhost:3001/login", {
-        email,
-        password,
-        coordinates,
-      })
       event.target.email.value = ""
       event.target.password.value = ""
-
-      if (response.status === 200) {
-        dispatch(initializeUser(response.data.id))
-        console.log(`login submit response: ${response}`)
-        setCookie("Authorization", response.data.token)
-        navigate("/home")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+	  dispatch(loginUser(email, password, coordinates))
+	  // TO DO: navigate user to home only if successfully logged in
+	  navigate("/home")
   }
 
   return (
