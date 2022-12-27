@@ -25,10 +25,10 @@ const App = () => {
     <div className="flex flex-col h-screen justify-between bg-almost-black">
       <div className="mb-auto">
         <Router>
-      	<Navbar user={user.username}/>
+      	{user.username && <Navbar user={user.username}/>}
           <Routes>
             <Route path="/" element={<Landing />}></Route>
-            {user && <Route path="/home" element={<Home />}></Route>}
+            {user.username && <Route path="/home" element={<Home />}></Route>}
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />} />
           </Routes>
