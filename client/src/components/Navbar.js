@@ -1,10 +1,15 @@
 import React from "react"
+import { useDispatch } from "react-redux"
 import { useNavigate, Link } from "react-router-dom"
+import { logoutUser } from "../reducers/userReducer"
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const logout = () => {
+  const handleLogout = async (event) => {
+	event.preventDefault()
+	dispatch(logoutUser())
     navigate("/")
   }
 
@@ -41,17 +46,23 @@ const Navbar = ({ user }) => {
         >
           Matches
         </Link>
-        <Link
+{/*         <Link
           className="text-almost-white hover:text-gray-600 m-auto"
           to="/profile"
         >
           Profile
-        </Link>
+        </Link> */}
         <Link
           className="text-almost-white hover:text-gray-600 m-auto"
           to="/settings"
         >
           Settings
+        </Link>
+		<Link
+          className="text-almost-white hover:text-gray-600 m-auto"
+          to="/profile"
+        >
+          {user}
         </Link>
 
         <div class=" inline-flex relative w-fit">
@@ -144,7 +155,7 @@ const Navbar = ({ user }) => {
 
         <button
           className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-4 rounded focus:outline-none focus:shadow-outline font-montserrat"
-          onClick={logout}
+          onClick={handleLogout}
         >
           Log out
         </button>

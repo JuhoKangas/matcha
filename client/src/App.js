@@ -19,13 +19,13 @@ const App = () => {
   }, [dispatch])
 
   const user = useSelector(({ user }) => user)
-  console.log(user)
+  console.log("This is user from App.js: ", user)
 
   return (
     <div className="flex flex-col h-screen justify-between bg-almost-black">
       <div className="mb-auto">
         <Router>
-      	<Navbar />
+      	<Navbar user={user.username}/>
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             {user && <Route path="/home" element={<Home />}></Route>}
