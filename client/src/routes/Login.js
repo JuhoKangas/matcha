@@ -57,7 +57,7 @@ const Login = ({ setToken }) => {
         >
           <div className="mb-4">
             <label
-              className="block font-montserrat mb-2 text-almost-white"
+              className="block font-montserrat font-medium mb-2 text-almost-white"
               htmlFor="email"
             >
               Email
@@ -68,6 +68,7 @@ const Login = ({ setToken }) => {
               id="email"
               placeholder="Email"
               className="mt-1
+					mb-10
 					font-montserrat
 					block
 					w-full
@@ -82,7 +83,7 @@ const Login = ({ setToken }) => {
 
           <div className="mb-6">
             <label
-              className="block font-montserrat mb-2 text-almost-white"
+              className="block font-montserrat font-medium mb-2 text-almost-white"
               htmlFor="password"
             >
               Password
@@ -107,7 +108,7 @@ const Login = ({ setToken }) => {
 
           <div className="flex items-center justify-center mb-5">
             <input
-              className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l py-2 px-4 rounded focus:outline-none focus:shadow-outline font-montserrat"
+              className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l py-3 px-5 mt-10 mb-5 rounded focus:outline-none focus:shadow-outline font-montserrat font-semibold text-2xl"
               type="submit"
               value="Login"
             />
@@ -125,7 +126,7 @@ const Login = ({ setToken }) => {
           <div className="flex items-center justify-center mt-5">
             <a
               className="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
-              href="#"
+              href="/register"
             >
               Not yet a member? Create an account!
             </a>
