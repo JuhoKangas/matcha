@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
+import Chat from './routes/Chat'
 import Footer from './components/Footer'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,6 +34,7 @@ const App = () => {
             {user.username && <Route path="/home" element={<Home />}></Route>}
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />} />
+						{<Route path="/chat" element={<Chat />}></Route>}
           </Routes>
         </Router>
       </div>

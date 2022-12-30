@@ -46,12 +46,12 @@ const Navbar = ({ user }) => {
         >
           Matches
         </Link>
-{/*         <Link
+        <Link
           className="text-almost-white hover:text-gray-600 m-auto"
-          to="/profile"
+          to="/chat"
         >
-          Profile
-        </Link> */}
+          Chat
+        </Link>
         <Link
           className="text-almost-white hover:text-gray-600 m-auto"
           to="/settings"

@@ -13,6 +13,7 @@ module.exports = {
 		'almost-white': '#EEEEEE',
 		'chitty-chitty': '#007991',
 		'bang-bang': '#78FFD6',
+		'light-gray': '#D3DEDC',
 	  },
   },
   plugins: [require('@tailwindcss/forms'),],
