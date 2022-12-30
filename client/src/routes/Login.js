@@ -40,7 +40,7 @@ const Login = ({ setToken }) => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="h-screen flex flex-col">
       <div>
         <h1
           className="text-center font-montserrat font-bold leading-tight text-almost-white
