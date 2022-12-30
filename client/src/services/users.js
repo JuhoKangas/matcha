@@ -20,7 +20,7 @@ const checkUser = (email, password, coordinates) => {
     {
       email,
       password,
-	  coordinates
+	  	coordinates
     },
     { withCredentials: true }
   )

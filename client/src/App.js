@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initializeUsers } from './reducers/usersReducer'
 import Home from './routes/Home'
 import Landing from './routes/Landing'
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ const App = () => {
       <div className="mb-auto">
         <Router>
       	{user.username && <Navbar user={user.username}/>}
+				<Toaster position="top-center" reverseOrder={false}/>
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             {user.username && <Route path="/home" element={<Home />}></Route>}
