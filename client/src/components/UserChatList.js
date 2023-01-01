@@ -10,8 +10,13 @@ const UserChatList = ({ loggedUser, users, chats }) => {
 		
 	};
 
+	const getLastMessage = (recipientUser) => {
+		//const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
+		// return chat.lastMessage
+	}
+
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 w-96 ">
       {users.data.rows.map((user) => {
         return loggedUser.username !== user.username ? (
           <div
@@ -25,7 +30,10 @@ const UserChatList = ({ loggedUser, users, chats }) => {
                 alt="profile-pic"
                 className="w-10 h-10 rounded-full"
               />
-              <h1 className="">{user.username}</h1>
+							<div className="flex flex-col gap-1">
+              	<h1 className="">{user.username}</h1>
+								<p className="text-gray-500 text-sm">{getLastMessage(user)}</p>
+							</div>
             </div>
           </div>
         ) : (

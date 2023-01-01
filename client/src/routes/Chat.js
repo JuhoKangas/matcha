@@ -10,6 +10,7 @@ const Chat = (props) => {
   const user = useSelector(({ user }) => user)
 	const users = useSelector(({ users }) => users)
 	const chats = useSelector(({ chats }) => chats)
+	const messages = useSelector(({ messages }) => messages)
 	//const {selectedChat} = useSelector(state => state.chatReducer)
 
 	const dispatch = useDispatch()
@@ -28,8 +29,8 @@ const Chat = (props) => {
 					<UserChatList loggedUser={user} users={users} chats={chats} />
 				</div>
 				<div className="w-full">
-					{/* {selectedChat && <ChatArea loggedUser={user}/>} --> after we create the backend; it'll display the chat only after a specific chat is selected */}
-					<ChatArea loggedUser={user}/>
+					{/* {selectedChat && <ChatArea loggedUser={user}/>} --> after we create the backend; it'll display the chat area only after a specific chat is selected */}
+					<ChatArea loggedUser={user} messages={messages}/>
 				</div>
 			</div>
     </div>

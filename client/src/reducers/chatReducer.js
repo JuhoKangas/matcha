@@ -20,14 +20,14 @@ const chatSlice = createSlice({
 export const initializeChats = (userId) => {
   return async (dispatch) => {
     const chats = await chatService.getAllChats(userId)
-    dispatch(setChats(chats))
+    dispatch(setChats(chats.data))
   }
 }
 
-export const selectOneChat = (recipientuserId) => {
+export const selectOneChat = (recipientUserId) => {
   return async (dispatch) => {
-    const chat = await chatService.getSelectedChat(recipientuserId)
-    dispatch(setSelectedChat(chat))
+    const chat = await chatService.getSelectedChat(recipientUserId)
+    dispatch(setSelectedChat(chat.data))
   }
 }
 
