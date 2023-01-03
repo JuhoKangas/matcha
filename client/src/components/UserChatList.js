@@ -15,6 +15,17 @@ const UserChatList = ({ loggedUser, users, chats }) => {
 		// return chat.lastMessage
 	}
 
+	const getUnreadMessages = (recipientUser) => {
+/* 			const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
+			if (chat && chat.unreadMessages && chat.lastMessage.sender !== loggedUser.id) {
+				return (
+					<div className="bg-bang-bang text-almost-black text-xs rounded-full p-1">
+						{chat.unreadMessages}
+					</div>
+				)
+			} */
+	}
+
   return (
     <div className="flex flex-col gap-3 w-96 ">
       {users.data.rows.map((user) => {
@@ -31,7 +42,10 @@ const UserChatList = ({ loggedUser, users, chats }) => {
                 className="w-10 h-10 rounded-full"
               />
 							<div className="flex flex-col gap-1">
-              	<h1 className="">{user.username}</h1>
+								<div className="flex flex-col justify-between">
+              		<h1 className="">{user.username}</h1>
+									{getUnreadMessages(user)}
+								</div>
 								<p className="text-gray-500 text-sm">{getLastMessage(user)}</p>
 							</div>
             </div>

@@ -1,11 +1,13 @@
 import React, { useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
-import { setSelectedChat } from "../reducers/chatReducer"
+import { faCheckDouble } from "@fortawesome/free-solid-svg-icons"
+import { updateUnreadMessagesToRead, setSelectedChat } from "../reducers/chatReducer"
 import { messageSend, getAllMessages } from "../reducers/messageReducer"
 
 const ChatArea = (loggedUser) => {
+	const dispatch = useDispatch()
   //const {selectedChat} = useSelector(state => state.chatReducer) --> when backend is done
   // const recipient = selectedChat.recipient --> when backend is done
 
@@ -27,8 +29,17 @@ const ChatArea = (loggedUser) => {
     } */
   };
 
+/* 	const clearUnreadMessages = () => {
+		const chatId = selectedChat.id --> when backend is done
+		dispatch(updateUnreadMessagesToRead(chatId))
+	} */
+
 /* 	useEffect(() => {
 		getAllMessages()
+		if (selectedChat.lastMessage.sender !== loggedUser.id)
+		{
+			clearUnreadMessages()
+		}
 	}, [selectedChat]) --> all of this will be implemented once we have backend set up */
 
   return (
@@ -70,6 +81,7 @@ const ChatArea = (loggedUser) => {
 										<div className="flex flex-col gap-1">
 											<h1 className={`${message.sender === loggedUser.id ? "bg-bang-bang" : "bg-almost-white"} p-2 rounded-xl`}>{message.text}</h1>
 											<h1 className="text-sm">{message.createdAt}</h1>
+											{message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""}
 										</div>
 								</div>
 							})} */}

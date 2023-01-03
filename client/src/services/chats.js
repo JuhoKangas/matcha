@@ -12,4 +12,9 @@ const getSelectedChat = (recipientUserId) => {
   return request.then((res) => res.data)
 }
 
-export default { getAllChats, getSelectedChat }
+const updateUnreadChatMessages = (chatId) => { // in the backend, this has to do two things: set the number of unread messages in "Chat" table to 0 and set "read status" of every message in "Message table" that was unread (1) to read (0)in the respective chat
+  const request = axios.post(baseUrl, chatId)
+  return request.then((res) => res.data)
+}
+
+export default { getAllChats, getSelectedChat, updateUnreadChatMessages }
