@@ -1,7 +1,7 @@
 import { Fragment } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Link, useMatch } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const Navbar = () => {
   const navigation = [
@@ -11,7 +11,12 @@ const Navbar = () => {
     { name: "Placeholder2", href: "/home" },
   ]
 
-  const match = useMatch("/:route")
+  // placeholder for now for navbar highlighting the route, tried to do it with useMatch but that had problems
+  const match = {
+    params: {
+      route: "home",
+    },
+  }
 
   function classNames(...classes) {
     const classList = classes.filter(Boolean).join(" ")
