@@ -35,7 +35,7 @@ export const updateUnreadMessagesToRead = (chatId) => {
   return async (dispatch) => {
     const response = await chatService.updateUnreadChatMessages(chatId)
 		if(response.status === 200) {
-			const updatedChats = chatSlice.getInitialState.allChats.map((chat) => { // not sure I can access allChats array this way???
+			const updatedChats = chatSlice.getState().allChats.map((chat) => { // not sure I can access allChats array this way???
 				if(chat.id === chatId)
 					return response.data
 				return chat
