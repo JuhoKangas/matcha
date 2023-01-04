@@ -34,4 +34,14 @@ export const loginUser = (email, password, coordinates) => {
   }
 }
 
+export const logoutUser = () => {
+	return async (dispatch) => {
+	  const response = await userService.logout()
+	  if (response.status === 200) {
+		console.log("response data after logout: ", response.data)
+		dispatch(setUser(response.data))
+	  } else console.log('logoutUser failed, status: ', response.status)
+	}
+  }
+
 export default userSlice.reducer

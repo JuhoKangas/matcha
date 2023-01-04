@@ -1,9 +1,14 @@
 import { Fragment } from "react"
+import { useDispatch } from "react-redux"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Link } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
+import { logoutUser } from "../reducers/userReducer"
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const navigation = [
     { name: "home", href: "/home" },
     { name: "Matches", href: "/matches" },
@@ -16,6 +21,12 @@ const Navbar = () => {
     params: {
       route: "home",
     },
+  }
+
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    dispatch(logoutUser())
+    navigate("/")
   }
 
   function classNames(...classes) {
@@ -134,6 +145,7 @@ const Navbar = () => {
                         {({ active }) => (
                           <Link
                             to="/logout"
+                            onClick={handleLogout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
