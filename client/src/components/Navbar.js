@@ -144,7 +144,6 @@ const Navbar = ({ user }) => {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/logout"
                             onClick={handleLogout}
                             className={classNames(
                               active ? "bg-gray-100" : "",
