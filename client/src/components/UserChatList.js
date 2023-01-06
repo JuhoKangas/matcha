@@ -31,7 +31,7 @@ const UserChatList = ({ loggedUser, users, chats }) => {
       {users.data.rows.map((user) => {
         return loggedUser.username !== user.username ? (
           <div
-            className="bg-light-gray border-chitty-chitty border-solid border-5 border rounded-2xl p-5"
+            className="bg-light-gray ring-chitty-chitty rounded-2xl p-5 ring-2"
             key={user.id}
             onClick={() => openChat(user)}
           >
