@@ -19,7 +19,7 @@ const Landing = () => {
       <div className="flex flex-col bg-almost-black">
         <h1
           className="text-center font-montserrat font-bold font-style: italic leading-tight text-almost-white
-		 text-4xl mt-20 mb-20"
+		 text-4xl mt-20 mb-10"
         >
           Find your perfect match with us!
         </h1>
