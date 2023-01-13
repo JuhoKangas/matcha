@@ -1,12 +1,28 @@
-import axios from "axios"
+import axios from 'axios'
 
-const baseUrl = "http://localhost:3001/users"
-const loginUrl = "http://localhost:3001/login"
-const logoutUrl = "http://localhost:3001/logout"
+const baseUrl = 'http://localhost:3001/users'
+const loginUrl = 'http://localhost:3001/login'
+const logoutUrl = 'http://localhost:3001/logout'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then((res) => res.data)
+}
+
+// TODO: fix request to get proper list of all tags available
+const getAllFilters = () => {
+  // const request = axios.get(baseUrl)
+  // return request.then((res) => res.data)
+  const TODO = [
+    'stars',
+    'cars',
+    'photography',
+    'climbing',
+    'cats',
+    'dogs',
+    'food',
+  ]
+  return TODO
 }
 
 const create = (newUser) => {
@@ -20,15 +36,15 @@ const checkUser = (email, password, coordinates) => {
     {
       email,
       password,
-	  	coordinates
+      coordinates,
     },
     { withCredentials: true }
   )
 }
 
 const logout = () => {
-	return axios.post(logoutUrl)
+  return axios.post(logoutUrl)
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, checkUser, logout }
+export default { getAll, create, checkUser, logout, getAllFilters }

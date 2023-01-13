@@ -4,6 +4,9 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeUser, loginUser } from '../reducers/userReducer'
 import { useCookies } from 'react-cookie'
+import womanPhoto from '../assets/woman.jpg'
+import manPhoto from '../assets/beanie.jpg'
+import Tag from './Tag'
 
 const Card = ({ user }) => {
   const dispatch = useDispatch()
@@ -12,78 +15,58 @@ const Card = ({ user }) => {
 
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (pos) => {
-  //         setCoordinates({
-  //           lat: pos.coords.latitude,
-  //           lon: pos.coords.longitude,
-  //         })
-  //       },
-  //       // todo: Handle error with notification or not at all
-  //       (err) => console.log(err)
-  //     )
-  //   }
-  // }, [])
+  let photo
+  if (user.gender_identity === 'female') {
+    photo = womanPhoto
+  } else {
+    photo = manPhoto
+  }
 
   return (
-    <div className="h-screen flex flex-col">
-      <div>
-        <h1
-          className="text-center font-montserrat font-bold leading-tight text-almost-white
-		 text-4xl mt-20 mb-20"
-        >
-          One card
-        </h1>
-      </div>
-
-      {/* start card */}
-      <div class="p-3 flex flex-col items-center">
-        <div class="w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg">
-          <img
-            src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            class="w-full user-image "
-            title="tphoto"
-            alt="Tinder Photo"
-          />
-
-          <div class="flex justify-between">
-            <div class="text-xl float-left p-4">
+    <div className="p-3 flex flex-col items-center">
+      <div className="w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg">
+        <img
+          src={photo}
+          className="w-full rounded-t-lg user-image p-1"
+          title="tphoto"
+          alt="Profile pics"
+        />
+        <div className="p-4">
+          <div className="flex justify-between">
+            <div className="text-xl">
               {/* TO DO: on username click, redirect to profile page */}
-              <span class="font-bold text-chitty-chitty hover:text-blue-800">
-                {user.firstname},{' '}
+              <span className="font-bold text-chitty-chitty hover:text-blue-800 cursor-pointer">
+                {user.username},{' '}
               </span>
-              <span class="font-light text-gray-400">{user.age}</span>
+              <span className="font-light text-gray-400">{user.age}</span>
             </div>
 
-            <div class="tinfo text-lg float-right text-gray-500 p-4">
+            <div className="text-lg text-gray-500">
               {/* TO DO: change number to flame or stars? */}
-              Fame rate: {user.fame}
+              {user.fame}
             </div>
           </div>
 
-          <span class="pl-4 text-gray-400">
-            3 km away, Location: {user.city}, {user.country}
-          </span>
+          <div className="text-sm text-gray-400">{user.city}, 3 km away</div>
 
-          <div class="mt-5 mb-5">
-            <div class="pl-4 text-sm">
-              <span class="text-chitty-chitty">Interests: </span>
-              <span class="text-gray-400">
-                Tags could be displayed as clickable areas
-              </span>
+          <div className="my-4">
+            <div className="text-sm">
+              <span className="text-chitty-chitty"></span>
+              {/* TAGS WILL BE MAPPED HERE */}
+              <div className="flex flex-wrap gap-2 mb-3">
+                <Tag tagName="Stars" />
+                <Tag tagName="Cars" />
+                <Tag tagName="Photography" />
+                <Tag tagName="Music Events" />
+              </div>
             </div>
-            <div class="pl-4 text-sm">
-              <span class="text-chitty-chitty">Bio: </span>
-              <span class="text-gray-400">
-                Here would go the bio {user.bio}
-              </span>
+            <div className="text-sm">
+              <span className="text-chitty-chitty">Bio: </span>
+              <span className="text-gray-400">{user.bio}</span>
             </div>
           </div>
         </div>
       </div>
-      {/* end card */}
     </div>
   )
 }
