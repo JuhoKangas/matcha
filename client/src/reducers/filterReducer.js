@@ -10,12 +10,17 @@ const filterSlice = createSlice({
       return filter
     },
     addFilter(state, action) {
-      state.push(action.payload)
+      const filter = [...state, action.payload]
+      return filter
+    },
+    removeFilter(state, action) {
+      const filter = state.filter((f) => f !== action.payload)
+      return filter
     },
   },
 })
 
-export const { filterChange, addFilter } = filterSlice.actions
+export const { filterChange, addFilter, removeFilter } = filterSlice.actions
 
 export const initializeFilters = () => {
   return async (dispatch) => {

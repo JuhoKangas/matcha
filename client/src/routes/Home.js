@@ -2,25 +2,13 @@ import usersService from '../services/users'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import UsersList from '../components/UsersList'
-import Tag from '../components/Tag'
-import { initializeFilters } from '../reducers/filterReducer'
+import Filters from '../components/Filters'
 
 const Home = (props) => {
   // const dispatch = useDispatch()
   // const user = useSelector(({ user }) => user)
 
-  //TODO: get all tags from backend
-  const allTags = [
-    'stars',
-    'cars',
-    'photography',
-    'climbing',
-    'cats',
-    'dogs',
-    'food',
-  ]
-
-  const filters = useSelector(({ filters }) => filters)
+  // const filters = useSelector(({ filters }) => filters)
 
   // useEffect(() => {
   //   dispatch(initializeFilters())
@@ -47,7 +35,8 @@ const Home = (props) => {
   // }
 
   // console.log('in home sortedList is: ', sortedList)
-  console.log('in home filters is: ', filters)
+  // console.log('in home filters is: ', filters)
+
   return (
     <div>
       <div
@@ -55,11 +44,7 @@ const Home = (props) => {
 		 text-lg my-10"
       >
         Filter by
-        <div className="flex flex-wrap gap-2 my-3 justify-center">
-          {allTags.map((tag) => (
-            <Tag key={tag} tagName={tag} />
-          ))}
-        </div>
+        <Filters />
       </div>
       <div
         className="text-center font-montserrat font-bold leading-tight text-almost-white

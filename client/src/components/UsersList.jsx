@@ -4,14 +4,14 @@ import Card from './Card'
 
 const UsersList = () => {
   const users = useSelector(({ users }) => users)
-  //TODO: get filters and filter list
+  //TODO: filter list, need backend
   // const filters = useSelector(({filters}) => filters)
 
   var sortedList = [...users.data.rows]
 
   //   if (filters.length > 0) {
-  //   const filteredList = sortedList.filter((a) =>
-  //     a.content.toLowerCase().includes(filters.toLowerCase())
+  //   const filteredList = sortedList.filter((u) =>
+  //     u.content.toLowerCase().includes(filters.toLowerCase())
   //   )
   //   sortedList = filteredList
   // }
