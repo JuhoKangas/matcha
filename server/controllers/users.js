@@ -68,4 +68,10 @@ usersRouter.delete('/:id', async (request, response) => {
   response.status(204).end()
 })
 
+usersRouter.post('/logout', async (request, response) => {
+  response.clearCookie('authorization')
+  console.log('authorization cookie cleared')
+  response.status(200).send({})
+})
+
 module.exports = usersRouter
