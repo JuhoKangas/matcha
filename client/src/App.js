@@ -26,7 +26,7 @@ const App = () => {
     <div className="flex flex-col justify-between bg-almost-black">
       <div className="mb-auto">
         <Router>
-          {user.username && <Navbar user={user.username} />}
+          {user.username && <Navbar user={user} />}
           <Toaster position="top-center" reverseOrder={false} />
           <Routes>
             <Route path="/" element={<Landing />}></Route>

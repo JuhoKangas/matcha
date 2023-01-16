@@ -1,212 +1,169 @@
-import React from "react"
-import { useDispatch } from "react-redux"
-import { useNavigate, Link } from "react-router-dom"
-import { logoutUser } from "../reducers/userReducer"
+import { Fragment } from 'react'
+import { useDispatch } from 'react-redux'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import {
+  Bars3Icon,
+  BellIcon,
+  XMarkIcon,
+  ChatBubbleLeftRightIcon,
+} from '@heroicons/react/24/outline'
+import { useNavigate, Link } from 'react-router-dom'
+import { logoutUser } from '../reducers/userReducer'
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const navigation = [
+    { name: 'Home', href: '/home' },
+    { name: 'Matches', href: '/matches' },
+    { name: 'Browse', href: '/browse' },
+  ]
+
   const handleLogout = async (event) => {
-	event.preventDefault()
-	dispatch(logoutUser())
-    navigate("/")
+    event.preventDefault()
+    dispatch(logoutUser())
+    navigate('/')
   }
 
   return (
-    <div className="flex justify-between gap-7 p-4 bg-black ">
-      {
-        <head>
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css"
-          />
-        </head>
-      }
-      <a href="/home">
-        <img
-          src="matcha-logo-dark.png"
-          width="40"
-          height="40"
-          className="d-inline-block align-top"
-          alt="matcha-logo"
-        ></img>
-      </a>
+    <Disclosure as="nav" className="bg-gray-800">
+      {({ open }) => (
+        <>
+          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div className="relative flex h-16 items-center justify-between">
+              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                {/* Mobile menu button*/}
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
+                  <img
+                    className="block h-8 w-auto lg:hidden"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                  />
+                  <img
+                    className="hidden h-8 w-auto lg:block"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                  />
+                </div>
+                <div className="hidden sm:ml-6 sm:block">
+                  <div className="flex space-x-4">
+                    {navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <div className="flex gap-4 mr-4">
+                  <button
+                    type="button"
+                    className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  </button>
 
-      <div className="">
-        <Link
-          className="text-almost-white text-base hover:text-gray-600 m-auto"
-          to="/home"
-        >
-          Home
-        </Link>
-        <Link
-          className="text-almost-white hover:text-gray-600 m-auto"
-          to="/matches"
-        >
-          Matches
-        </Link>
-{/*         <Link
-          className="text-almost-white hover:text-gray-600 m-auto"
-          to="/profile"
-        >
-          Profile
-        </Link> */}
-        <Link
-          className="text-almost-white hover:text-gray-600 m-auto"
-          to="/settings"
-        >
-          Settings
-        </Link>
-		<Link
-          className="text-almost-white hover:text-gray-600 m-auto"
-          to="/profile"
-        >
-          {user}
-        </Link>
+                  <Link
+                    to="/chat"
+                    className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
+                    <ChatBubbleLeftRightIcon className="h-6 w-6" />
+                  </Link>
+                </div>
 
-        <div class=" inline-flex relative w-fit">
-          <div class="flex items-center justify-center text-center ">
-            <div>
-              <button
-                id="dropdownDefault"
-                data-dropdown-toggle="dropdown"
-                class="font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  focusable="false"
-                  data-prefix="fas"
-                  data-icon="bell"
-                  class="mx-auto text-white w-5 h-5"
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"
-                  ></path>
-                </svg>
-              </button>
+                {/* Profile dropdown */}
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="sr-only">Open user menu</span>
+                      {/* USER PHOTO */}
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt=""
+                      />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
+                        {() => (
+                          <Link
+                            to="/profile"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Your Profile
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {() => (
+                          <Link
+                            to="/settings"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Settings
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {() => (
+                          <Link
+                            onClick={handleLogout}
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            Sign out
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          id="dropdown"
-          class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
-        >
-          <ul
-            class="py-1 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownDefault"
-          >
-            <li>
-              <a
-                href="#"
-                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Settings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Earnings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                Sign out
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
 
-      <div className="">
-        <form>
-          <input
-            type="search"
-            placeholder="Search"
-            className="me-2 rounded-md"
-            aria-label="Search"
-          />
-          <button
-            className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-4 rounded focus:outline-none focus:shadow-outline font-montserrat"
-            onClick={"#"}
-          >
-            Search
-          </button>
-        </form>
-
-        <button
-          className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-4 rounded focus:outline-none focus:shadow-outline font-montserrat"
-          onClick={handleLogout}
-        >
-          Log out
-        </button>
-        {/* 			<Navbar.Brand><a href="/dashboard"><img src="matcha-logo-dark.png" width="30" height="30" className="d-inline-block align-top" alt="matcha-logo"></img></a></Navbar.Brand>
-					<Navbar.Toggle aria-controls="basic-navbar-nav"/>
-					<Navbar.Collapse id="basic-navbar-nav">
-						<Nav className="m-auto d-flex align-items-center w-100">
-							<LinkContainer to="/dashboard">
-								<Nav.Link>Home</Nav.Link>
-							</LinkContainer>
-							<LinkContainer to="/matches">
-								<Nav.Link>Matches</Nav.Link>
-							</LinkContainer>
-							<LinkContainer to="/profile">
-								<Nav.Link>Profile</Nav.Link>
-							</LinkContainer>
-							<LinkContainer to="/settings">
-								<Nav.Link>Settings</Nav.Link>
-							</LinkContainer>
-							<NavDropdown title={<i className="fas fa-bell"></i>} menuVariant="dark" id="basic-nav-dropdown">
-								<NavDropdown.Item className="dropdown-item text-wrap" target="_blank" rel="nofollow">
-									<p className="small text-uppercase mb-2">21/11/2022</p>
-									<p>You have a new match!</p>
-								</NavDropdown.Item>
-								<NavDropdown.Item className="dropdown-item text-wrap" target="_blank" rel="nofollow">
-									<p className="small text-uppercase mb-2">21/11/2022</p>
-									<p>You have a new match!</p>
-								</NavDropdown.Item>
-							</NavDropdown>
-							<Nav.Item className="ms-md-auto d-none d-md-block"></Nav.Item>
-							<Form className="mx-3 d-flex">
-								<Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" />
-								<Button className="col btn btn-pink-moon" onClick={"#"}>Search</Button>
-							</Form>
-							<Nav.Item className="mx-3 d-none d-md-block">
-								<Navbar.Text className="fs-6">{user.data.user.username}</Navbar.Text>
-							</Nav.Item>
-							<Button size="sm" variant="secondary" onClick={logout}>
-								Log out
-							</Button>
-						</Nav>
-					</Navbar.Collapse> */}
-      </div>
-    </div>
+          <Disclosure.Panel className="sm:hidden">
+            <div className="space-y-1 px-2 pt-2 pb-3">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
   )
 }
 
 export default Navbar
-
-{
-  /*  <Nav.Item>
-<span id="navbarNotificationCounter" class="badge rounded-pill badge-notification bg-danger" alt="Notifications" style={{color: "rgb(255, 255, 255) !important;"}}>2</span>
-</Nav.Item> */
-}

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:3001/users'
 const loginUrl = 'http://localhost:3001/login'
-const logoutUrl = 'http://localhost:3001/logout'
+const logoutUrl = 'http://localhost:3001/users/logout'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
