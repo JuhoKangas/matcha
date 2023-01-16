@@ -1,36 +1,36 @@
-import { Fragment } from "react"
-import { useDispatch } from "react-redux"
-import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { useNavigate, Link } from "react-router-dom"
-import { logoutUser } from "../reducers/userReducer"
+import { Fragment } from 'react'
+import { useDispatch } from 'react-redux'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useNavigate, Link } from 'react-router-dom'
+import { logoutUser } from '../reducers/userReducer'
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const navigation = [
-    { name: "home", href: "/home" },
-    { name: "Matches", href: "/matches" },
-    { name: "Placeholder1", href: "/home" },
-    { name: "Placeholder2", href: "/home" },
+    { name: 'home', href: '/home' },
+    { name: 'Matches', href: '/matches' },
+    { name: 'Placeholder1', href: '/home' },
+    { name: 'Placeholder2', href: '/home' },
   ]
 
   // placeholder for now for navbar highlighting the route, tried to do it with useMatch but that had problems
   const match = {
     params: {
-      route: "home",
+      route: 'home',
     },
   }
 
   const handleLogout = async (event) => {
     event.preventDefault()
     dispatch(logoutUser())
-    navigate("/")
+    navigate('/')
   }
 
   function classNames(...classes) {
-    const classList = classes.filter(Boolean).join(" ")
+    const classList = classes.filter(Boolean).join(' ')
     return classList
   }
 
@@ -72,9 +72,9 @@ const Navbar = ({ user }) => {
                         to={item.href}
                         className={classNames(
                           match.params.route === item.name
-                            ? "bg-gray-900 text-white"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'px-3 py-2 rounded-md text-sm font-medium'
                         )}
                       >
                         {item.name}
@@ -120,8 +120,8 @@ const Navbar = ({ user }) => {
                           <Link
                             to="/profile"
                             className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
                             )}
                           >
                             Your Profile
@@ -133,8 +133,8 @@ const Navbar = ({ user }) => {
                           <Link
                             to="/settings"
                             className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
                             )}
                           >
                             Settings
@@ -146,8 +146,8 @@ const Navbar = ({ user }) => {
                           <Link
                             onClick={handleLogout}
                             className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
+                              active ? 'bg-gray-100' : '',
+                              'block px-4 py-2 text-sm text-gray-700'
                             )}
                           >
                             Sign out
@@ -169,9 +169,9 @@ const Navbar = ({ user }) => {
                   to={item.href}
                   className={classNames(
                     match.params.route === item.name
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block px-3 py-2 rounded-md text-base font-medium"
+                      ? 'bg-gray-900 text-white'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'block px-3 py-2 rounded-md text-base font-medium'
                   )}
                 >
                   {item.name}
