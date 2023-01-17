@@ -43,7 +43,7 @@ const checkUser = (email, password, coordinates) => {
 }
 
 const logout = () => {
-  return axios.post(logoutUrl)
+  return axios.post(logoutUrl, {}, { withCredentials: true })
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
