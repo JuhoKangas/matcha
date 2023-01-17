@@ -74,4 +74,35 @@ usersRouter.post('/logout', async (request, response) => {
     .send({})
 })
 
+usersRouter.post('/tags', async (req, res) => {
+  const { tagName, userId } = req.body
+
+  try {
+    const tagFromDb = await db.query('SELECT id FROM tags WHERE tagname = $1', [
+      tagName,
+    ])
+    if (tagFromDb.rows.length > 0) {
+      const result = await db.query(
+        'UPDATE users SET tags = array_append(tags, $1) WHERE id = $2',
+        [tagFromDb.rows[0].id, userId]
+      )
+      console.log(result)
+    } else {
+      const tagId = await db.query(
+        'INSERT INTO tags (tagname) VALUES ($1) RETURNING id',
+        [tagName]
+      )
+      const result = await db.query(
+        'UPDATE users SET tags = array_append(tags, $1) WHERE id = $2',
+        [tagId, userId]
+      )
+      console.log(result)
+    }
+    res.status(201).json({})
+  } catch (err) {
+    console.log(err)
+    res.status(400).json({ err: 'bad request' })
+  }
+})
+
 module.exports = usersRouter

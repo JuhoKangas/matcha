@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import userService from '../services/users'
 
 const filterSlice = createSlice({
   name: 'filters',
@@ -21,12 +20,5 @@ const filterSlice = createSlice({
 })
 
 export const { filterChange, addFilter, removeFilter } = filterSlice.actions
-
-export const initializeFilters = () => {
-  return async (dispatch) => {
-    const filters = await userService.getAllFilters()
-    dispatch(filterChange(filters))
-  }
-}
 
 export default filterSlice.reducer

@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addFilter, removeFilter } from '../reducers/filterReducer'
+import { initializeTags } from '../reducers/tagsReducer'
 import Tag from './Tag'
 
 const Filters = () => {
   const dispatch = useDispatch()
-  //TODO: get all tags from backend
-  const allTags = [
-    'stars',
-    'cars',
-    'photography',
-    'climbing',
-    'cats',
-    'dogs',
-    'food',
-  ]
+  const allTags = useSelector(({ tags }) => tags)
+
+  useEffect(() => {
+    dispatch(initializeTags())
+  }, [dispatch])
 
   const filters = useSelector(({ filters }) => filters)
   console.log('in Filters filters is: ', filters)
@@ -38,7 +34,7 @@ const Filters = () => {
   return (
     <div className="flex flex-wrap gap-2 my-3 justify-center">
       {allTags.map((tag) => (
-        <Tag key={tag} tagName={tag} onClick={handleTag} />
+        <Tag key={tag.id} tagName={tag.tagname} onClick={handleTag} />
       ))}
     </div>
   )
