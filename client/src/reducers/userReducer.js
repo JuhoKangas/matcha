@@ -47,4 +47,17 @@ export const logoutUser = () => {
 	}
 }
 
+export const updateSettings = (firstname, lastname, email, password, age, genderIdentity, genderInterest, city, country) => {
+	return async (dispatch) => {
+		const response = await userService.update(firstname, lastname, email, password, age, genderIdentity, genderInterest, city, country)
+		if (response.status === 200) {
+			toast.success("You have successfully updated your information!")
+			dispatch(setUser(response.data))
+		} else {
+			console.log('update failed, status: ', response.status)
+			toast.error("Error occured, information was not updated.")
+		}
+	}
+}
+
 export default userSlice.reducer

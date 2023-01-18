@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
-import { initializeUser, loginUser } from '../reducers/userReducer'
-import { useCookies } from 'react-cookie'
+import React from 'react'
 import womanPhoto from '../assets/woman.jpg'
 import manPhoto from '../assets/beanie.jpg'
 import Tag from './Tag'
 
 const Card = ({ user }) => {
-  const dispatch = useDispatch()
-  // const [cookie, setCookie, removeCookie] = useCookies(['user'])
-  // const [coordinates, setCoordinates] = useState(null)
-
-  const navigate = useNavigate()
 
   let photo
   if (user.gender_identity === 'female') {

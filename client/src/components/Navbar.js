@@ -1,29 +1,29 @@
-import { Fragment } from 'react'
-import { useDispatch } from 'react-redux'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Fragment } from "react"
+import { useDispatch } from "react-redux"
+import { Disclosure, Menu, Transition } from "@headlessui/react"
 import {
   Bars3Icon,
   BellIcon,
   XMarkIcon,
   ChatBubbleLeftRightIcon,
-} from '@heroicons/react/24/outline'
-import { useNavigate, Link } from 'react-router-dom'
-import { logoutUser } from '../reducers/userReducer'
+} from "@heroicons/react/24/outline"
+import { useNavigate, Link } from "react-router-dom"
+import { logoutUser } from "../reducers/userReducer"
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const navigation = [
-    { name: 'Home', href: '/home' },
-    { name: 'Matches', href: '/matches' },
-    { name: 'Browse', href: '/browse' },
+    { name: "Home", href: "/home" },
+    { name: "Matches", href: "/matches" },
+    { name: "Browse", href: "/browse" },
   ]
 
   const handleLogout = async (event) => {
     event.preventDefault()
     dispatch(logoutUser())
-    navigate('/')
+    navigate("/")
   }
 
   return (
@@ -71,7 +71,7 @@ const Navbar = ({ user }) => {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <div className="flex gap-4 mr-4">
+                <div className="flex gap-4 mr-2">
                   <button
                     type="button"
                     className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -85,6 +85,7 @@ const Navbar = ({ user }) => {
                   >
                     <ChatBubbleLeftRightIcon className="h-6 w-6" />
                   </Link>
+				  <p className="font-montserrat text-almost-white pt-1">{user.username}</p>
                 </div>
 
                 {/* Profile dropdown */}
