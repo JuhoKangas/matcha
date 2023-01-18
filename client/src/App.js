@@ -8,6 +8,7 @@ import Matches from "./routes/Matches"
 import Browse from "./routes/Browse"
 import Profile from "./routes/Profile"
 import Settings from "./routes/Settings"
+import Photos from "./routes/Photos"
 import Footer from "./components/Footer"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -27,11 +28,11 @@ const App = () => {
   console.log("This is user from App.js: ", user)
 
   return (
-    <div className="flex flex-col justify-between bg-almost-black">
-      <div className="mb-auto">
-        <Router>
-          {user.username && <Navbar user={user} />}
+    <div className="flex flex-col justify-between min-h-screen bg-almost-black">
+      <Router>
+        {user.username && <Navbar user={user} />}
           <Toaster position="top-center" reverseOrder={false} />
+        <div className="grow">
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             {user.username && <Route path="/home" element={<Home />}></Route>}
@@ -39,11 +40,12 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/matches" element={<Matches />} />
             <Route path="/browse" element={<Browse />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile user={user} />} />
             <Route path="/settings" element={<Settings />} />
+			<Route path="/photos" element={<Photos />} />
           </Routes>
-        </Router>
-      </div>
+        </div>
+      </Router>
       <Footer />
     </div>
   )

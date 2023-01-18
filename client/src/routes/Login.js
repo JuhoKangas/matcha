@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import axios from "axios"
-import { useDispatch, useSelector } from "react-redux"
-import { initializeUser, loginUser } from "../reducers/userReducer"
-import { useCookies } from "react-cookie"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import {  loginUser } from "../reducers/userReducer"
 
 const Login = ({ setToken }) => {
   const dispatch = useDispatch()
-  const [cookie, setCookie, removeCookie] = useCookies(["user"])
   const [coordinates, setCoordinates] = useState(null)
 
   const navigate = useNavigate()
-  const user = useSelector(({ user }) => user)
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -53,7 +49,7 @@ const Login = ({ setToken }) => {
       <div className="flex justify-center items-center">
         <form
           onSubmit={login}
-          className="bg-white shadow-sm rounded px-10 pt-10 pb-8 mb-4"
+          className="bg-almost-black shadow-sm rounded px-10 pt-10 pb-8 mb-4"
         >
           <div className="mb-4">
             <label
@@ -115,12 +111,13 @@ const Login = ({ setToken }) => {
           </div>
           <hr />
           <div className="flex items-center justify-center mt-5 mb-5">
-            <a
+			{/* TODO: Create a path for forgot password */}
+            <Link
               className="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
-              href="#"
+              to="/reset_password"
             >
               Forgot password?
-            </a>
+            </Link>
           </div>
           <hr />
           <div className="flex items-center justify-center mt-5">
