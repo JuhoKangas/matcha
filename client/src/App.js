@@ -41,7 +41,7 @@ const App = () => {
             <Route path="/matches" element={<Matches />} />
             <Route path="/browse" element={<Browse />} />
             <Route path="/profile" element={<Profile user={user} />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings" element={<Settings user={user} />} />
 			<Route path="/photos" element={<Photos />} />
           </Routes>
         </div>

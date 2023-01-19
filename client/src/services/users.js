@@ -27,20 +27,10 @@ const checkUser = (email, password, coordinates) => {
   )
 }
 
-const update = (firstname, lastname, email, password, age, genderIdentity, genderInterest, city, country) => {
-	return axios.post(
+const update = (updatedUserInfo) => {
+	return axios.put(
 	  settingsUrl,
-	  {
-		firstname,
-		lastname,
-		email,
-		password,
-		age,
-		genderIdentity,
-		genderInterest,
-		city,
-		country
-	  },
+	  updatedUserInfo,
 	  { withCredentials: true }
 	)
   }

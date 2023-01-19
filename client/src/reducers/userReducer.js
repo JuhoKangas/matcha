@@ -47,9 +47,9 @@ export const logoutUser = () => {
 	}
 }
 
-export const updateSettings = (firstname, lastname, email, password, age, genderIdentity, genderInterest, city, country) => {
+export const updateSettings = (updatedUserInfo) => {
 	return async (dispatch) => {
-		const response = await userService.update(firstname, lastname, email, password, age, genderIdentity, genderInterest, city, country)
+		const response = await userService.update(updatedUserInfo)
 		if (response.status === 200) {
 			toast.success("You have successfully updated your information!")
 			dispatch(setUser(response.data))

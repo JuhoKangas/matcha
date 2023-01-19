@@ -2,68 +2,68 @@ import React, { useState } from "react"
 import toast from "react-hot-toast"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { useField } from "../hooks"
 import { updateSettings } from "../reducers/userReducer"
 
-const Settings = () => {
+const Settings = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const initialFirstname = useField("text", user.firstname)
+  const initialLastname = useField("text", user.lastname)
+  const initialUsername = useField("text", user.username)
+  const initialEmail = useField("email", user.email)
+  const initialPassword = useField("password")
+  const initialAge = useField("number", user.age)
+  const initialCity = useField("text", user.city)
+  const initialCountry = useField("text", user.country)
+  const initialBio = useField("text", user.bio)
 
   const [confirmPassword, setConfirmPassword] = useState()
+  const [formData, setFormData] = useState({
+    genderIdentity: "other",
+    genderInterest: "everyone",
+  })
+
+  const handleChange = (e) => {
+    const value = e.target.value
+    const name = e.target.name
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
 
   const handleRegister = async (e) => {
     e.preventDefault()
-    const firstname = e.target.firstname.value
-    const lastname = e.target.lastname.value
-    const email = e.target.email.value
-    const password = e.target.password.value
-    const age = e.target.age.value
-    const genderIdentity = e.target.genderIdentity.value
-    const genderInterest = e.target.genderInterest.value
-    const city = e.target.city.value
-    const country = e.target.country.value
 
-    if (password !== confirmPassword) {
+    const updatedUserInfo = {
+      firstname: initialFirstname.value,
+      lastname: initialLastname.value,
+      username: initialUsername.value,
+      email: initialEmail.value,
+      password: initialPassword.value,
+      age: initialAge.value,
+      genderIdentity: formData.genderIdentity,
+      genderInterest: formData.genderInterest,
+      city: initialCity.value,
+      country: initialCountry.value,
+      bio: initialBio.value,
+    }
+
+    if (updatedUserInfo.password !== confirmPassword) {
       toast.error("Passwords do not match!")
       return
     }
 
-    dispatch(
-      updateSettings(
-        firstname,
-        lastname,
-        email,
-        password,
-        age,
-        genderIdentity,
-        genderInterest,
-        city,
-        country
-      )
-    )
+    dispatch(updateSettings(updatedUserInfo))
+
     // TODO: only navigate user to profile page if info successfuly updated
     navigate("/profile")
-
-    /*       const response = await axios.post('http://localhost:3001/users', {
-        firstname: formData.firstName,
-        lastname: formData.lastName,
-        username: formData.userName,
-        age: formData.age,
-        genderIdentity: formData.genderIdentity,
-        genderInterest: formData.genderInterest,
-        city: formData.city,
-        country: formData.country,
-        password: formData.password,
-        email: formData.email,
-        ip: await getIP(),
-      }) */
-
-    /*       if (response.status === 201) {
-        navigate('/profile')
-      } */
   }
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="flex flex-col">
       <div>
         <h1 className="text-center font-montserrat font-bold leading-tight text-almost-white text-4xl mt-20 mb-10">
           Update your information
@@ -84,9 +84,8 @@ const Settings = () => {
                   Username
                 </label>
                 <input
-                  type="text"
                   id="username"
-                  name="userName"
+                  name="username"
                   className="mt-1
 									mb-10
 									font-montserrat
@@ -97,8 +96,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.userName}
-								onChange={handleChange} */
+                  //value={user.username}
+                  {...initialUsername}
                   required
                 />
               </div>
@@ -112,7 +111,6 @@ const Settings = () => {
                     Email
                   </label>
                   <input
-                    type="email"
                     id="email"
                     name="email"
                     className="mt-1
@@ -125,8 +123,8 @@ const Settings = () => {
 										shadow-sm
 										text-gray-700
 										focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                    /* value={formData.email}
-									onChange={handleChange} */
+                    //value={user.email}
+                    {...initialEmail}
                     required
                   />
                 </div>
@@ -140,8 +138,7 @@ const Settings = () => {
                   Password
                 </label>
                 <input
-                  type="password"
-                  id="passowrd"
+                  id="password"
                   name="password"
                   className="mt-1
 									mb-10
@@ -153,8 +150,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.password}
-					onChange={handleChange} */
+                  //value={user.password}
+                  {...initialPassword}
                   required
                 />
               </div>
@@ -194,7 +191,6 @@ const Settings = () => {
                   First Name
                 </label>
                 <input
-                  type="text"
                   id="first-name"
                   name="firstname"
                   className="mt-1
@@ -207,8 +203,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.firstName}
-								onChange={handleChange} */
+                  //value={user.firstname}
+                  {...initialFirstname}
                   required
                 />
               </div>
@@ -221,7 +217,6 @@ const Settings = () => {
                   Last Name
                 </label>
                 <input
-                  type="text"
                   id="last-name"
                   name="lastname"
                   className="mt-1
@@ -234,8 +229,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.lastName}
-								onChange={handleChange} */
+                  //value={user.lastname}
+                  {...initialLastname}
                   required
                 />
               </div>
@@ -250,7 +245,6 @@ const Settings = () => {
                   Age
                 </label>
                 <input
-                  type="text"
                   id="age"
                   name="age"
                   className="mt-1
@@ -263,8 +257,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.age}
-								onChange={handleChange} */
+                  //value={user.age}
+                  {...initialAge}
                   required
                 />
               </div>
@@ -283,10 +277,10 @@ const Settings = () => {
                         name="genderIdentity"
                         value="male"
                         className="hidden peer"
-                        /* checked={genderIdentity === 'male'}
-										onChange={handleChange} */
+                        checked={formData.genderIdentity === "male"}
+                        onChange={handleChange}
                       />
-                      <div className="peer-checked:border-bang-bang font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                         Male
                       </div>
                     </label>
@@ -297,10 +291,10 @@ const Settings = () => {
                         name="genderIdentity"
                         value="female"
                         className="hidden peer"
-                        /* checked={formData.genderIdentity === 'female'}
-										onChange={handleChange} */
+                        checked={formData.genderIdentity === "female"}
+                        onChange={handleChange}
                       />
-                      <div className="peer-checked:border-bang-bang font-montserrat mt-2 text-almost-white mr-5 ml-5 border-solid border-2 border-almost-white rounded-md p-2">
+                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white mr-5 ml-5 border-solid border-2 border-almost-white rounded-md p-2">
                         Female
                       </div>
                     </label>
@@ -311,10 +305,10 @@ const Settings = () => {
                         name="genderIdentity"
                         value="other"
                         className="hidden peer"
-                        /* checked={formData.genderIdentity === 'other'}
-									onChange={handleChange} */
+                        checked={formData.genderIdentity === "other"}
+                        onChange={handleChange}
                       />
-                      <div className="peer-checked:border-bang-bang font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                         Other
                       </div>
                     </label>
@@ -330,7 +324,6 @@ const Settings = () => {
                   City
                 </label>
                 <input
-                  type="text"
                   name="city"
                   className="mt-1
 									mb-10
@@ -342,8 +335,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.city}
-								onChange={handleChange} */
+                  //value={user.city}
+                  {...initialCity}
                   required
                 />
               </div>
@@ -356,7 +349,6 @@ const Settings = () => {
                   Country
                 </label>
                 <input
-                  type="text"
                   name="country"
                   className="mt-1
 									mb-10
@@ -368,8 +360,8 @@ const Settings = () => {
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  /* value={formData.country}
-								onChange={handleChange} */
+                  //value={user.country}
+                  {...initialCountry}
                   required
                 />
               </div>
@@ -389,10 +381,10 @@ const Settings = () => {
                       name="genderInterest"
                       value="male"
                       className="hidden peer"
-                      /* checked={formData.genderInterest === 'male'}
-										onChange={handleChange} */
+                      checked={formData.genderInterest === "male"}
+                      onChange={handleChange}
                     />
-                    <div className="peer-checked:border-bang-bang font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                       Men
                     </div>
                   </label>
@@ -403,10 +395,10 @@ const Settings = () => {
                       name="genderInterest"
                       value="female"
                       className="hidden peer"
-                      /* checked={formData.genderInterest === 'female'}
-										onChange={handleChange} */
+                      checked={formData.genderInterest === "female"}
+                      onChange={handleChange}
                     />
-                    <div className="peer-checked:border-bang-bang font-montserrat mb-12 mr-5 ml-5 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 mr-5 ml-5 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                       Women
                     </div>
                   </label>
@@ -417,10 +409,10 @@ const Settings = () => {
                       name="genderInterest"
                       value="everyone"
                       className="hidden peer"
-                      /* checked={formData.genderInterest === 'everyone'}
-										onChange={handleChange} */
+                      checked={formData.genderInterest === "everyone"}
+                      onChange={handleChange}
                     />
-                    <div className="peer-checked:border-bang-bang font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                       Everyone
                     </div>
                   </label>
@@ -428,7 +420,32 @@ const Settings = () => {
               </div>
             </div>
           </div>
-
+          <div>
+            <label
+              className="block font-montserrat font-medium mb-2 text-almost-white"
+              htmlFor="bio"
+            >
+              Bio
+            </label>
+            <textarea
+              id="bio"
+              name="bio"
+              className="mt-1
+				mb-10
+				font-montserrat
+				block
+				w-full
+				rounded-md
+				border-gray-300
+				shadow-sm
+				text-gray-700
+				focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20
+				resize-y"
+              //value={user.bio}
+              {...initialBio}
+              required
+            ></textarea>
+          </div>
           <div className="flex items-center justify-center">
             <input
               className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l py-3 px-5 mt-10 mb-10 rounded focus:outline-none focus:shadow-outline font-montserrat font-semibold text-2xl"
