@@ -7,7 +7,7 @@ import toast from "react-hot-toast"
 const Register = () => {
   const navigate = useNavigate()
 
-  const [confirmPassword, setConfirmPassword] = useState()
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -51,11 +51,12 @@ const Register = () => {
         country: formData.country,
         password: formData.password,
         email: formData.email,
+		bio: formData.bio,
         ip: await getIP(),
       })
 
       if (response.status === 201) {
-        navigate("/home")
+        navigate("/login")
       }
     } catch (error) {
       console.log(error)

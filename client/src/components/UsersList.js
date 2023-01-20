@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import Card from './Card'
 
@@ -21,7 +21,7 @@ const UsersList = () => {
   return (
     <div className="flex flex-col gap-8">
       {sortedList.map((user) => (
-        <Card key={user.firstname} user={user} />
+        <Card key={user.id} user={user} />
       ))}
     </div>
   )

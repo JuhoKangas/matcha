@@ -38,7 +38,7 @@ usersRouter.post('/', async (request, response) => {
         longitude,
       ]
     )
-    response.status(200).json({ results })
+    response.status(201).json({ results })
   } catch (err) {
     console.log(err)
   }

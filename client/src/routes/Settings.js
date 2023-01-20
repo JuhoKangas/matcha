@@ -20,7 +20,7 @@ const Settings = ({ user }) => {
   const inititialGenderIdentity = useField("text", user.genderIdentity)
   const inititialGenderInterest = useField("text", user.genderInterest)
 
-  const [confirmPassword, setConfirmPassword] = useState()
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [formData, setFormData] = useState({
     genderIdentity: inititialGenderIdentity.value,
     genderInterest: inititialGenderInterest.value,
@@ -40,6 +40,7 @@ const Settings = ({ user }) => {
     e.preventDefault()
 
     const updatedUserInfo = {
+      id: user.id,
       firstname: initialFirstname.value,
       lastname: initialLastname.value,
       username: initialUsername.value,
@@ -154,7 +155,6 @@ const Settings = ({ user }) => {
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
                   //value={user.password}
                   {...initialPassword}
-                  required
                 />
               </div>
 
@@ -181,7 +181,6 @@ const Settings = ({ user }) => {
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
                 />
               </div>
 
