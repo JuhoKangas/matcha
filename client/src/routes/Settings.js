@@ -17,11 +17,13 @@ const Settings = ({ user }) => {
   const initialCity = useField("text", user.city)
   const initialCountry = useField("text", user.country)
   const initialBio = useField("text", user.bio)
+  const inititialGenderIdentity = useField("text", user.genderIdentity)
+  const inititialGenderInterest = useField("text", user.genderInterest)
 
   const [confirmPassword, setConfirmPassword] = useState()
   const [formData, setFormData] = useState({
-    genderIdentity: "other",
-    genderInterest: "everyone",
+    genderIdentity: inititialGenderIdentity.value,
+    genderInterest: inititialGenderInterest.value,
   })
 
   const handleChange = (e) => {
