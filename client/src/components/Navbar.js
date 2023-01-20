@@ -17,7 +17,8 @@ const Navbar = ({ user }) => {
   const navigation = [
     { name: "Home", href: "/home" },
     { name: "Matches", href: "/matches" },
-    { name: "Browse", href: "/browse" },
+    { name: "Photos", href: "/photos" },
+	{ name: "Blocked", href: "/blocked" },
   ]
 
   const handleLogout = async (event) => {

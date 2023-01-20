@@ -9,6 +9,7 @@ import Browse from "./routes/Browse"
 import Profile from "./routes/Profile"
 import Settings from "./routes/Settings"
 import Photos from "./routes/Photos"
+import Blocked from "./routes/Blocked"
 import Footer from "./components/Footer"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/profile" element={<Profile user={user} />} />
             <Route path="/settings" element={<Settings user={user} />} />
 			<Route path="/photos" element={<Photos />} />
+			<Route path="/blocked" element={<Blocked />} />
           </Routes>
         </div>
       </Router>
