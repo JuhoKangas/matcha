@@ -286,7 +286,7 @@ const Register = () => {
                         checked={formData.genderIdentity === "male"}
                         onChange={handleChange}
                       />
-                      <div className="peer-checked:border-bang-bang font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                         Male
                       </div>
                     </label>
@@ -300,7 +300,7 @@ const Register = () => {
                         checked={formData.genderIdentity === "female"}
                         onChange={handleChange}
                       />
-                      <div className="peer-checked:border-bang-bang font-montserrat mt-2 text-almost-white mr-5 ml-5 border-solid border-2 border-almost-white rounded-md p-2">
+                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white mr-5 ml-5 border-solid border-2 border-almost-white rounded-md p-2">
                         Female
                       </div>
                     </label>
@@ -314,7 +314,7 @@ const Register = () => {
                         checked={formData.genderIdentity === "other"}
                         onChange={handleChange}
                       />
-                      <div className="peer-checked:border-bang-bang font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                         Other
                       </div>
                     </label>
@@ -392,7 +392,7 @@ const Register = () => {
                       checked={formData.genderInterest === "male"}
                       onChange={handleChange}
                     />
-                    <div className="peer-checked:border-bang-bang font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                       Men
                     </div>
                   </label>
@@ -406,7 +406,7 @@ const Register = () => {
                       checked={formData.genderInterest === "female"}
                       onChange={handleChange}
                     />
-                    <div className="peer-checked:border-bang-bang font-montserrat mb-12 mr-5 ml-5 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 mr-5 ml-5 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                       Women
                     </div>
                   </label>
@@ -420,7 +420,7 @@ const Register = () => {
                       checked={formData.genderInterest === "everyone"}
                       onChange={handleChange}
                     />
-                    <div className="peer-checked:border-bang-bang font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
+                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
                       Everyone
                     </div>
                   </label>
