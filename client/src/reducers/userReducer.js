@@ -61,4 +61,17 @@ export const updateSettings = (updatedUserInfo) => {
   }
 }
 
+export const registerUser = (newUser) => {
+	return async (dispatch) => {
+		const response = await userService.create(newUser)
+		if (response.status === 201) {
+			toast.success("You have successfully created your account!")
+			dispatch(setUser(response.data))
+		} else {
+			console.log('registration failed, status: ', response.status)
+			toast.error("Error occured, registration failed.")
+		}
+	}
+}
+
 export default userSlice.reducer

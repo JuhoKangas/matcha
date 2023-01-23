@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
+import { useDispatch } from "react-redux"
 import { getIP } from "../utils/getIP"
 import toast from "react-hot-toast"
+import { registerUser } from "../reducers/userReducer"
 
 const Register = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const [confirmPassword, setConfirmPassword] = useState('')
   const [formData, setFormData] = useState({
@@ -34,33 +36,31 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault()
-    try {
-      if (formData.password !== confirmPassword) {
-        toast.error("Passwords do not match!")
-        return
-      }
-
-      const response = await axios.post("http://localhost:3001/users", {
-        firstname: formData.firstName,
-        lastname: formData.lastName,
-        username: formData.userName,
-        age: formData.age,
-        genderIdentity: formData.genderIdentity,
-        genderInterest: formData.genderInterest,
-        city: formData.city,
-        country: formData.country,
-        password: formData.password,
-        email: formData.email,
+	  if (formData.password !== confirmPassword) {
+		toast.error("Passwords do not match!")
+		return
+	  }
+  
+	  const newUser = {
+		firstname: formData.firstName,
+		lastname: formData.lastName,
+		username: formData.userName,
+		age: formData.age,
+		genderIdentity: formData.genderIdentity,
+		genderInterest: formData.genderInterest,
+		city: formData.city,
+		country: formData.country,
+		password: formData.password,
+		email: formData.email,
 		bio: formData.bio,
-        ip: await getIP(),
-      })
+		ip: await getIP(),
+	  }
 
-      if (response.status === 201) {
+	  dispatch(registerUser(newUser))
+
+      //if (response.status === 201) {
         navigate("/login")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+      //}
   }
 
   return (

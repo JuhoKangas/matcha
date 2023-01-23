@@ -11,8 +11,7 @@ const getAll = () => {
 }
 
 const create = (newUser) => {
-  const request = axios.post(baseUrl, newUser)
-  return request.then((res) => res.data)
+  return axios.post(baseUrl, newUser)
 }
 
 const checkUser = (email, password, coordinates) => {
