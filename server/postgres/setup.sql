@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS users (
 	last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	ip VARCHAR(255),
 	latitude NUMERIC,
-	longitude NUMERIC
+	longitude NUMERIC,
+	profile_picture VARCHAR(1000)
 );
 
 CREATE TABLE IF NOT EXISTS tags (

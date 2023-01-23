@@ -9,20 +9,18 @@ const Register = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     userName: "",
     age: "",
-    genderIdentity: "other",
-    genderInterest: "everyone",
     city: "",
     country: "",
     password: "",
     email: "",
-    bio: "",
   })
+	const [registrationLinkSent, setRegistrationLinkSent] = useState(false)
 
   const handleChange = (e) => {
     const value = e.target.value
@@ -36,32 +34,40 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault()
-	  if (formData.password !== confirmPassword) {
-		toast.error("Passwords do not match!")
-		return
-	  }
-  
-	  const newUser = {
-		firstname: formData.firstName,
-		lastname: formData.lastName,
-		username: formData.userName,
-		age: formData.age,
-		genderIdentity: formData.genderIdentity,
-		genderInterest: formData.genderInterest,
-		city: formData.city,
-		country: formData.country,
-		password: formData.password,
-		email: formData.email,
-		bio: formData.bio,
-		ip: await getIP(),
-	  }
+    if (formData.password !== confirmPassword) {
+      toast.error("Passwords do not match!")
+      return
+    }
 
-	  dispatch(registerUser(newUser))
+    const newUser = {
+      firstname: formData.firstName,
+      lastname: formData.lastName,
+      username: formData.userName,
+      age: formData.age,
+      city: formData.city,
+      country: formData.country,
+      password: formData.password,
+      email: formData.email,
+      ip: await getIP(),
+    }
 
-      //if (response.status === 201) {
-        navigate("/login")
-      //}
+    dispatch(registerUser(newUser))
+ 
+    //if (response.status === 201) {
+    // navigate("/login")
+    //}
+		setRegistrationLinkSent(true)
   }
+
+	if (registrationLinkSent) {
+		return (
+			<div className="flex flex-col gap-5 justify-center items-center h-screen">
+				<p className="text-xl text-gray-500">{'<img />'}</p>
+				<h1 className="text-3xl text-white">The link has been sent</h1>
+				<p className="text-l text-gray-500">Please follow the instructions on the email to finish setting up your profile</p>
+			</div>
+		)
+	}
 
   return (
     <div className="flex flex-col">
@@ -102,35 +108,6 @@ const Register = () => {
                   onChange={handleChange}
                   required
                 />
-              </div>
-
-              <div>
-                <div className="mb-4">
-                  <label
-                    className="block font-montserrat font-medium mb-2 text-almost-white"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="mt-1
-										mb-10
-										font-montserrat
-										block
-										w-full
-										rounded-md
-										border-gray-300
-										shadow-sm
-										text-gray-700
-										focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
               </div>
 
               <div className="mb-4">
@@ -243,6 +220,35 @@ const Register = () => {
             </div>
 
             <div className="w-80">
+						<div>
+                <div className="mb-4">
+                  <label
+                    className="block font-montserrat font-medium mb-2 text-almost-white"
+                    htmlFor="email"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="mt-1
+										mb-10
+										font-montserrat
+										block
+										w-full
+										rounded-md
+										border-gray-300
+										shadow-sm
+										text-gray-700
+										focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+							
               <div className="mb-4">
                 <label
                   htmlFor="age"
@@ -268,59 +274,6 @@ const Register = () => {
                   onChange={handleChange}
                   required
                 />
-              </div>
-
-              <div className="">
-                <label
-                  htmlFor="gender-identity"
-                  className="block font-montserrat font-medium mb-4 text-almost-white"
-                >
-                  Gender
-                  <div className="flex justify-start mb-10">
-                    <label htmlFor="male-gender-identity">
-                      <input
-                        type="radio"
-                        id="male-gender-identity"
-                        name="genderIdentity"
-                        value="male"
-                        className="hidden peer"
-                        checked={formData.genderIdentity === "male"}
-                        onChange={handleChange}
-                      />
-                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
-                        Male
-                      </div>
-                    </label>
-                    <label htmlFor="female-gender-identity">
-                      <input
-                        type="radio"
-                        id="female-gender-identity"
-                        name="genderIdentity"
-                        value="female"
-                        className="hidden peer"
-                        checked={formData.genderIdentity === "female"}
-                        onChange={handleChange}
-                      />
-                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white mr-5 ml-5 border-solid border-2 border-almost-white rounded-md p-2">
-                        Female
-                      </div>
-                    </label>
-                    <label htmlFor="other-gender-identity">
-                      <input
-                        type="radio"
-                        id="other-gender-identity"
-                        name="genderIdentity"
-                        value="other"
-                        className="hidden peer"
-                        checked={formData.genderIdentity === "other"}
-                        onChange={handleChange}
-                      />
-                      <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
-                        Other
-                      </div>
-                    </label>
-                  </div>
-                </label>
               </div>
 
               <div className="mb-4">
@@ -374,87 +327,7 @@ const Register = () => {
                   required
                 />
               </div>
-
-              <div className="">
-                <label
-                  htmlFor="gender-interest"
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                >
-                  Show Me
-                </label>
-                <div className="flex justify-start mb-10">
-                  <label htmlFor="male-gender-interest">
-                    <input
-                      type="radio"
-                      id="male-gender-interest"
-                      name="genderInterest"
-                      value="male"
-                      className="hidden peer"
-                      checked={formData.genderInterest === "male"}
-                      onChange={handleChange}
-                    />
-                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
-                      Men
-                    </div>
-                  </label>
-                  <label htmlFor="female-gender-interest">
-                    <input
-                      type="radio"
-                      id="female-gender-interest"
-                      name="genderInterest"
-                      value="female"
-                      className="hidden peer"
-                      checked={formData.genderInterest === "female"}
-                      onChange={handleChange}
-                    />
-                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 mr-5 ml-5 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
-                      Women
-                    </div>
-                  </label>
-                  <label htmlFor="everyone-gender-interest">
-                    <input
-                      type="radio"
-                      id="everyone-gender-interest"
-                      name="genderInterest"
-                      value="everyone"
-                      className="hidden peer"
-                      checked={formData.genderInterest === "everyone"}
-                      onChange={handleChange}
-                    />
-                    <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
-                      Everyone
-                    </div>
-                  </label>
-                </div>
-              </div>
             </div>
-          </div>
-          <div>
-            <label
-              className="block font-montserrat font-medium mb-2 text-almost-white"
-              htmlFor="bio"
-            >
-              Bio
-            </label>
-            <textarea 
-              type="text"
-              id="bio"
-              name="bio"
-              className="mt-1
-				mb-10
-				font-montserrat
-				block
-				w-full
-				rounded-md
-				border-gray-300
-				shadow-sm
-				text-gray-700
-				focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20
-				resize-y"
-              value={formData.bio}
-              onChange={handleChange}
-              required>
-			  </textarea>
           </div>
           <div className="flex items-center justify-center">
             <input

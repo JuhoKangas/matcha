@@ -74,4 +74,17 @@ export const registerUser = (newUser) => {
 	}
 }
 
+export const finishSetup = (profileData) => {
+	return async (dispatch) => {
+		const response = await userService.setup(profileData)
+		if (response.status === 201) {
+			toast.success("You have successfully set up your profile!")
+			dispatch(setUser(response.data))
+		} else {
+			console.log('setup failed, status: ', response.status)
+			toast.error("Error occured, setup failed.")
+		}
+	}
+}
+
 export default userSlice.reducer

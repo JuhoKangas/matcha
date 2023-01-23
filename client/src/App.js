@@ -10,6 +10,7 @@ import Profile from "./routes/Profile"
 import Settings from "./routes/Settings"
 import Photos from "./routes/Photos"
 import Blocked from "./routes/Blocked"
+import Setup from "./routes/Setup"
 import Footer from "./components/Footer"
 
 import { useDispatch, useSelector } from "react-redux"
@@ -32,7 +33,7 @@ const App = () => {
     <div className="flex flex-col justify-between min-h-screen bg-almost-black">
       <Router>
         {user.username && <Navbar user={user} />}
-          <Toaster position="top-center" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={false} />
         <div className="grow">
           <Routes>
             <Route path="/" element={<Landing />}></Route>
@@ -43,8 +44,9 @@ const App = () => {
             <Route path="/browse" element={<Browse />} />
             <Route path="/profile" element={<Profile user={user} />} />
             <Route path="/settings" element={<Settings user={user} />} />
-			<Route path="/photos" element={<Photos />} />
-			<Route path="/blocked" element={<Blocked />} />
+            <Route path="/photos" element={<Photos />} />
+            <Route path="/blocked" element={<Blocked />} />
+						<Route path="/setup" element={<Setup />} />
           </Routes>
         </div>
       </Router>
