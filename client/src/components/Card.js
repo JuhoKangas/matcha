@@ -8,13 +8,6 @@ const Card = ({ user }) => {
   // const allTags = useSelector(({ tags }) => tags)
   // const [userTags, setUserTags] = useState(['initial'])
 
-  let photo
-  if (user.gender_identity === 'female') {
-    photo = womanPhoto
-  } else {
-    photo = manPhoto
-  }
-
   // useEffect(() => {
   //   user.tags.forEach((tagId) => {
   //     const found = allTags.find((element) => element.id === tagId)
@@ -38,7 +31,7 @@ const Card = ({ user }) => {
     <div className="p-3 flex flex-col items-center">
       <div className="w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg">
         <img
-          src={photo}
+          src={user.profile_picture}
           className="w-full rounded-t-lg user-image p-1"
           title="tphoto"
           alt="Profile pics"
@@ -64,10 +57,10 @@ const Card = ({ user }) => {
           <div className="my-4">
             <div className="text-sm">
               <span className="text-chitty-chitty"></span>
-              {/* TAGS WILL BE MAPPED HERE. create new array with names, not ids, than map that one */}
               <div className="flex flex-wrap gap-2 mb-3">
+                {console.log(user.tags)}
                 {user.tags.map((tag) => (
-                  <Tag key={tag} tagName={tag} />
+                  <Tag key={tag} tagName={tag} hover="none" />
                 ))}
               </div>
             </div>
