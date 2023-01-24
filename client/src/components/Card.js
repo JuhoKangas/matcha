@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import womanPhoto from '../assets/woman.jpg'
 import manPhoto from '../assets/beanie.jpg'
 import Tag from './Tag'
+import { useSelector } from 'react-redux'
 
 const Card = ({ user }) => {
+  // const allTags = useSelector(({ tags }) => tags)
+  // const [userTags, setUserTags] = useState(['initial'])
 
   let photo
   if (user.gender_identity === 'female') {
@@ -11,6 +14,25 @@ const Card = ({ user }) => {
   } else {
     photo = manPhoto
   }
+
+  // useEffect(() => {
+  //   user.tags.forEach((tagId) => {
+  //     const found = allTags.find((element) => element.id === tagId)
+  //     if (found) {
+  //       setUserTags([...userTags, found.tagname])
+  //     }
+  //   })
+  // }, [])
+
+  // console.log(`in cards userTags is: `, userTags)
+
+  // function findTagName(props) {
+
+  //   const found = allTags.find((element) => element.id === props.tag)
+  //   // userTags.concat(found.tagname)
+  //   // console.log(found.tagname, userTags)
+  //   return found.tagname
+  // }
 
   return (
     <div className="p-3 flex flex-col items-center">
@@ -42,12 +64,11 @@ const Card = ({ user }) => {
           <div className="my-4">
             <div className="text-sm">
               <span className="text-chitty-chitty"></span>
-              {/* TAGS WILL BE MAPPED HERE */}
+              {/* TAGS WILL BE MAPPED HERE. create new array with names, not ids, than map that one */}
               <div className="flex flex-wrap gap-2 mb-3">
-                <Tag tagName="Stars" />
-                <Tag tagName="Cars" />
-                <Tag tagName="Photography" />
-                <Tag tagName="Music Events" />
+                {user.tags.map((tag) => (
+                  <Tag key={tag} tagName={tag} />
+                ))}
               </div>
             </div>
             <div className="text-sm">
