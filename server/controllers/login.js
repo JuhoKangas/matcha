@@ -61,6 +61,7 @@ loginRouter.post("/", async (req, res) => {
       country: user.country,
       genderInterest: user.gender_interest,
       bio: user.bio,
+			profilePicture: user.profile_picture
     })
 })
 

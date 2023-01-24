@@ -1,6 +1,6 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import photo from "../assets/woman.jpg"
+//import photo from "../assets/woman.jpg"
 
 const Profile = ({ user }) => {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ const Profile = ({ user }) => {
     <div>
       <div className="flex flex-col items-center justify-center gap-12 mt-10">
         <img
-          src={photo}
+          src={user.profilePicture}
           className="object-cover rounded-full h-60 w-60 border border-almost-white"
           alt="profile-pic"
         ></img>

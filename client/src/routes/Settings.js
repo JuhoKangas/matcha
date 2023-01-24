@@ -69,7 +69,7 @@ const Settings = ({ user }) => {
     <div className="flex flex-col">
       <div>
         <h1 className="text-center font-montserrat font-bold leading-tight text-almost-white text-4xl mt-20 mb-10">
-          Update your information
+          Update my information
         </h1>
       </div>
       <div className="flex justify-center items-center">

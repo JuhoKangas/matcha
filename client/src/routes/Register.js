@@ -1,12 +1,10 @@
 import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { getIP } from "../utils/getIP"
 import toast from "react-hot-toast"
 import { registerUser } from "../reducers/userReducer"
 
 const Register = () => {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -52,10 +50,7 @@ const Register = () => {
     }
 
     dispatch(registerUser(newUser))
- 
-    //if (response.status === 201) {
-    // navigate("/login")
-    //}
+
 		setRegistrationLinkSent(true)
   }
 
@@ -248,7 +243,7 @@ const Register = () => {
                   />
                 </div>
               </div>
-							
+
               <div className="mb-4">
                 <label
                   htmlFor="age"

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { finishSetup } from "../reducers/userReducer"
 import tags from "../services/tags"
 import Tag from "../components/Tag"
-import { addTag, removeTag } from "../reducers/tagsReducer"
+import { useNavigate } from "react-router-dom"
 
-const Setup = () => {
-  const navigate = useNavigate()
+const Setup = ({ user }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     genderIdentity: "other",
@@ -17,10 +16,17 @@ const Setup = () => {
     tags: [],
   })
   const [allTags, setAllTags] = useState([])
+  const [file, setFile] = useState("")
 
   useEffect(() => {
     tags.getAllTags().then((tags) => setAllTags(tags))
   }, [])
+
+  console.log(user)
+  const handlePhotoChange = (e) => {
+    console.log(e.target.files[0].name)
+    setFile((e.target.files[0].name))
+  }
 
   const handleChange = (e) => {
     const value = e.target.value
@@ -34,7 +40,7 @@ const Setup = () => {
 
   const addTag = (tagName) => {
     const newTags = [...formData.tags, tagName]
-
+    console.log("Added tags ", newTags)
     setFormData({
       ...formData,
       tags: newTags,
@@ -43,7 +49,7 @@ const Setup = () => {
 
   const removeTag = (tagName) => {
     const newTags = formData.tags.filter((tag) => tag !== tagName)
-    console.log(newTags)
+    console.log("Removed tags", newTags)
     setFormData({
       ...formData,
       tags: newTags,
@@ -76,13 +82,16 @@ const Setup = () => {
       genderInterest: formData.genderInterest,
       bio: formData.bio,
       tags: formData.tags,
+      profileImage: file,
+      id: user.id,
     }
+    console.log("This is profile data ", profileData)
 
     dispatch(finishSetup(profileData))
-
-    //if (response.status === 201) {
-    // navigate("/login")
-    //
+		if (user.bio !== undefined)
+    	navigate("/home")
+		else
+			navigate("/login")
   }
 
   return (
@@ -98,7 +107,7 @@ const Setup = () => {
           className=" bg-almost-black shadow-sm rounded px-10 pt-10 pb-8"
         >
           <div className="flex flex-col md:flex-row md:space-x-20">
-            <div className="w-80">
+            <div className="flex flex-col justify-center w-80">
               <div className="">
                 <label
                   htmlFor="gender-identity"
@@ -203,6 +212,23 @@ const Setup = () => {
                     </div>
                   </label>
                 </div>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center w-80">
+              <h2 className="text-center font-montserrat font-bold leading-tight text-almost-white text-xl mb-10">
+                ✨ Add Your Profile Image ✨
+              </h2>
+              <div className="flex flex-col items-center justify-center gap-12 md:mb-0 mb-10">
+                {file ? (
+                  <img
+                    className="object-cover rounded-full h-60 w-60"
+                    src={file}
+                    alt=""
+                  />
+                ) : (
+                  <p></p>
+                )}
+                <input type="file" onChange={handlePhotoChange} />
               </div>
             </div>
           </div>
