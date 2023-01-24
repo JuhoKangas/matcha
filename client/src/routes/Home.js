@@ -1,7 +1,29 @@
 import UsersList from '../components/UsersList'
 import Filters from '../components/Filters'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { setFilteredUsers } from '../reducers/filteredUsersReducer'
 
 const Home = (props) => {
+  const dispatch = useDispatch()
+
+  const users = useSelector(({ users }) => users)
+  const tagFilters = useSelector(({ tagFilters }) => tagFilters)
+
+  useEffect(() => {
+    if (tagFilters.length > 0) {
+      var filteredList = [...users.data.rows]
+
+      tagFilters.forEach((element) => {
+        filteredList = filteredList.filter((u) => u.tags.includes(element))
+        dispatch(setFilteredUsers(filteredList))
+      })
+    } else {
+      dispatch(setFilteredUsers([...users.data.rows]))
+    }
+  }, [users, tagFilters, dispatch])
+
   return (
     <div>
       <div

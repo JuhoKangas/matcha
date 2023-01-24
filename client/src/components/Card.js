@@ -1,32 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import womanPhoto from '../assets/woman.jpg'
-import manPhoto from '../assets/beanie.jpg'
+import React from 'react'
 import Tag from './Tag'
-import { useSelector } from 'react-redux'
 
 const Card = ({ user }) => {
-  // const allTags = useSelector(({ tags }) => tags)
-  // const [userTags, setUserTags] = useState(['initial'])
-
-  // useEffect(() => {
-  //   user.tags.forEach((tagId) => {
-  //     const found = allTags.find((element) => element.id === tagId)
-  //     if (found) {
-  //       setUserTags([...userTags, found.tagname])
-  //     }
-  //   })
-  // }, [])
-
-  // console.log(`in cards userTags is: `, userTags)
-
-  // function findTagName(props) {
-
-  //   const found = allTags.find((element) => element.id === props.tag)
-  //   // userTags.concat(found.tagname)
-  //   // console.log(found.tagname, userTags)
-  //   return found.tagname
-  // }
-
   return (
     <div className="p-3 flex flex-col items-center">
       <div className="w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg">
@@ -58,7 +33,6 @@ const Card = ({ user }) => {
             <div className="text-sm">
               <span className="text-chitty-chitty"></span>
               <div className="flex flex-wrap gap-2 mb-3">
-                {console.log(user.tags)}
                 {user.tags.map((tag) => (
                   <Tag key={tag} tagName={tag} hover="none" />
                 ))}

@@ -3,24 +3,13 @@ import { useSelector } from 'react-redux'
 import Card from './Card'
 
 const UsersList = () => {
-  const users = useSelector(({ users }) => users)
-  //TODO: filter list, need backend
-  // const filters = useSelector(({filters}) => filters)
+  const filteredUsers = useSelector(({ filteredUsers }) => filteredUsers)
 
-  var sortedList = [...users.data.rows]
-
-  //   if (filters.length > 0) {
-  //   const filteredList = sortedList.filter((u) =>
-  //     u.content.toLowerCase().includes(filters.toLowerCase())
-  //   )
-  //   sortedList = filteredList
-  // }
-  // TODO: sort by location or other
-  // sortedList.sort((a, b) => b.distance - a.distance)
+  console.log('in UsersList filteredUsers is: ', filteredUsers)
 
   return (
     <div className="flex flex-col gap-8">
-      {sortedList.map((user) => (
+      {filteredUsers.map((user) => (
         <Card key={user.id} user={user} />
       ))}
     </div>
