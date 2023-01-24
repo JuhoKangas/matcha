@@ -32,21 +32,25 @@ const App = () => {
   return (
     <div className="flex flex-col justify-between min-h-screen bg-almost-black">
       <Router>
-        {user.username && <Navbar user={user} />}
+        {user.bio && <Navbar user={user} />}
         <Toaster position="top-center" reverseOrder={false} />
         <div className="grow">
           <Routes>
             <Route path="/" element={<Landing />}></Route>
-            {user.username && <Route path="/home" element={<Home />}></Route>}
+            {user.bio && <Route path="/home" element={<Home />}></Route>}
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />} />
-            <Route path="/matches" element={<Matches />} />
-            <Route path="/browse" element={<Browse />} />
-            <Route path="/profile" element={<Profile user={user} />} />
-            <Route path="/settings" element={<Settings user={user} />} />
-            <Route path="/photos" element={<Photos />} />
-            <Route path="/blocked" element={<Blocked />} />
-						<Route path="/setup" element={<Setup />} />
+            {user.bio && <Route path="/matches" element={<Matches />} />}
+            {user.bio && <Route path="/browse" element={<Browse />} />}
+            {user.bio && (
+              <Route path="/profile" element={<Profile user={user} />} />
+            )}
+            {user.bio && (
+              <Route path="/settings" element={<Settings user={user} />} />
+            )}
+            {user.bio && <Route path="/photos" element={<Photos />} />}
+            {user.bio && <Route path="/blocked" element={<Blocked />} />}
+            {<Route path="/setup" element={<Setup user={user} />} />}
           </Routes>
         </div>
       </Router>

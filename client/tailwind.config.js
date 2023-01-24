@@ -10,9 +10,13 @@ module.exports = {
         'chitty-chitty': '#007991',
         'bang-bang': '#78FFD6',
       },
+			backgroundImage: {
+				'landing-bg': "url('../public/landing-bg.jpg')",
+			},
     },
     fontFamily: {
       montserrat: ['Montserrat', 'sans-serif'],
+			script: ['Dancing Script', 'sans-serif']
     },
   },
   plugins: [require('@tailwindcss/forms')],

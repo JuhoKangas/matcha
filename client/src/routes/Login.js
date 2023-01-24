@@ -6,7 +6,6 @@ import {  loginUser } from "../reducers/userReducer"
 const Login = ({ setToken }) => {
   const dispatch = useDispatch()
   const [coordinates, setCoordinates] = useState(null)
-
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -25,6 +24,7 @@ const Login = ({ setToken }) => {
   }, [])
 
   const login = async (event) => {
+		//comment
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
@@ -32,7 +32,7 @@ const Login = ({ setToken }) => {
       event.target.password.value = ""
 	  dispatch(loginUser(email, password, coordinates))
 	  // TO DO: navigate user to home only if successfully logged in
-	  navigate("/home")
+		navigate("/setup")
   }
 
   return (

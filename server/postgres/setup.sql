@@ -6,10 +6,10 @@ CREATE TABLE IF NOT EXISTS users (
 	email VARCHAR(1000), 
 	password VARCHAR(1000) NOT NULL,
   age INT NOT NULL,
-  gender_identity VARCHAR(1000) NOT NULL,
+  gender_identity VARCHAR(1000) DEFAULT 'other',
 	gender_interest VARCHAR(1000) DEFAULT 'Everyone',
-  tags INT[],
-	bio VARCHAR(1000) DEFAULT 'none',
+  tags VARCHAR[],
+	bio VARCHAR(1000),
 	city VARCHAR(1000),
 	country VARCHAR(1000),
 	actual_location VARCHAR(1000), /* complete this */
