@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './index.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
@@ -13,19 +13,12 @@ import Blocked from './routes/Blocked'
 import Setup from './routes/Setup'
 import Footer from './components/Footer'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { initializeUsers } from './reducers/usersReducer'
+import { useSelector } from 'react-redux'
 import Home from './routes/Home'
 import Landing from './routes/Landing'
 import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(initializeUsers())
-  }, [dispatch])
-
   const user = useSelector(({ user }) => user)
   console.log('This is user from App.js: ', user)
 

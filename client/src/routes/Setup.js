@@ -86,10 +86,8 @@ const Setup = ({ user }) => {
       id: user.id,
     }
     console.log('This is profile data ', profileData)
-
     dispatch(finishSetup(profileData))
-    if (user.bio !== undefined) navigate('/home')
-    else navigate('/login')
+    navigate('/login')
   }
 
   return (

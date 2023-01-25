@@ -4,11 +4,16 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { setFilteredUsers } from '../reducers/filteredUsersReducer'
+import { initializeUsers } from '../reducers/usersReducer'
 
 const Home = (props) => {
   const dispatch = useDispatch()
-
   const users = useSelector(({ users }) => users)
+
+  useEffect(() => {
+    dispatch(initializeUsers())
+  }, [dispatch])
+
   const tagFilters = useSelector(({ tagFilters }) => tagFilters)
 
   useEffect(() => {
