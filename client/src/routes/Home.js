@@ -13,14 +13,14 @@ const Home = (props) => {
 
   useEffect(() => {
     if (tagFilters.length > 0) {
-      var filteredList = [...users.data.rows]
+      var filteredList = [...users]
 
       tagFilters.forEach((element) => {
         filteredList = filteredList.filter((u) => u.tags.includes(element))
         dispatch(setFilteredUsers(filteredList))
       })
     } else {
-      dispatch(setFilteredUsers([...users.data.rows]))
+      dispatch(setFilteredUsers([...users]))
     }
   }, [users, tagFilters, dispatch])
 
