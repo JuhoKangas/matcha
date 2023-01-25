@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
-import { finishSetup } from "../reducers/userReducer"
-import tags from "../services/tags"
-import Tag from "../components/Tag"
-import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { finishSetup } from '../reducers/userReducer'
+import tags from '../services/tags'
+import Tag from '../components/Tag'
+import { useNavigate } from 'react-router-dom'
 
 const Setup = ({ user }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
-    genderIdentity: "other",
-    genderInterest: "everyone",
-    bio: "",
+    genderIdentity: 'other',
+    genderInterest: 'everyone',
+    bio: '',
     tags: [],
   })
   const [allTags, setAllTags] = useState([])
-  const [file, setFile] = useState("")
+  const [file, setFile] = useState('')
 
   useEffect(() => {
     tags.getAllTags().then((tags) => setAllTags(tags))
@@ -25,7 +25,7 @@ const Setup = ({ user }) => {
   console.log(user)
   const handlePhotoChange = (e) => {
     console.log(e.target.files[0].name)
-    setFile((e.target.files[0].name))
+    setFile(e.target.files[0].name)
   }
 
   const handleChange = (e) => {
@@ -40,7 +40,7 @@ const Setup = ({ user }) => {
 
   const addTag = (tagName) => {
     const newTags = [...formData.tags, tagName]
-    console.log("Added tags ", newTags)
+    console.log('Added tags ', newTags)
     setFormData({
       ...formData,
       tags: newTags,
@@ -49,7 +49,7 @@ const Setup = ({ user }) => {
 
   const removeTag = (tagName) => {
     const newTags = formData.tags.filter((tag) => tag !== tagName)
-    console.log("Removed tags", newTags)
+    console.log('Removed tags', newTags)
     setFormData({
       ...formData,
       tags: newTags,
@@ -62,14 +62,14 @@ const Setup = ({ user }) => {
 
     if (
       e.target.className ===
-      "px-2 text-chitty-chitty ring-1 ring-chitty-chitty rounded-xl hover:bg-chitty-chitty hover:text-white w-min whitespace-nowrap text-sm cursor-pointer"
+      'px-2 text-chitty-chitty ring-1 ring-chitty-chitty rounded-xl hover:bg-chitty-chitty hover:text-white w-min whitespace-nowrap text-sm cursor-pointer'
     ) {
       e.target.className =
-        "px-2 text-white ring-1 ring-chitty-chitty rounded-xl bg-chitty-chitty w-min whitespace-nowrap text-sm cursor-pointer hover:text-chitty-chitty bg-none"
+        'px-2 text-white ring-1 ring-chitty-chitty rounded-xl bg-chitty-chitty w-min whitespace-nowrap text-sm cursor-pointer hover:text-chitty-chitty bg-none'
       addTag(tagName)
     } else {
       e.target.className =
-        "px-2 text-chitty-chitty ring-1 ring-chitty-chitty rounded-xl hover:bg-chitty-chitty hover:text-white w-min whitespace-nowrap text-sm cursor-pointer"
+        'px-2 text-chitty-chitty ring-1 ring-chitty-chitty rounded-xl hover:bg-chitty-chitty hover:text-white w-min whitespace-nowrap text-sm cursor-pointer'
       removeTag(tagName)
     }
   }
@@ -82,16 +82,14 @@ const Setup = ({ user }) => {
       genderInterest: formData.genderInterest,
       bio: formData.bio,
       tags: formData.tags,
-      profileImage: file,
+      profilePicture: file,
       id: user.id,
     }
-    console.log("This is profile data ", profileData)
+    console.log('This is profile data ', profileData)
 
     dispatch(finishSetup(profileData))
-		if (user.bio !== undefined)
-    	navigate("/home")
-		else
-			navigate("/login")
+    if (user.bio !== undefined) navigate('/home')
+    else navigate('/login')
   }
 
   return (
@@ -122,7 +120,7 @@ const Setup = ({ user }) => {
                         name="genderIdentity"
                         value="male"
                         className="hidden peer"
-                        checked={formData.genderIdentity === "male"}
+                        checked={formData.genderIdentity === 'male'}
                         onChange={handleChange}
                       />
                       <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
@@ -136,7 +134,7 @@ const Setup = ({ user }) => {
                         name="genderIdentity"
                         value="female"
                         className="hidden peer"
-                        checked={formData.genderIdentity === "female"}
+                        checked={formData.genderIdentity === 'female'}
                         onChange={handleChange}
                       />
                       <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white mr-5 ml-5 border-solid border-2 border-almost-white rounded-md p-2">
@@ -150,7 +148,7 @@ const Setup = ({ user }) => {
                         name="genderIdentity"
                         value="other"
                         className="hidden peer"
-                        checked={formData.genderIdentity === "other"}
+                        checked={formData.genderIdentity === 'other'}
                         onChange={handleChange}
                       />
                       <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mt-2 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
@@ -176,7 +174,7 @@ const Setup = ({ user }) => {
                       name="genderInterest"
                       value="male"
                       className="hidden peer"
-                      checked={formData.genderInterest === "male"}
+                      checked={formData.genderInterest === 'male'}
                       onChange={handleChange}
                     />
                     <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
@@ -190,7 +188,7 @@ const Setup = ({ user }) => {
                       name="genderInterest"
                       value="female"
                       className="hidden peer"
-                      checked={formData.genderInterest === "female"}
+                      checked={formData.genderInterest === 'female'}
                       onChange={handleChange}
                     />
                     <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 mr-5 ml-5 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
@@ -204,7 +202,7 @@ const Setup = ({ user }) => {
                       name="genderInterest"
                       value="everyone"
                       className="hidden peer"
-                      checked={formData.genderInterest === "everyone"}
+                      checked={formData.genderInterest === 'everyone'}
                       onChange={handleChange}
                     />
                     <div className="peer-checked:border-bang-bang peer-checked:bg-bang-bang peer-checked:text-almost-black font-montserrat mb-12 text-almost-white border-solid border-2 border-almost-white rounded-md p-2">
