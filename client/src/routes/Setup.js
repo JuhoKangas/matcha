@@ -82,7 +82,7 @@ const Setup = ({ user }) => {
       genderInterest: formData.genderInterest,
       bio: formData.bio,
       tags: formData.tags,
-      profileImage: dbPhotoFile,
+      profilePicture: dbPhotoFile,
       id: user.id,
     }
     console.log('This is profile data ', profileData)
