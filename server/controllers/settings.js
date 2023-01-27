@@ -29,10 +29,11 @@ settingsRouter.put("/", async (req, res) => {
               hashedPassword,
               sanitizedEmail,
               formData.id,
+              formData.profilePicture,
             ]
           )
         : await db.query(
-            "UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10 WHERE id = $11 returning *",
+            "UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11 WHERE id = $12 returning *",
             [
               formData.firstname,
               formData.lastname,
@@ -44,6 +45,7 @@ settingsRouter.put("/", async (req, res) => {
               formData.city,
               formData.country,
               sanitizedEmail,
+              formData.profilePicture,
               formData.id,
             ]
           )

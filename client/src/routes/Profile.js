@@ -17,7 +17,7 @@ const Profile = ({ user }) => {
     <div>
       <div className="flex flex-col items-center justify-center gap-12 mt-10">
         <img
-          src={user.profilePicture}
+          src={require(`../assets/img/${user.profilePicture}`)}
           className="object-cover rounded-full h-60 w-60 border border-almost-white"
           alt="profile-pic"
         ></img>

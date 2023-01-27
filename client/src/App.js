@@ -38,7 +38,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Landing />}></Route>
             {user.bio && <Route path="/home" element={<Home />}></Route>}
-            <Route path="/login" element={<Login />}></Route>
+            <Route path="/login" element={<Login user={user} />}></Route>
             <Route path="/register" element={<Register />} />
             {user.bio && <Route path="/matches" element={<Matches />} />}
             {user.bio && <Route path="/browse" element={<Browse />} />}

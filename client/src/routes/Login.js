@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import {  loginUser } from "../reducers/userReducer"
 
-const Login = ({ setToken }) => {
+const Login = ({ user }) => {
   const dispatch = useDispatch()
   const [coordinates, setCoordinates] = useState(null)
   const navigate = useNavigate()
