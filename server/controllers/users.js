@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
-const format = require('pg-format')
 const geoip = require('geoip-lite')
 
 usersRouter.get('/', async (request, response) => {
@@ -65,24 +64,6 @@ usersRouter.put('/setup', async (request, response) => {
   } catch (err) {
     console.log(err)
   }
-})
-
-usersRouter.put('/:id/:field', async (request, response) => {
-  const id = request.params.id
-  const field = request.params.field
-  const data = request.body
-
-  // Using pg-format to dynamically update column securely
-  // %I stands for identifier, %L is literal, %s would just be a string
-  const query = await db.query(
-    format(
-      'UPDATE users SET %I = %L WHERE id = %L RETURNING *',
-      field,
-      data[field],
-      id
-    )
-  )
-  response.status(200).send(query.rows[0])
 })
 
 usersRouter.delete('/:id', async (request, response) => {
