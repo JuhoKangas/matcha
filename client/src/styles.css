@@ -1,253 +1,293 @@
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
 
 html {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 * {
-	font-family: 'Readex Pro', sans-serif;
+  font-family: 'Readex Pro', sans-serif;
 }
 
 .App {
-	font-family: sans-serif;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
+  font-family: sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .landing-heading {
-	font-family: 'Lobster', cursive;
-	font-size: 6vw;
-	text-align: center;
-	margin-bottom: 10vw;
+  font-family: 'Lobster', cursive;
+  font-size: 6vw;
+  text-align: center;
+  margin-bottom: 10vw;
 }
 
-@media (max-width:1100px){
-	.img-landing{
-		display: none;
-	}
+@media (max-width: 1100px) {
+  .img-landing {
+    display: none;
+  }
 }
 
 /*responsive design for small screens*/
-@media (max-width:500px){
-	.img-landing{
-		display: none;
-	}
+@media (max-width: 500px) {
+  .img-landing {
+    display: none;
+  }
 }
 
 .gradient-custom {
-	/* fallback for old browsers */
-	background: #f093fb;
-	
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
-	
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+  /* fallback for old browsers */
+  background: #f093fb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to bottom right,
+    rgba(240, 147, 251, 1),
+    rgba(245, 87, 108, 1)
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(
+    to bottom right,
+    rgba(240, 147, 251, 1),
+    rgba(245, 87, 108, 1)
+  );
 }
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
-	font-size: 1rem;
-	line-height: 2.15;
-	padding-left: .75em;
-	padding-right: .75em;
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
 }
 
 .card-registration .select-arrow {
-	top: 13px;
+  top: 13px;
 }
 
 .btn-pink-moon {
-	background: #ec008c;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #fc6767, #ec008c);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #fc6767, #ec008c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	color: #fff;
-	text-transform: uppercase;
-	font-size: 20px;
-	padding: 12px 30px;
-	border: none;
-	border-radius: 30px;
+  background: #ec008c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #fc6767,
+    #ec008c
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #fc6767,
+    #ec008c
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
 }
 
 .btn-pink-moon:hover {
-	background: #ec008c;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to left, #fc6767, #ec008c);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to left, #fc6767, #ec008c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #ec008c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #fc6767,
+    #ec008c
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #fc6767,
+    #ec008c
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .btn-purple-moon {
-	background: #4e54c8;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	color: #fff;
-	text-transform: uppercase;
-	font-size: 20px;
-	padding: 12px 30px;
-	border: none;
-	border-radius: 30px;
+  background: #4e54c8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #8f94fb,
+    #4e54c8
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #8f94fb,
+    #4e54c8
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
 }
 
 .btn-purple-moon:hover {
-	background: #4e54c8;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to left, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #4e54c8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to left,
+    #8f94fb,
+    #4e54c8
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    #8f94fb,
+    #4e54c8
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .badge {
-	position: absolute;
-	font-size: .6rem;
-	margin-top: -0.1rem;
-	margin-left: -0.5rem;
-	padding: 0.2em 0.45em;
+  position: absolute;
+  font-size: 0.6rem;
+  margin-top: -0.1rem;
+  margin-left: -0.5rem;
+  padding: 0.2em 0.45em;
 }
 
 .link {
-	text-decoration: none;
-	color: purple;
+  text-decoration: none;
+  color: purple;
 }
 
 /* --------------- User Settings & Signup Pages --------------------- */
 .settings form {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .settings form section {
-	display: flex;
-	flex-direction: column;
-	padding: 20px;
-	width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 50%;
 }
 
 .settings form input {
-	padding: 5px 20px;
-	margin-bottom: 15px;
-	font-size: 15px;
-	border-radius: 10px;
+  padding: 5px 20px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  border-radius: 10px;
 }
 
 .settings form .multiple-input-container {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .settings form .multiple-input-container input {
-	 margin-right: 10px;
+  margin-right: 10px;
 }
 
-.settings form input[type="radio"] {
-	display: none;
+.settings form input[type='radio'] {
+  display: none;
 }
 
-.settings form input[type="radio"]:checked + label {
-	border: solid 2px #fc6767;
+.settings form input[type='radio']:checked + label {
+  border: solid 2px #fc6767;
 }
 
 .settings form .multiple-input-container label {
-	 padding: 10px;
-	 border: solid 1px rgb(204, 204, 204);
-	 border-radius: 10px;
-	 margin-right: 10px;
+  padding: 10px;
+  border: solid 1px rgb(204, 204, 204);
+  border-radius: 10px;
+  margin-right: 10px;
 }
 
 /* --------------- Card --------------------- */
 
 .dashboard {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .dashboard .swipe-container {
-	width: 70%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 100vh;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
 }
 
 .swipe {
-	position: absolute;
+  position: absolute;
 }
 
 .dashboard .card-container {
-	width: 400px;
-	height: 650px;
+  width: 400px;
+  height: 650px;
 }
-  
+
 .user-card {
-	position: relative;
-	background-color: #fff;
-	width: 500px;
-	height: 650px;
-	border-radius: 30px;
-	background-size: cover;
-	background-position: center;
+  position: relative;
+  background-color: #fff;
+  width: 500px;
+  height: 650px;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
 }
 
 .dashboard .like-info {
-	padding: 10px;
+  padding: 10px;
 }
 
 .user-card h3 {
-	position: absolute;
-	bottom: 0;
-	margin: 10px;
-	color: #fff;
+  position: absolute;
+  bottom: 0;
+  margin: 10px;
+  color: #fff;
 }
 
 .user-info {
-	border: solid 1px gray;
-	width: 500px;
-	border-radius: 30px;
-	margin-top: 40px;
+  border: solid 1px gray;
+  width: 500px;
+  border-radius: 30px;
+  margin-top: 40px;
 }
 
 /* --------------- Chat --------------------- */
 .chat-container {
-	background-color: white;
-	box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
-	width: 30%;
-	/* make sure that chat container is always in front of dashboard */
-	z-index: 1;
-	padding: 0 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 6px 24px 0, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+  width: 30%;
+  /* make sure that chat container is always in front of dashboard */
+  z-index: 1;
+  padding: 0 10px;
 }
 
 .option {
-	font-size: 15px;
-	padding: 10px;
-	margin-top: 5px;
-	margin-right: 5px;
+  font-size: 15px;
+  padding: 10px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 .option:disabled {
-	background: gray;  /* fallback for old browsers */
-	background: gray;  /* Chrome 10-25, Safari 5.1-6 */
-	background: gray; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: gray; /* fallback for old browsers */
+  background: gray; /* Chrome 10-25, Safari 5.1-6 */
+  background: gray; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .chat-display {
-	padding: 20px;
-	height: 60vh;
-	/* overflow y is for scrolling through messages when there are many of them */
-	overflow-y: auto;
+  padding: 20px;
+  height: 60vh;
+  /* overflow y is for scrolling through messages when there are many of them */
+  overflow-y: auto;
 }
 
 .chat-input {
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* --------------- Footer --------------------- */
 footer {
-	font-family: 'Lobster', cursive;
-	text-align: center;
-	padding-top: 5px;
-	padding-bottom: 10px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	font-size: 15px;
-	color: grey;
+  font-family: 'Lobster', cursive;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 15px;
+  color: grey;
 }

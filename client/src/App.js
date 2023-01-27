@@ -23,27 +23,27 @@ const App = () => {
   console.log('This is user from App.js: ', user)
 
   return (
-    <div className="flex flex-col justify-between min-h-screen bg-almost-black">
+    <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
       <Router>
         {user.bio && <Navbar user={user} />}
-        <Toaster position="top-center" reverseOrder={false} />
-        <div className="grow">
+        <Toaster position='top-center' reverseOrder={false} />
+        <div className='grow'>
           <Routes>
-            <Route path="/" element={<Landing />}></Route>
-            {user.bio && <Route path="/home" element={<Home />}></Route>}
-            <Route path="/login" element={<Login />}></Route>
-            <Route path="/register" element={<Register />} />
-            {user.bio && <Route path="/matches" element={<Matches />} />}
-            {user.bio && <Route path="/browse" element={<Browse />} />}
+            <Route path='/' element={<Landing />}></Route>
+            {user.bio && <Route path='/home' element={<Home />}></Route>}
+            <Route path='/login' element={<Login user={user} />}></Route>
+            <Route path='/register' element={<Register />} />
+            {user.bio && <Route path='/matches' element={<Matches />} />}
+            {user.bio && <Route path='/browse' element={<Browse />} />}
             {user.bio && (
-              <Route path="/profile" element={<Profile user={user} />} />
+              <Route path='/profile' element={<Profile user={user} />} />
             )}
             {user.bio && (
-              <Route path="/settings" element={<Settings user={user} />} />
+              <Route path='/settings' element={<Settings user={user} />} />
             )}
-            {user.bio && <Route path="/photos" element={<Photos />} />}
-            {user.bio && <Route path="/blocked" element={<Blocked />} />}
-            {<Route path="/setup" element={<Setup user={user} />} />}
+            {user.bio && <Route path='/photos' element={<Photos />} />}
+            {user.bio && <Route path='/blocked' element={<Blocked />} />}
+            {<Route path='/setup' element={<Setup user={user} />} />}
           </Routes>
         </div>
       </Router>
