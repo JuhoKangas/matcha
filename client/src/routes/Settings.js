@@ -20,16 +20,16 @@ const Settings = ({ user }) => {
 
   const [confirmPassword, setConfirmPassword] = useState('')
   const [file, setFile] = useState('')
-	const [dbPhotoFile, setDbPhotoFile] = useState('')
+  const [dbPhotoFile, setDbPhotoFile] = useState('')
   const [formData, setFormData] = useState({
     genderIdentity: user.genderIdentity,
     genderInterest: user.genderInterest,
   })
 
-	console.log("this is user in settings: ", user)
-	console.log("this is init gender identity: ", user.genderIdentity)
-	console.log("this is picture: ", user.profilePicture)
-	
+  console.log('this is user in settings: ', user)
+  console.log('this is init gender identity: ', user.genderIdentity)
+  console.log('this is picture: ', user.profilePicture)
+
   const handleChange = (e) => {
     const value = e.target.value
     const name = e.target.name
@@ -43,7 +43,7 @@ const Settings = ({ user }) => {
   const handlePhotoChange = (e) => {
     console.log(e.target.files[0])
     setFile(URL.createObjectURL(e.target.files[0]))
-		setDbPhotoFile(e.target.files[0].name)
+    setDbPhotoFile(e.target.files[0].name)
   }
 
   const handleRegister = async (e) => {

@@ -1,21 +1,21 @@
-const settingsRouter = require("express").Router()
-const db = require("../db/index")
-const bcrypt = require("bcrypt")
-const { authenticateJWT } = require("../utils/middleware")
+const settingsRouter = require('express').Router()
+const db = require('../db/index')
+const bcrypt = require('bcrypt')
+const { authenticateJWT } = require('../utils/middleware')
 
-settingsRouter.put("/", async (req, res) => {
+settingsRouter.put('/', async (req, res) => {
   const formData = req.body
-  let hashedPassword = ""
-  if (formData.password !== "") {
+  let hashedPassword = ''
+  if (formData.password !== '') {
     hashedPassword = await bcrypt.hash(formData.password, 10)
   }
   const sanitizedEmail = formData.email.toLowerCase()
 
   try {
     const results =
-      hashedPassword !== ""
+      hashedPassword !== ''
         ? await db.query(
-            "UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, password = $10, email = $11 WHERE id = $12 returning *",
+            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, password = $10, email = $11 WHERE id = $12 returning *',
             [
               formData.firstname,
               formData.lastname,
@@ -33,7 +33,7 @@ settingsRouter.put("/", async (req, res) => {
             ]
           )
         : await db.query(
-            "UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11 WHERE id = $12 returning *",
+            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11 WHERE id = $12 returning *',
             [
               formData.firstname,
               formData.lastname,
@@ -52,7 +52,7 @@ settingsRouter.put("/", async (req, res) => {
 
     console.log(results)
     res.status(200).json({
-      status: "success",
+      status: 'success',
       data: {
         user: results.rows[0],
       },

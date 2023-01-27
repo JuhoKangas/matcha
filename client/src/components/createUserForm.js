@@ -20,51 +20,51 @@ const CreateUserForm = (props) => {
   }
 
   return (
-    <form action="post" onSubmit={submitUser}>
-      <div className="flex flex-col gap-4 items-center">
-        <div className="flex flex-col px-8 w-full sm:w-96">
-          <label className="text-sm ml-2 mb-1" htmlFor="username">
+    <form action='post' onSubmit={submitUser}>
+      <div className='flex flex-col gap-4 items-center'>
+        <div className='flex flex-col px-8 w-full sm:w-96'>
+          <label className='text-sm ml-2 mb-1' htmlFor='username'>
             Username
           </label>
           <input
-            name="username"
-            className="px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700"
+            name='username'
+            className='px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700'
             {...username}
           />
         </div>
-        <div className="flex flex-col px-8 w-full sm:w-96">
-          <label className="text-sm ml-2 mb-1" htmlFor="firstName">
+        <div className='flex flex-col px-8 w-full sm:w-96'>
+          <label className='text-sm ml-2 mb-1' htmlFor='firstName'>
             First Name
           </label>
           <input
-            name="firstName"
-            className="px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700"
+            name='firstName'
+            className='px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700'
             {...firstName}
           />
         </div>
-        <div className="flex flex-col px-8 w-full sm:w-96">
-          <label className="text-sm ml-2 mb-1" htmlFor="lastName">
+        <div className='flex flex-col px-8 w-full sm:w-96'>
+          <label className='text-sm ml-2 mb-1' htmlFor='lastName'>
             Last Name
           </label>
           <input
-            name="lastName"
-            className="px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700"
+            name='lastName'
+            className='px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700'
             {...lastName}
           />
         </div>
-        <div className="flex flex-col px-8 w-full sm:w-96">
-          <label className="text-sm ml-2 mb-1" htmlFor="age">
+        <div className='flex flex-col px-8 w-full sm:w-96'>
+          <label className='text-sm ml-2 mb-1' htmlFor='age'>
             Age
           </label>
           <input
-            name="age"
-            className="px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700"
+            name='age'
+            className='px-4 py-2 border rounded-lg border-neutral-800 outline-none focus:border-blue-700'
             {...age}
           />
         </div>
         <button
-          className="px-4 py-2 bg-slate-600 text-white rounded-xl hover:bg-slate-500"
-          type="submit"
+          className='px-4 py-2 bg-slate-600 text-white rounded-xl hover:bg-slate-500'
+          type='submit'
         >
           submit
         </button>

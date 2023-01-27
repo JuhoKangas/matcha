@@ -15,7 +15,7 @@ const Setup = ({ user }) => {
   })
   const [allTags, setAllTags] = useState([])
   const [file, setFile] = useState('')
-	const [dbPhotoFile, setDbPhotoFile] = useState('')
+  const [dbPhotoFile, setDbPhotoFile] = useState('')
 
   useEffect(() => {
     tags.getAllTags().then((tags) => setAllTags(tags))
@@ -25,7 +25,7 @@ const Setup = ({ user }) => {
   const handlePhotoChange = (e) => {
     console.log(e.target.files[0].name)
     setFile(URL.createObjectURL(e.target.files[0]))
-		setDbPhotoFile(e.target.files[0].name)
+    setDbPhotoFile(e.target.files[0].name)
   }
 
   const handleChange = (e) => {
