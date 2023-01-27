@@ -2,15 +2,19 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const middleware = require('./utils/middleware')
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
 
 const usersRouter = require('./controllers/users')
 const settingsRouter = require('./controllers/settings')
 const loginRouter = require('./controllers/login')
 const tagsRouter = require('./controllers/tags')
+const authRouter = require('./controllers/auth')
 
 //cookies
-const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+app.use(bodyParser.json({ limit: '50mb' }))
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
@@ -27,14 +31,12 @@ app.use('/users', usersRouter)
 app.use('/settings', settingsRouter)
 app.use('/login', loginRouter)
 app.use('/tags', tagsRouter)
+app.use('/auth', authRouter)
 
 app.use(middleware.authenticateJWT)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
 //cookies
-app.use(cookieParser())
-app.use(bodyParser.json({ limit: '50mb' }))
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 
 module.exports = app

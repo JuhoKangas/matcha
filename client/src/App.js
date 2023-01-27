@@ -17,10 +17,11 @@ import { useSelector } from 'react-redux'
 import Home from './routes/Home'
 import Landing from './routes/Landing'
 import { Toaster } from 'react-hot-toast'
+import authService from './services/auth'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
-  console.log('This is user from App.js: ', user)
+  authService.checkToken().then((res) => console.log('res is ', res))
 
   return (
     <div className="flex flex-col justify-between min-h-screen bg-almost-black">

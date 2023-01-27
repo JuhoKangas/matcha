@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import {  loginUser } from "../reducers/userReducer"
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../reducers/userReducer'
 
 const Login = ({ setToken }) => {
   const dispatch = useDispatch()
@@ -24,15 +24,15 @@ const Login = ({ setToken }) => {
   }, [])
 
   const login = async (event) => {
-		//comment
+    //comment
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
-      event.target.email.value = ""
-      event.target.password.value = ""
-	  dispatch(loginUser(email, password, coordinates))
-	  // TO DO: navigate user to home only if successfully logged in
-		navigate("/setup")
+    event.target.email.value = ''
+    event.target.password.value = ''
+    dispatch(loginUser(email, password, coordinates))
+    // TO DO: navigate user to home only if successfully logged in
+    navigate('/setup')
   }
 
   return (
@@ -111,7 +111,7 @@ const Login = ({ setToken }) => {
           </div>
           <hr />
           <div className="flex items-center justify-center mt-5 mb-5">
-			{/* TODO: Create a path for forgot password */}
+            {/* TODO: Create a path for forgot password */}
             <Link
               className="inline-block align-baseline font-bold text-sm text-chitty-chitty hover:text-blue-800"
               to="/reset_password"
