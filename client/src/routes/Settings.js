@@ -20,7 +20,7 @@ const Settings = ({ user }) => {
 
   const [confirmPassword, setConfirmPassword] = useState('')
   const [file, setFile] = useState('')
-  const [dbPhotoFile, setDbPhotoFile] = useState('')
+  const [dbPhotoFile, setDbPhotoFile] = useState(user.profilePicture)
   const [formData, setFormData] = useState({
     genderIdentity: user.genderIdentity,
     genderInterest: user.genderInterest,

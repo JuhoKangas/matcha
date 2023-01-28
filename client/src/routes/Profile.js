@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 //import photo from "../assets/woman.jpg"
 
 const Profile = ({ user }) => {
+	console.log(user)
   const navigate = useNavigate()
 
   const navigateUserSettings = () => {

@@ -2,11 +2,12 @@ import React from 'react'
 import Tag from './Tag'
 
 const Card = ({ user }) => {
+	console.log("This is user from card ", user)
   return (
     <div className='p-3 flex flex-col items-center'>
       <div className='w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg'>
         <img
-          src={user.profile_picture}
+          src={require(`../assets/img/${user.profile_picture}`)}
           className='w-full rounded-t-lg user-image p-1'
           title='tphoto'
           alt='Profile pics'
