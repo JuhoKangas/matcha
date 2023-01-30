@@ -7,8 +7,13 @@ loginRouter.post('/', async (req, res) => {
   const { email, password, coordinates } = req.body
 
   const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
+  const photosData = await db.query('SELECT photo FROM photos WHERE user_id = $1', [
+    data.rows[0].id,
+  ])
   const user = data.rows[0]
+	const photos = photosData.rows
 
+	console.log(photos)
   if (!user) {
     return res.status(401).json({
       error: 'invalid username or password',
@@ -62,6 +67,7 @@ loginRouter.post('/', async (req, res) => {
       genderInterest: user.gender_interest,
       bio: user.bio,
       profilePicture: user.profile_picture,
+      photos: photos,
     })
 })
 

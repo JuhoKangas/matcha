@@ -50,11 +50,13 @@ const Photos = ({ user }) => {
         </div>
       </form>
       <div className='flex items-center justify-center bg-almost-white h-96 p-2 mt-10'>
-        <img
-          src={require(`../assets/img/beanie.jpg`)}
-          alt=''
-          className='object-cover h-96 w-96 border border-almost-white'
-        />
+        {user.photos.map((photo) => (
+          <img
+            src={require(`../assets/img/${photo.photo}`)}
+            alt=''
+            className='object-cover h-96 w-96 border border-almost-white'
+          />
+					))}
       </div>
     </div>
   )

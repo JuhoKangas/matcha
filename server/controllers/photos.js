@@ -4,12 +4,12 @@ const { v4: uuidv4 } = require('uuid');
 
 photosRouter.post('/', async (req, res) => {
   const userPhoto = req.body
-	const photoName = uuidv4()
-	const finalPhotoName = `${photoName}.jpg`
+/* 	const photoName = uuidv4()
+	const finalPhotoName = `${photoName}.jpg` */
   try {
     const result = await db.query(
       'INSERT INTO photos (user_id, photo) VALUES ($1, $2) returning *',
-      [userPhoto.userId, finalPhotoName]
+      [userPhoto.userId, userPhoto.photo]
     )
 
     res.status(200).json({
