@@ -16,13 +16,13 @@ loginRouter.post('/', async (req, res) => {
   }
 
   //comment out if manually created user (due to password not being hashed)
-  /*   const passwordCorrect = await bcrypt.compare(password, user.password)
+  const passwordCorrect = await bcrypt.compare(password, user.password)
 
   if (!passwordCorrect) {
     return res.status(401).json({
       error: 'invalid username or password',
     })
-  } */
+  }
 
   if (coordinates) {
     const updatedCoordinates = await db.query(
