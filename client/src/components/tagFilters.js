@@ -32,7 +32,7 @@ const TagFilters = () => {
   }
 
   return (
-    <div className="flex flex-wrap gap-2 my-3 justify-center">
+    <div className="flex flex-wrap gap-2 my-3 justify-center w-3/5">
       {allTags.map((tag) => (
         <Tag key={tag.id} tagName={tag.tagname} onClick={handleTag} />
       ))}

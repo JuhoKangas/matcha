@@ -1,10 +1,12 @@
 import React from 'react'
-import TagFilters from './tagFilters'
+import TagFilters from './TagFilters'
+import AgeFilters from './AgeFilters'
 
 const Filters = () => {
   return (
-    <div className='flex flex-wrap gap-2 my-3 justify-center'>
+    <div className="flex items-center flew-wrap flex-col gap-2 my-3 justify-center">
       <TagFilters />
+      <AgeFilters />
     </div>
   )
 }
