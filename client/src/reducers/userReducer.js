@@ -61,6 +61,19 @@ export const updateSettings = (updatedUserInfo) => {
   }
 }
 
+export const uploadPhoto = (userPhoto) => {
+  return async (dispatch) => {
+    const response = await userService.upload(userPhoto)
+		console.log("This is response from useReducer", response)
+    if (response.status === 200) {
+      toast.success('You have successfully uploaded a photo!')
+    } else {
+      console.log('upload failed, status: ', response.status)
+      toast.error('Error occured, your photo was not uploaded.')
+    }
+  }
+}
+
 export const registerUser = (newUser) => {
   return async (dispatch) => {
     const response = await userService.create(newUser)

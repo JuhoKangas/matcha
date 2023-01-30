@@ -41,7 +41,7 @@ const App = () => {
             {user.bio && (
               <Route path='/settings' element={<Settings user={user} />} />
             )}
-            {user.bio && <Route path='/photos' element={<Photos />} />}
+            {user.bio && <Route path='/photos' element={<Photos user={user} />} />}
             {user.bio && <Route path='/blocked' element={<Blocked />} />}
             {<Route path='/setup' element={<Setup user={user} />} />}
           </Routes>
