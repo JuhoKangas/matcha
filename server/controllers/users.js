@@ -10,6 +10,13 @@ usersRouter.get('/', async (request, response) => {
   response.json({ data })
 })
 
+usersRouter.get('/:id', async (request, response) => {
+  const data = await db.query('SELECT * FROM users WHERE id = $1', [
+    request.params.id,
+  ])
+  response.json({ data })
+})
+
 usersRouter.post('/', async (request, response) => {
   try {
     const data = request.body
