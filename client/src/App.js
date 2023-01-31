@@ -36,9 +36,7 @@ const App = () => {
         .then((res) => {
           axios.get(`http://localhost:3001/users/${res.id}`).then((res) => {
             dispatch(setUser(res.data.data.rows[0]))
-            setTimeout(() => {
-              setIsLoading(false)
-            }, 3000)
+            setIsLoading(false)
           })
         })
         .catch((err) => console.log(err))
