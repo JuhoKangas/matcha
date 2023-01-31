@@ -34,6 +34,7 @@ const App = () => {
       authService
         .checkToken()
         .then((res) => {
+          // Todo: move axios to services
           axios.get(`http://localhost:3001/users/${res.id}`).then((res) => {
             dispatch(setUser(res.data.data.rows[0]))
             setIsLoading(false)
@@ -51,6 +52,7 @@ const App = () => {
         <Toaster position="top-center" reverseOrder={false} />
         <div className="grow">
           {isLoading ? (
+            // Todo: fix the css to position the hearts to the middle of the page
             <Hearts
               height="80"
               width="80"
@@ -59,7 +61,6 @@ const App = () => {
               wrapperStyle={{}}
               wrapperClass=""
               visible={true}
-              className="mx-auto my-auto"
             />
           ) : (
             <Routes>
