@@ -222,7 +222,7 @@ const Setup = ({ user }) => {
                     alt=''
                   />
                 ) : (
-                  <p></p>
+                  ''
                 )}
                 <input type='file' onChange={handlePhotoChange} />
               </div>

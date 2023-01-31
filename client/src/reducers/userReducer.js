@@ -9,10 +9,14 @@ const userSlice = createSlice({
     setUser(state, action) {
       return (state = action.payload)
     },
+		setPhotos(state, action) {
+			const userPhotos = {...state, photos: action.payload}
+			return userPhotos
+		}
   },
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, setPhotos } = userSlice.actions
 
 export const initializeUser = (userId) => {
   return async (dispatch) => {
@@ -64,14 +68,30 @@ export const updateSettings = (updatedUserInfo) => {
 export const uploadPhoto = (userPhoto) => {
   return async (dispatch) => {
     const response = await userService.upload(userPhoto)
-		console.log("This is response from useReducer", response)
+    console.log('This is response from useReducer', response)
     if (response.status === 200) {
       toast.success('You have successfully uploaded a photo!')
+      dispatch(setPhotos(response.data.photos))
+			console.log(response.data.photos)
     } else {
       console.log('upload failed, status: ', response.status)
       toast.error('Error occured, your photo was not uploaded.')
     }
   }
+}
+
+export const deletePhoto = (deleteUserPhoto) => {
+	return async (dispatch) => {
+		const response = await userService.deletePhoto(deleteUserPhoto)
+		if (response.status === 200) {
+			console.log('This is response from deletePhoto in useReducer', response)
+			toast.success('You have successfully deleted your photo!')
+			dispatch(setPhotos(response.data.photos))
+		} else {
+      console.log('delete photo failed, status: ', response.status)
+      toast.error('Error occured, your photo was not deleted.')
+    }
+	}
 }
 
 export const registerUser = (newUser) => {
