@@ -11,6 +11,7 @@ import Settings from './routes/Settings'
 import Photos from './routes/Photos'
 import Blocked from './routes/Blocked'
 import Setup from './routes/Setup'
+import Chat from './routes/Chat'
 import Footer from './components/Footer'
 
 import { useSelector } from 'react-redux'
@@ -20,6 +21,7 @@ import { Toaster } from 'react-hot-toast'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
+	const users = useSelector(({ users }) => users)
   console.log('This is user from App.js: ', user)
 
   return (
@@ -41,9 +43,12 @@ const App = () => {
             {user.bio && (
               <Route path='/settings' element={<Settings user={user} />} />
             )}
-            {user.bio && <Route path='/photos' element={<Photos user={user} />} />}
+            {user.bio && (
+              <Route path='/photos' element={<Photos user={user} />} />
+            )}
             {user.bio && <Route path='/blocked' element={<Blocked />} />}
             {<Route path='/setup' element={<Setup user={user} />} />}
+            {user.bio && <Route path='/chat' element={<Chat users={users} />} />}
           </Routes>
         </div>
       </Router>
