@@ -2,6 +2,11 @@ import axios from "axios"
 
 const baseUrl = "http://localhost:3001/chats"
 
+const createNewChat = (newChat) => {
+	console.log("In chat services")
+	return axios.post(baseUrl, newChat)
+}
+
 const getAllChats = (userId) => {
   const request = axios.get(baseUrl, userId)
   return request.then((res) => res.data)
@@ -13,9 +18,9 @@ const getSelectedChat = (recipientUserId) => {
 }
 
 const updateUnreadChatMessages = (chatId) => { // in the backend, this has to do two things: set the number of unread messages in "Chat" table to 0 and set "read status" of every message in "Message table" that was unread (1) to read (0)in the respective chat
-  const request = axios.post(baseUrl, chatId)
+  const request = axios.put(baseUrl, chatId)
   return request.then((res) => res.data)
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAllChats, getSelectedChat, updateUnreadChatMessages }
+export default { getAllChats, getSelectedChat, updateUnreadChatMessages, createNewChat }

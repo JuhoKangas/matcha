@@ -1,9 +1,15 @@
 import { useDispatch } from 'react-redux'
 import { selectOneChat } from '../reducers/chatReducer'
+import { createChat } from '../reducers/chatReducer'
 
 const UserChatList = ({ loggedUser, users, chats }) => {
   const dispatch = useDispatch()
   const openChat = (recipientUser) => {
+		const newChat = {
+			loggedUserId: loggedUser.id,
+			recipientId: recipientUser.id
+		}
+		dispatch(createChat(newChat))
     //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
     //dispatch(selectOneChat(chat)) --> when we have the backend responsible for getting this data from db
     console.log('This is recipient id: ', recipientUser)
@@ -36,7 +42,8 @@ const UserChatList = ({ loggedUser, users, chats }) => {
           >
             <div className='flex gap-5 items-center'>
               <img
-                src='./dog.png'
+                //src='./dog.png'
+                src={require(`../assets/img/${user.profile_picture}`)}
                 alt='profile-pic'
                 className='w-10 h-10 rounded-full'
               />

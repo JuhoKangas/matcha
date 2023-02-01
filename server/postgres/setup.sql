@@ -34,3 +34,13 @@ CREATE TABLE IF NOT EXISTS photos (
 	user_id INT NOT NULL,
 	photo VARCHAR(1000)
 );
+
+CREATE TABLE IF NOT EXISTS chats (
+	id SERIAL NOT NULL PRIMARY KEY,
+	logged_user INT,
+	recipient_user INT,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	unread_messages INT DEFAULT 0,
+	last_message_sender INT DEFAULT 0,
+	last_message_text VARCHAR(1000)
+);

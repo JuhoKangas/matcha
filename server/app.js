@@ -8,6 +8,7 @@ const settingsRouter = require('./controllers/settings')
 const loginRouter = require('./controllers/login')
 const tagsRouter = require('./controllers/tags')
 const photosRouter = require('./controllers/photos')
+const chatsRouter = require('./controllers/chats')
 
 //cookies
 const cookieParser = require('cookie-parser')
@@ -29,6 +30,7 @@ app.use('/settings', settingsRouter)
 app.use('/login', loginRouter)
 app.use('/tags', tagsRouter)
 app.use('/photos', photosRouter)
+app.use('/chats', chatsRouter)
 
 app.use(middleware.authenticateJWT)
 app.use(middleware.unknownEndpoint)
