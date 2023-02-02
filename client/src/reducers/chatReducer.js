@@ -39,7 +39,6 @@ export const createChat = (newChat) => {
 export const initializeChats = (userId) => {
   return async (dispatch) => {
 		const response = await chatService.getAllChats(userId)
-		console.log("This is response from chat reducer", response)
 		if (response.status === 200) {
 			dispatch(setChats(response.data.chats))
 		} else

@@ -3,27 +3,24 @@ import { useSelector } from "react-redux"
 import ChatArea from "../components/ChatArea"
 import UserChatList from "../components/UserChatList"
 import { useDispatch } from 'react-redux'
-import { initializeUsers } from "../reducers/usersReducer"
 import { initializeChats } from "../reducers/chatReducer"
 
-const Chat = ({users}) => {
+const Chat = () => {
   const user = useSelector(({ user }) => user)
-	//const users = useSelector(({ users }) => users)
 	const chats = useSelector(({ chats }) => chats)
 	const messages = useSelector(({ messages }) => messages)
 	//console.log("These are users from Chat: ", users)
 	//const {selectedChat} = useSelector(state => state.chatReducer)
 
 	const dispatch = useDispatch()
-
-  useEffect(() => {
-		//dispatch(initializeUsers())
-    dispatch(initializeChats(user.id))
+	
+	useEffect(() => {
+		dispatch(initializeChats(user.id))
   }, [dispatch])
 
   console.log("chat user is: ", user)
 	//console.log("chat users: ", users)
-	console.log("chat: ", chats)
+	console.log("chat: ", chats.allChats)
 
   return (
     <div className="h-screen w-screen">

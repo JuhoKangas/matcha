@@ -21,7 +21,7 @@ import { Toaster } from 'react-hot-toast'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
-	const users = useSelector(({ users }) => users)
+	//const users = useSelector(({ users }) => users)
   console.log('This is user from App.js: ', user)
 
   return (
@@ -48,7 +48,7 @@ const App = () => {
             )}
             {user.bio && <Route path='/blocked' element={<Blocked />} />}
             {<Route path='/setup' element={<Setup user={user} />} />}
-            {user.bio && <Route path='/chat' element={<Chat users={users} />} />}
+            {user.bio && <Route path='/chat' element={<Chat />} />}
           </Routes>
         </div>
       </Router>

@@ -6,7 +6,7 @@ const UserChatList = ({ loggedUser,  chats }) => {
   const openChat = (openedChat) => {
     //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
     //dispatch(selectOneChat(chat)) --> when we have the backend responsible for getting this data from db
-    console.log('This is recipient id: ', openedChat)
+    console.log('This is info about selected chat: ', openedChat)
   }
 
   const getLastMessage = (recipientUser) => {
@@ -27,7 +27,7 @@ const UserChatList = ({ loggedUser,  chats }) => {
 
   return (
     <div className='flex flex-col gap-3 w-96 '>
-      {chats.map((chat) => {
+      {chats && chats.map((chat) => {
         return loggedUser.id !== chat.recipient_user_id ? (
           <div
             className='bg-almost-white ring-chitty-chitty rounded-2xl p-5 ring-4'

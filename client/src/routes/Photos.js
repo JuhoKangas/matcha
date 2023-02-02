@@ -83,7 +83,7 @@ const Photos = ({ user }) => {
         </div>
       </form>
       <h2 className='text-center font-montserrat font-bold leading-tight text-almost-white text-4xl mt-20'>
-        ✨ Your Images ✨
+        ✨ My Images ✨
       </h2>
       <div className='flex flex-col justify-center items-center'>
         <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
