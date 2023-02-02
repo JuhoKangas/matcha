@@ -3,13 +3,14 @@ import axios from "axios"
 const baseUrl = "http://localhost:3001/chats"
 
 const createNewChat = (newChat) => {
-	console.log("In chat services")
+	console.log("This is new chat from card", newChat)
 	return axios.post(baseUrl, newChat)
 }
 
 const getAllChats = (userId) => {
-  const request = axios.get(baseUrl, userId)
-  return request.then((res) => res.data)
+  return axios.get(baseUrl, {params: {userId: userId}})
+/* 	console.log("Request from services to get all chats", request)
+  return request.then((res) => res.rows) */
 }
 
 const getSelectedChat = (recipientUserId) => {

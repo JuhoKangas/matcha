@@ -1,8 +1,23 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import Tag from './Tag'
+import { createChat } from '../reducers/chatReducer'
+import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
-const Card = ({ user }) => {
+const Card = ({ user, loggedUser }) => {
 	console.log("This is user from card ", user)
+	const dispatch = useDispatch()
+
+	const setupChat = () => {
+		const newChat = {
+			loggedUserId: loggedUser.id,
+			recipientId: user.id,
+			recipientImg: user.profile_picture,
+			recipientUsername: user.username
+		}
+		dispatch(createChat(newChat))
+	}
+
   return (
     <div className='p-3 flex flex-col items-center'>
       <div className='w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg'>
@@ -43,6 +58,19 @@ const Card = ({ user }) => {
               <span className='text-chitty-chitty'>Bio: </span>
               <span className='text-gray-400'>{user.bio}</span>
             </div>
+						<div className='flex flex-row justify-between'>
+							<button
+									className='w-10 mt-4'
+									onClick={setupChat}
+								>
+									<HeartIcon className='h-8 w-8' />
+								</button>
+								<button
+									className='w-10 mt-4'
+								>
+									<XMarkIcon className='h-8 w-8' />
+								</button>
+						</div>
           </div>
         </div>
       </div>

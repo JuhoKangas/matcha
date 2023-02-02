@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import chatService from '../services/chats'
+import toast from 'react-hot-toast'
 
 const chatSlice = createSlice({
   name: 'chats',
@@ -8,9 +9,12 @@ const chatSlice = createSlice({
     selectedChat: null,
   },
   reducers: {
-    setChats(state, action) {
-      return (state.allChats = action.payload)
-    },
+		setChats: (state, action) => {
+			state.allChats = action.payload
+		},
+/*     setChats(state, action) {
+			return (state.allChats = action.payload)
+    }, */
     setSelectedChat(state, action) {
       return (state.selectedChat = action.payload)
     },
@@ -23,18 +27,23 @@ const chatSlice = createSlice({
 export const createChat = (newChat) => {
   return async (dispatch) => {
 		const response = await chatService.createNewChat(newChat)
-		console.log("In chat reducer", response)
-    if (response.status === 201) 
+    if (response.status === 201) {
+			toast.success('Matched!')
 			dispatch(setNewChat(response.data))
+		}
     else
-      console.log('registration failed, status: ', response.status)
+      console.log('chat creation failed, status: ', response.status)
   }
 }
 
 export const initializeChats = (userId) => {
   return async (dispatch) => {
-    const chats = await chatService.getAllChats(userId)
-    dispatch(setChats(chats.data))
+		const response = await chatService.getAllChats(userId)
+		console.log("This is response from chat reducer", response)
+		if (response.status === 200) {
+			dispatch(setChats(response.data.chats))
+		} else
+			console.log('chat init failed, status: ', response.status) 
   }
 }
 

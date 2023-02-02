@@ -6,6 +6,7 @@ import userReducer from './reducers/userReducer'
 import filterReducer from './reducers/filterReducer'
 import tagFilterReducer from './reducers/tagFilterReducer'
 import tagsReducer from './reducers/tagsReducer'
+import chatReducer from './reducers/chatReducer'
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     filters: filterReducer,
     tagFilters: tagFilterReducer,
     tags: tagsReducer,
+		chats: chatReducer
   },
 })
 

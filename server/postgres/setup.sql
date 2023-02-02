@@ -37,8 +37,10 @@ CREATE TABLE IF NOT EXISTS photos (
 
 CREATE TABLE IF NOT EXISTS chats (
 	id SERIAL NOT NULL PRIMARY KEY,
-	logged_user INT,
-	recipient_user INT,
+	logged_user_id VARCHAR(255),
+	recipient_user_id VARCHAR(255),
+	recipient_user_img VARCHAR(255),
+	recipient_user_username VARCHAR(1000),
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	unread_messages INT DEFAULT 0,
 	last_message_sender INT DEFAULT 0,

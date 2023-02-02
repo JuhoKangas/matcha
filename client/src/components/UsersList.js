@@ -11,7 +11,7 @@ const UsersList = () => {
   return (
     <div className="flex flex-col gap-8">
       {filteredUsers.map((user) => (
-        loggedInUser.id !== user.id ? <Card key={user.id} user={user} /> : <p></p>
+        loggedInUser.id !== user.id ? <Card key={user.id} user={user} loggedUser={loggedInUser} /> : <p></p>
       ))}
     </div>
   )
