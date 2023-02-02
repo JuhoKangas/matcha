@@ -7,6 +7,8 @@ import TagFilters from './TagFilters'
 import AgeFilters from './AgeFilters'
 import DistanceFilters from './DistanceFilters'
 
+import { getDistance } from 'geolib'
+
 const Filters = () => {
   const dispatch = useDispatch()
 
@@ -15,7 +17,7 @@ const Filters = () => {
 
   const tagFilters = useSelector(({ tagFilters }) => tagFilters)
   const ageFilters = useSelector(({ ageFilters }) => ageFilters)
-  // const distanceFilters = useSelector(({ distanceFilters }) => distanceFilters)
+  const distanceFilters = useSelector(({ distanceFilters }) => distanceFilters)
 
   useEffect(() => {
     const allUsers = [...users]
@@ -28,20 +30,33 @@ const Filters = () => {
         if (tagFilters.every((tag) => u.tags.includes(tag)) !== true)
           return false
       }
+
+      //getDistance() has 1m accuracy, unless specified otherwise. Returns in meters
+      const dist = getDistance(
+        {
+          latitude: loggedInUser.latitude,
+          longitude: loggedInUser.longitude,
+        },
+        { latitude: u.latitude, longitude: u.longitude }
+      )
+
+      if (dist < distanceFilters[0]) return false
+      if (dist > distanceFilters[1]) return false
+
       return true
     }
 
     const filteredAll = allUsers.filter(passesFilters)
 
     dispatch(setFilteredUsers(filteredAll))
-  }, [users, ageFilters, tagFilters, loggedInUser, dispatch])
+  }, [users, ageFilters, tagFilters, loggedInUser, distanceFilters, dispatch])
 
   return (
     <div className="flex items-center flew-wrap flex-col gap-2 my-3 justify-center">
       <TagFilters />
       <AgeFilters />
-      {/* <FameFilters /> */}
       <DistanceFilters />
+      {/* <FameFilters /> */}
     </div>
   )
 }
