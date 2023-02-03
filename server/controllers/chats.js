@@ -32,6 +32,19 @@ chatsRouter.post('/', async (req, res) => {
   }
 })
 
+chatsRouter.get('/selected', async (req, res) => {
+	try {
+		const result = await db.query('SELECT * FROM chats WHERE id = $1', [req.query.openedChatId])
+		const chatInfo = result.rows[0]
+		res.status(200).json({ 
+			status: 'success',
+			chats: chatInfo
+		})
+	} catch (err) {
+    console.log(err)
+  }
+})
+
 /* usersRouter.put('/setup', async (request, response) => {
   try {
     const data = request.body

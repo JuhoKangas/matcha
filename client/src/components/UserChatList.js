@@ -3,10 +3,10 @@ import { selectOneChat } from '../reducers/chatReducer'
 
 const UserChatList = ({ loggedUser,  chats }) => {
   const dispatch = useDispatch()
-  const openChat = (openedChat) => {
+  const openChat = (openedChatId) => {
     //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
-    //dispatch(selectOneChat(chat)) --> when we have the backend responsible for getting this data from db
-    console.log('This is info about selected chat: ', openedChat)
+    dispatch(selectOneChat(openedChatId))
+    console.log('This is info about selected chat: ', openedChatId)
   }
 
   const getLastMessage = (recipientUser) => {
@@ -32,7 +32,7 @@ const UserChatList = ({ loggedUser,  chats }) => {
           <div
             className='bg-almost-white ring-chitty-chitty rounded-2xl p-5 ring-4'
             key={chat.id}
-            onClick={() => openChat(chat)}
+            onClick={() => openChat(chat.id)}
           >
             <div className='flex gap-5 items-center'>
               <img

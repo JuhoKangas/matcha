@@ -6,9 +6,10 @@ import { faCheckDouble } from "@fortawesome/free-solid-svg-icons"
 import { updateUnreadMessagesToRead, setSelectedChat } from "../reducers/chatReducer"
 import { messageSend, getAllMessages } from "../reducers/messageReducer"
 
-const ChatArea = (loggedUser) => {
+const ChatArea = ({loggedUser, selectedChat}) => {
 	const dispatch = useDispatch()
-  //const {selectedChat} = useSelector(state => state.chatReducer) --> when backend is done
+	console.log(selectedChat)
+  //const {selectedChat} = useSelector(state => state.chatReducer)
   // const recipient = selectedChat.recipient --> when backend is done
 
   const sendNewMessage = (event) => {
@@ -44,31 +45,21 @@ const ChatArea = (loggedUser) => {
 
   return (
     <>
-      <head>
+{/*       <head>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         />
-      </head>
+      </head> */}
       <div className="flex flex-col justify-between bg-almost-white border rounded-2xl h-[85vh] p-5">
         <div>
-          {/* 				<div className="flex gap-5 items-center mb-2">
-              <img
-                src="./dog.png"
-                alt="profile-pic"
-                className="w-10 h-10 rounded-full"
-              />
-              <h1 className="uppercase">{recipient.username}</h1>
-          </div> --> when backend is done
-					<hr />
-*/}
           <div className="flex gap-5 items-center mb-2">
             <img
-              src="./dog.png"
+              src={require(`../assets/img/${selectedChat.recipient_user_img}`)}
               alt="profile-pic"
               className="w-10 h-10 rounded-full"
             />
-            <h1 className="uppercase">RANDO</h1>
+            <h1 className="uppercase">{selectedChat.recipient_user_username}</h1>
           </div>
           <hr />
         </div>

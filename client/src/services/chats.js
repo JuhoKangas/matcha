@@ -1,6 +1,7 @@
 import axios from "axios"
 
 const baseUrl = "http://localhost:3001/chats"
+const selectedChatUrl = "http://localhost:3001/chats/selected"
 
 const createNewChat = (newChat) => {
 	console.log("This is new chat from card", newChat)
@@ -13,9 +14,9 @@ const getAllChats = (userId) => {
   return request.then((res) => res.rows) */
 }
 
-const getSelectedChat = (recipientUserId) => {
-  const request = axios.get(baseUrl, recipientUserId)
-  return request.then((res) => res.data)
+const getSelectedChat = (openedChatId) => {
+  return axios.get(selectedChatUrl, {params: {openedChatId: openedChatId}})
+  //return request.then((res) => res.data)
 }
 
 const updateUnreadChatMessages = (chatId) => { // in the backend, this has to do two things: set the number of unread messages in "Chat" table to 0 and set "read status" of every message in "Message table" that was unread (1) to read (0)in the respective chat

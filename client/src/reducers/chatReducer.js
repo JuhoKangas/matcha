@@ -15,8 +15,8 @@ const chatSlice = createSlice({
 /*     setChats(state, action) {
 			return (state.allChats = action.payload)
     }, */
-    setSelectedChat(state, action) {
-      return (state.selectedChat = action.payload)
+    setSelectedChat: (state, action) => {
+     state.selectedChat = action.payload
     },
     setNewChat(state, action) {
       return (state = action.payload)
@@ -46,10 +46,14 @@ export const initializeChats = (userId) => {
   }
 }
 
-export const selectOneChat = (recipientUserId) => {
+export const selectOneChat = (openedChatId) => {
   return async (dispatch) => {
-    const chat = await chatService.getSelectedChat(recipientUserId)
-    dispatch(setSelectedChat(chat.data))
+    const response = await chatService.getSelectedChat(openedChatId)
+		console.log("This is info about opened chat: ", response)
+		if (response.status === 200) {
+			dispatch(setSelectedChat(response.data.chats))
+		} else
+			console.log('chat init failed, status: ', response.status) 
   }
 }
 
