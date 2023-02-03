@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { setFilteredUsers } from '../reducers/filteredUsersReducer'
 import { initializeUsers } from '../reducers/usersReducer'
+import { setSelectedChat } from '../reducers/chatReducer'
 
 const Home = (props) => {
   const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const Home = (props) => {
 
   useEffect(() => {
     dispatch(initializeUsers())
+		dispatch(setSelectedChat(null))
   }, [dispatch])
 
   const tagFilters = useSelector(({ tagFilters }) => tagFilters)
