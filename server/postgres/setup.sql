@@ -46,3 +46,12 @@ CREATE TABLE IF NOT EXISTS chats (
 	last_message_sender INT DEFAULT 0,
 	last_message_text VARCHAR(1000)
 );
+
+CREATE TABLE IF NOT EXISTS messages (
+	id SERIAL NOT NULL PRIMARY KEY,
+	chat_id VARCHAR(255),
+	sender VARCHAR(255),
+	text VARCHAR(1000),
+	read SMALLINT DEFAULT 0,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

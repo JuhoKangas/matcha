@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import toast from "react-hot-toast"
 import messageService from "../services/messages"
 
 const messageSlice = createSlice({
@@ -8,31 +9,41 @@ const messageSlice = createSlice({
 		newMessage: ""
 	},
   reducers: {
-    setMessages(state, action) {
-      return (state.messages = action.payload)
+    setMessages: (state, action) => {
+      state.messages = action.payload
     },
-		setNewMessage(state, action) {
-      return (state.newMessage = action.payload)
+		setNewMessage: (state, action) => {
+      state.newMessage = action.payload
     },
   },
 })
 
-export const messageSend = (text, userId, chatId) => {
+export const messageSend = (message) => {
   return async (dispatch) => {
-    const sentMessage = await messageService.sendMessage(text, userId, chatId)
-		if (sentMessage.status === 200)
+    const response = await messageService.sendMessage(message)
+		const responseChat = await messageService.updateChatLastMessage(message)
+		if (response.status === 201 && responseChat.status === 200)
 		{
-    	dispatch(setNewMessage(sentMessage.data))
-			setNewMessage("")
+    	dispatch(setNewMessage(response.data))
+		} else {
+			console.log('message was not sent, status: ', response.status)
+			toast.error('Sending message failed.')
 		}
   }
 }
 
-export const getAllMessages = () => {
+export const getAllMessages = (selectedChatId) => {
   return async (dispatch) => {
-    const allMessages = await messageService.getChatMessages()
-    dispatch(setMessages(allMessages.data))
-  }
+		console.log("In get all mesgs in reducer")
+    const response = await messageService.getChatMessages(selectedChatId)
+		console.log("response from geting all chat messages", response)
+		if (response.status === 200) {
+			console.log("Response data messages is this", response.data.messages)
+    	dispatch(setMessages(response.data.messages))
+		}
+		else
+			console.log('loading messages failed, status: ', response.status)
+  } 
 }
 
 export const { setMessages, setNewMessage } = messageSlice.actions

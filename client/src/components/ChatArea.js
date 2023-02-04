@@ -1,34 +1,38 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons"
-import { updateUnreadMessagesToRead, setSelectedChat } from "../reducers/chatReducer"
+import { updateUnreadMessagesToRead } from "../reducers/chatReducer"
 import { messageSend, getAllMessages } from "../reducers/messageReducer"
 
-const ChatArea = ({loggedUser, selectedChat}) => {
+const ChatArea = ({loggedUser, selectedChat, messages}) => {
 	const dispatch = useDispatch()
-	console.log(selectedChat)
-  //const {selectedChat} = useSelector(state => state.chatReducer)
-  // const recipient = selectedChat.recipient --> when backend is done
 
-  const sendNewMessage = (event) => {
-		event.preventDefault()
-		const text = event.target.text.value
-		const userId = loggedUser.id
-		//const chatId = selectedChat.id --> when backend is done
-/*     try {
+	console.log("messages", messages)
+	const [newMessage, setNewMessage] = useState('')
+
+	console.log("all messages", messages)
+	
+  const sendNewMessage = (e) => {
+		e.preventDefault()
+		const loggedUserId = loggedUser.id
+		const chatId = selectedChat.id
+   
       const message = {
         text: newMessage,
-        sender: loggedUser.id,
-        chat: selectedChat.id --> when backend is done
-      }; */
-      //dispatch(messageSend(text, userId, chatId));
-      /* setNewMessage(""); */
-/*     } catch (error) {
-      console.log(error);
-    } */
+        sender: loggedUserId,
+        chat: chatId
+      };
+			console.log("This is message info ", message)
+      dispatch(messageSend(message));
+			setNewMessage('')
   };
+
+	useEffect(() => {
+		dispatch(getAllMessages(selectedChat.id))
+		console.log("messages", messages)
+	}, [selectedChat])
 
 /* 	const clearUnreadMessages = () => {
 		const chatId = selectedChat.id --> when backend is done
@@ -36,7 +40,7 @@ const ChatArea = ({loggedUser, selectedChat}) => {
 	} */
 
 /* 	useEffect(() => {
-		getAllMessages()
+		getAllMessages(selectedChat.id)
 		if (selectedChat.lastMessage.sender !== loggedUser.id)
 		{
 			clearUnreadMessages()
@@ -66,16 +70,15 @@ const ChatArea = ({loggedUser, selectedChat}) => {
 
         <div className="h-[65vh] overflow-y-scroll">
 					<div className="flex flex-col gap-2">
-{/* 						{messages.map((message) => {
-							return 
+						{messages && messages.map((message) => {						
 								<div className={`flex ${message.sender === loggedUser.id} && justify-end`}>
 										<div className="flex flex-col gap-1">
 											<h1 className={`${message.sender === loggedUser.id ? "bg-bang-bang" : "bg-almost-white"} p-2 rounded-xl`}>{message.text}</h1>
 											<h1 className="text-sm">{message.createdAt}</h1>
-											{message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""}
+											{/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
 										</div>
 								</div>
-							})} */}
+							})}
 					</div>
 				</div>
         <div>
@@ -84,14 +87,11 @@ const ChatArea = ({loggedUser, selectedChat}) => {
               type="text"
               placeholder="Write a message"
               className="w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0"
-							name="text"
-/*               value={newMessage}
-              onChange={(e) => {
-                setNewMessage(e.target.value);
-              }} */
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
             />
             <button className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium" onClick={sendNewMessage}>
-              <FontAwesomeIcon icon={faPaperPlane} />
+							<FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { selectOneChat } from '../reducers/chatReducer'
 
-const UserChatList = ({ loggedUser,  chats }) => {
+const UserChatList = ({ loggedUser,  chats, selectedChat }) => {
   const dispatch = useDispatch()
   const openChat = (openedChatId) => {
     //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
@@ -25,12 +25,19 @@ const UserChatList = ({ loggedUser,  chats }) => {
 			} */
   }
 
+	const isSelected = (chatId) => {
+		if (selectedChat && selectedChat.id === chatId) 
+			return true
+		else
+			return false
+	}
+
   return (
     <div className='flex flex-col gap-3 w-96 '>
       {chats && chats.map((chat) => {
-        return loggedUser.id !== chat.recipient_user_id ? (
+        return (
           <div
-            className='bg-almost-white ring-chitty-chitty rounded-2xl p-5 ring-4'
+            className={`bg-almost-white rounded-2xl p-5 cursor-pointer ${isSelected(chat.id) && 'ring-chitty-chitty ring-4'}`}
             key={chat.id}
             onClick={() => openChat(chat.id)}
           >
@@ -49,9 +56,7 @@ const UserChatList = ({ loggedUser,  chats }) => {
               </div>
             </div>
           </div>
-        ) : (
-          <></>
-        )
+				)
       })}
     </div>
   )

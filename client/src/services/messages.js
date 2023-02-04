@@ -3,14 +3,17 @@ import axios from "axios"
 const baseUrl = "http://localhost:3001/messages"
 
 const sendMessage = (message) => {
-  const request = axios.post(baseUrl, message)
-  return request.then((res) => res.data)
+  return axios.post(baseUrl, message)
 }
 
-const getChatMessages = (chatId) => {
-  const request = axios.get(baseUrl, chatId) 
-  return request.then((res) => res.data)
+const updateChatLastMessage = (message) => {
+	return axios.put(baseUrl, message)
+}
+
+const getChatMessages = (selectedChatId) => {
+	console.log("In chat get messsages", selectedChatId)
+  return axios.get(baseUrl, {params: {selectedChatId: selectedChatId}})
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { sendMessage, getChatMessages }
+export default { sendMessage, getChatMessages, updateChatLastMessage }
