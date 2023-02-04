@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { uploadPhoto, deletePhoto } from '../reducers/userReducer'
+import { setSelectedChat } from '../reducers/chatReducer'
 
 const Photos = ({ user }) => {
   const dispatch = useDispatch()
@@ -9,6 +10,10 @@ const Photos = ({ user }) => {
   const [dbPhotoFile, setDbPhotoFile] = useState('')
   const [photoToDelete, setPhotoToDelete] = useState('')
 
+  useEffect(() => {
+		dispatch(setSelectedChat(null))
+  }, [dispatch])	
+	
   const handleChange = (e) => {
     console.log(e.target.files)
     setFile(URL.createObjectURL(e.target.files[0]))
