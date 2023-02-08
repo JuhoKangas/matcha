@@ -51,7 +51,7 @@ loginRouter.post('/', async (req, res) => {
   res
     .status(200)
     .cookie('authorization', token, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000,
       path: '/',
     })
