@@ -38,7 +38,6 @@ const App = () => {
       authService
         .checkToken()
         .then((res) => {
-          // Todo: move axios to services
           authService.authUser(res.id).then((res) => {
             dispatch(setUser(res.data.rows[0]))
             setIsLoading(false)
