@@ -8,7 +8,7 @@ const Card = ({ user }) => {
   console.log('This is user from card ', user)
   const loggedInUser = useSelector(({ user }) => user)
 
-  const dist = getDistance(
+  const distance = getDistance(
     {
       latitude: loggedInUser.latitude,
       longitude: loggedInUser.longitude,
@@ -42,7 +42,7 @@ const Card = ({ user }) => {
           </div>
 
           <div className="text-sm text-gray-400">
-            {user.city}, {dist} km away
+            {user.city}, {distance} km away
           </div>
 
           <div className="my-4">

@@ -8,6 +8,7 @@ import tagFilterReducer from './reducers/tagFilterReducer'
 import tagsReducer from './reducers/tagsReducer'
 import ageFilterReducer from './reducers/ageFilterReducer'
 import distanceFilterReducer from './reducers/distanceFilterReducer'
+import fameFilterReducer from './reducers/fameFilterReducer'
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     tagFilters: tagFilterReducer,
     ageFilters: ageFilterReducer,
     distanceFilters: distanceFilterReducer,
+    fameFilters: fameFilterReducer,
   },
 })
 
