@@ -6,5 +6,11 @@ const checkToken = () => {
     .then((res) => res.data)
 }
 
+const authUser = (userId) => {
+  return axios
+    .get(`http://localhost:3001/users/${userId}`)
+    .then((res) => res.data)
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { checkToken }
+export default { checkToken, authUser }

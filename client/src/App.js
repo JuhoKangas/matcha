@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './index.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
@@ -19,7 +24,6 @@ import Home from './routes/Home'
 import Landing from './routes/Landing'
 import { Toaster } from 'react-hot-toast'
 import authService from './services/auth'
-import axios from 'axios'
 import Cookies from 'js-cookie'
 import { setUser } from './reducers/userReducer'
 
@@ -35,8 +39,8 @@ const App = () => {
         .checkToken()
         .then((res) => {
           // Todo: move axios to services
-          axios.get(`http://localhost:3001/users/${res.id}`).then((res) => {
-            dispatch(setUser(res.data.data.rows[0]))
+          authService.authUser(res.id).then((res) => {
+            dispatch(setUser(res.data.rows[0]))
             setIsLoading(false)
           })
         })
@@ -79,6 +83,7 @@ const App = () => {
               {user.bio && <Route path="/photos" element={<Photos />} />}
               {user.bio && <Route path="/blocked" element={<Blocked />} />}
               <Route path="/setup" element={<Setup user={user} />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           )}
         </div>
