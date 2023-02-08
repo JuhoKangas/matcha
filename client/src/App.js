@@ -39,7 +39,7 @@ const App = () => {
         .checkToken()
         .then((res) => {
           authService.authUser(res.id).then((res) => {
-            dispatch(setUser(res.data.rows[0]))
+            dispatch(setUser(res))
             setIsLoading(false)
           })
         })
@@ -52,37 +52,40 @@ const App = () => {
     <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
       <Router>
         {user.bio && <Navbar user={user} />}
-        <Toaster position="top-center" reverseOrder={false} />
-        <div className="grow">
+        <Toaster position='top-center' reverseOrder={false} />
+        <div className='grow'>
           {isLoading ? (
             // Todo: fix the css to position the hearts to the middle of the page
             <Hearts
-              height="80"
-              width="80"
-              color="#007991"
-              ariaLabel="hearts-loading"
+              height='80'
+              width='80'
+              color='#007991'
+              ariaLabel='hearts-loading'
               wrapperStyle={{}}
-              wrapperClass=""
+              wrapperClass=''
               visible={true}
             />
           ) : (
             <Routes>
-              <Route path="/" element={<Landing />} />
-              {user.bio && <Route path="/home" element={<Home />} />}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              {user.bio && <Route path="/matches" element={<Matches />} />}
-              {user.bio && <Route path="/browse" element={<Browse />} />}
+              <Route path='/' element={<Landing />} />
+              {user.bio && <Route path='/home' element={<Home />} />}
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
+              {user.bio && <Route path='/matches' element={<Matches />} />}
+              {user.bio && <Route path='/browse' element={<Browse />} />}
               {user.bio && (
-                <Route path="/profile" element={<Profile user={user} />} />
+                <Route path='/profile' element={<Profile user={user} />} />
               )}
               {user.bio && (
-                <Route path="/settings" element={<Settings user={user} />} />
+                <Route path='/settings' element={<Settings user={user} />} />
               )}
-              {user.bio && <Route path="/photos" element={<Photos user={user} />} />}
-              {user.bio && <Route path="/blocked" element={<Blocked />} />}
-              <Route path="/setup" element={<Setup user={user} />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              {user.bio && (
+                <Route path='/photos' element={<Photos user={user} />} />
+              )}
+              {user.bio && <Route path='/blocked' element={<Blocked />} />}
+              <Route path='/setup' element={<Setup user={user} />} />
+              {/* todo: Route path * functions incorrectly when reloading the page */}
+              {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
             </Routes>
           )}
         </div>

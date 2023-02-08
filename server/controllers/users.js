@@ -13,7 +13,8 @@ usersRouter.get('/:id', async (request, response) => {
   const data = await db.query('SELECT * FROM users WHERE id = $1', [
     request.params.id,
   ])
-  response.json({ data })
+  const user = data.rows[0]
+  response.json({ ...user, profilePicture: user.profile_picture })
 })
 
 usersRouter.post('/', async (request, response) => {
