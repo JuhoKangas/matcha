@@ -5,7 +5,9 @@ const db = require('../db/index')
 const geoip = require('geoip-lite')
 
 usersRouter.get('/', async (request, response) => {
-  const data = await db.query('SELECT * FROM users ORDER BY id')
+  const data = await db.query(
+    'SELECT id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags FROM users'
+  )
   response.json({ data })
 })
 
