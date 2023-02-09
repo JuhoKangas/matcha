@@ -10,6 +10,7 @@ const messageSlice = createSlice({
 	},
   reducers: {
     setMessages: (state, action) => {
+			console.log("IN MESSAGE REDUCER", action.payload)
       state.messages = action.payload
     },
 		setNewMessage: (state, action) => {
@@ -39,7 +40,8 @@ export const getAllMessages = (selectedChatId) => {
 		console.log("response from geting all chat messages", response)
 		if (response.status === 200) {
 			console.log("Response data messages is this", response.data.messages)
-    	dispatch(setMessages(response.data.messages))
+			const finalMessages = response.data.messages
+    	dispatch(setMessages(finalMessages))
 		}
 		else
 			console.log('loading messages failed, status: ', response.status)

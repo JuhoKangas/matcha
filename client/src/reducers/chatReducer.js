@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import chatService from '../services/chats'
 import toast from 'react-hot-toast'
+import { getAllMessages } from './messageReducer'
 
 const chatSlice = createSlice({
   name: 'chats',
@@ -49,7 +50,7 @@ export const initializeChats = (userId) => {
 export const selectOneChat = (openedChatId) => {
   return async (dispatch) => {
     const response = await chatService.getSelectedChat(openedChatId)
-		console.log("This is info about opened chat: ", response)
+		console.log("THESEEEEEEEEEEEE: ", response)
 		if (response.status === 200) {
 			dispatch(setSelectedChat(response.data.chats))
 		} else

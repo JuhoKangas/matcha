@@ -12,6 +12,7 @@ import Photos from './routes/Photos'
 import Blocked from './routes/Blocked'
 import Setup from './routes/Setup'
 import Chat from './routes/Chat'
+import OtherProfile from './routes/OtherProfile'
 import Footer from './components/Footer'
 
 import { useSelector } from 'react-redux'
@@ -49,6 +50,7 @@ const App = () => {
             {user.bio && <Route path='/blocked' element={<Blocked />} />}
             {<Route path='/setup' element={<Setup user={user} />} />}
             {user.bio && <Route path='/chat' element={<Chat />} />}
+						{user.bio && <Route path='/otherprofile' element={<OtherProfile />} />}
           </Routes>
         </div>
       </Router>

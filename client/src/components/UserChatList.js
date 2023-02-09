@@ -1,11 +1,17 @@
 import { useDispatch } from 'react-redux'
 import { selectOneChat } from '../reducers/chatReducer'
+import { useSelector } from "react-redux"
+import { getAllMessages } from '../reducers/messageReducer'
 
-const UserChatList = ({ loggedUser,  chats, selectedChat }) => {
+const UserChatList = () => {
+	const loggedUser = useSelector(({ user }) => user)
+	const chats = useSelector(({ chats }) => chats)
+	const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
   const openChat = (openedChatId) => {
     //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
     dispatch(selectOneChat(openedChatId))
+		dispatch(getAllMessages(openedChatId))
     console.log('This is info about selected chat: ', openedChatId)
   }
 
@@ -34,12 +40,13 @@ const UserChatList = ({ loggedUser,  chats, selectedChat }) => {
 
   return (
     <div className='flex flex-col gap-3 w-96 '>
-      {chats && chats.map((chat) => {
+      {chats.allChats && chats.allChats.map((chat) => {
         return (
           <div
             className={`bg-almost-white rounded-2xl p-5 cursor-pointer ${isSelected(chat.id) && 'ring-chitty-chitty ring-4'}`}
             key={chat.id}
             onClick={() => openChat(chat.id)}
+            //onClick={() => console.log(chat.id)}
           >
             <div className='flex gap-5 items-center'>
               <img

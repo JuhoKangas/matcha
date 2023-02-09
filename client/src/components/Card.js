@@ -3,10 +3,13 @@ import { useDispatch } from 'react-redux'
 import Tag from './Tag'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom'
+import { otherUserProfile } from '../reducers/usersReducer'
 
 const Card = ({ user, loggedUser }) => {
 	console.log("This is user from card ", user)
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const setupChat = () => {
 		const newChat = {
@@ -17,6 +20,10 @@ const Card = ({ user, loggedUser }) => {
 		}
 		dispatch(createChat(newChat))
 	}
+
+	const otherProfile = (userId) => {
+		dispatch(otherUserProfile(userId))
+  };
 
   return (
     <div className='p-3 flex flex-col items-center'>
@@ -31,7 +38,7 @@ const Card = ({ user, loggedUser }) => {
           <div className='flex justify-between'>
             <div className='text-xl'>
               {/* TO DO: on username click, redirect to profile page */}
-              <span className='font-bold text-chitty-chitty hover:text-blue-800 cursor-pointer'>
+              <span className='font-bold text-chitty-chitty hover:text-blue-800 cursor-pointer' onClick={otherProfile(user.id)}>
                 {user.username},{' '}
               </span>
               <span className='font-light text-gray-400'>{user.age}</span>

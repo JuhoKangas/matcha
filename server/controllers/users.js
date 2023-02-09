@@ -9,6 +9,25 @@ usersRouter.get('/', async (request, response) => {
   response.json({ data })
 })
 
+usersRouter.get('/getOne', async (request, response) => {
+	try {
+		const data = await db.query(
+			'SELECT username, age, gender_identity, gender_interest, bio, tags, city, country, fame, profile_picture FROM users WHERE id = $1',
+			[request.query.userId]
+		)
+
+		const userInfo = data.rows[0]
+
+		res.status(200).json({
+      status: 'success',
+      result,
+      userInfo: userInfo,
+    })
+	} catch (err) {
+    console.log(err)
+  }
+})
+
 usersRouter.post('/', async (request, response) => {
   try {
     const data = request.body
