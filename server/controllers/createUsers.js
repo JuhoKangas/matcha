@@ -83,7 +83,7 @@ const getGenderinterest = (sex) => {
 
 const getRandomMale = async (index) => {
   const username = userData.usernames[index]
-  const password = await bcrypt.hash("password", 1)
+  const password = await bcrypt.hash("password", 10)
   const location = getLocation()
   const genderIdentity = Math.random() < 0.8 ? "male" : "other"
 
