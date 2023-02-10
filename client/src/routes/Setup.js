@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { finishSetup } from '../reducers/userReducer'
 import tags from '../services/tags'
 import Tag from '../components/Tag'
+import toast from 'react-hot-toast'
 
 const Setup = ({ user }) => {
   const dispatch = useDispatch()
@@ -21,7 +22,6 @@ const Setup = ({ user }) => {
     tags.getAllTags().then((tags) => setAllTags(tags))
   }, [])
 
-  console.log(user)
   const handlePhotoChange = (e) => {
     console.log(e.target.files[0].name)
     setFile(URL.createObjectURL(e.target.files[0]))
@@ -74,6 +74,52 @@ const Setup = ({ user }) => {
     }
   }
 
+  const validateForm = (formData) => {
+    const errors = {}
+
+    if (!formData.genderIdentity) {
+      errors.genderIdentity = 'Please add what you identify as'
+    } else if (
+      formData.genderIdentity !== 'male' &&
+      formData.genderIdentity !== 'female' &&
+      formData.genderIdentity !== 'other'
+    ) {
+      errors.genderIdentity =
+        'We have no idea how you managed to change that but please select what you identify as from the given options'
+    }
+
+    if (!formData.genderInterest) {
+      errors.genderInterest =
+        'Please tell us what would you like to see in your feed'
+    } else if (
+      formData.genderInterest !== 'male' &&
+      formData.genderInterest !== 'female' &&
+      formData.genderInterest !== 'everyone'
+    ) {
+      errors.genderIdentity =
+        "We're sorry we don't provide interest in that kind"
+    }
+
+    if (formData.bio === '') {
+      errors.bio = 'Please tell us in your bio about yourself'
+    } else if (formData.bio.length > 420) {
+      errors.bio = 'Please tell about yourself in 420 characters or less'
+    }
+
+    if (formData.tags.length < 1) {
+      errors.tags =
+        'Please select at least one tag so we can better match you with likeminded people'
+    } else if (formData.tags.length > 5) {
+      errors.tags = 'Okay cowboy chill, select up to 5 tags'
+    }
+
+    if (!formData.profilePicture) {
+      errors.photo = 'Please add a photo for your profile'
+    }
+
+    return errors
+  }
+
   const setupProfile = async (e) => {
     e.preventDefault()
 
@@ -85,7 +131,15 @@ const Setup = ({ user }) => {
       profilePicture: dbPhotoFile,
       id: user.id,
     }
-    console.log('This is profile data ', profileData)
+
+    const errors = validateForm(profileData)
+
+    if (errors !== {}) {
+      for (const error in errors) {
+        toast.error(errors[error])
+      }
+      return
+    }
 
     dispatch(finishSetup(profileData))
   }

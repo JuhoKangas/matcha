@@ -20,6 +20,61 @@ const Register = () => {
   })
   const [registrationLinkSent, setRegistrationLinkSent] = useState(false)
 
+  const validateForm = (formData) => {
+    const errors = {}
+
+    if (!formData.firstName) {
+      errors.firstName = 'Please add first name'
+    } else if (formData.firstName.length > 1000) {
+      errors.firstName =
+        "Your first name can't realistically be over 1000 characters"
+    }
+
+    if (!formData.lastName) {
+      errors.lastName = 'Please add last name'
+    } else if (formData.lastName.length > 1000) {
+      errors.lastName =
+        "Your last name can't realistically be over 1000 characters"
+    }
+
+    if (!formData.userName) {
+      errors.userName = 'Please add username'
+    } else if (formData.userName.length > 60) {
+      errors.lastName =
+        "Your username can't be over 60 characters. It's just arbitary limit that I came up with, in fact our database would handle usernames up to 1000 characters but it would probably break the styling of the page so we just gonna have it like this now."
+    }
+
+    if (!formData.age) {
+      errors.age = 'Please add your age'
+    } else if (formData.age > 122) {
+      errors.age = "Unfortunately we don't accept dating at over 122"
+    } else if (formData.age < 18) {
+      errors.age = 'You have to be over 18 to use this application'
+    }
+
+    if (!formData.city) {
+      errors.city = 'Please add your city'
+    }
+
+    if (!formData.country) {
+      errors.country = 'Please add your country'
+    }
+
+    if (!formData.password) {
+      errors.password = 'Please add password'
+    }
+
+    if (!formData.email) {
+      errors.email = 'Please add your email'
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
+    ) {
+      errors.email = 'Please add proper email'
+    }
+
+    return errors
+  }
+
   const handleChange = (e) => {
     const value = e.target.value
     const name = e.target.name
@@ -34,6 +89,15 @@ const Register = () => {
     e.preventDefault()
     if (formData.password !== confirmPassword) {
       toast.error('Passwords do not match!')
+      return
+    }
+
+    const errors = validateForm(formData)
+
+    if (errors !== {}) {
+      for (const error in errors) {
+        toast.error(errors[error])
+      }
       return
     }
 
