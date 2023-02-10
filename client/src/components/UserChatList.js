@@ -11,7 +11,7 @@ const UserChatList = () => {
   const openChat = (openedChatId) => {
     //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
     dispatch(selectOneChat(openedChatId))
-		dispatch(getAllMessages(openedChatId))
+		//dispatch(getAllMessages(openedChatId))
     console.log('This is info about selected chat: ', openedChatId)
   }
 

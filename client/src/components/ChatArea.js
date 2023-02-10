@@ -4,27 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
-import {
-  messageSend,
-  getAllMessages,
-  setNewMessage,
-} from '../reducers/messageReducer'
+import { messageSend } from '../reducers/messageReducer'
 
 const ChatArea = () => {
   const loggedUser = useSelector(({ user }) => user)
   const chats = useSelector(({ chats }) => chats)
   const messages = useSelector(({ messages }) => messages)
-/*   const messages = allMessages.messages
-  const newMessage = messages.newMessage */
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
 
-  //console.log('messages', messages)
-  //const [newMessage, setNewMessage] = useState('')
+  console.log('messages', messages)
+  const [newMessage, setNewMessage] = useState('')
 
-  //console.log('all messages', messages)
-
-/*   const sendNewMessage = (e) => {
+  const sendNewMessage = (e) => {
     e.preventDefault()
     const loggedUserId = loggedUser.id
     const chatId = selectedChat.id
@@ -34,12 +26,11 @@ const ChatArea = () => {
       sender: loggedUserId,
       chat: chatId,
     }
-    // console.log('This is message info ', message)
     dispatch(messageSend(message))
     dispatch(setNewMessage(''))
-  } */
+  }
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     dispatch(getAllMessages(selectedChat.id))
     //console.log("messages", messages)
   }, [dispatch, selectedChat]) */
@@ -84,40 +75,39 @@ const ChatArea = () => {
           <div className='flex flex-col gap-2'>
             {messages.messages !== undefined &&
               messages.messages.map((message) => {
-                // return (
-                //   <div
-                //     className={`flex ${
-                //       message.sender === loggedUser.id
-                //     } && justify-end`}
-                //   >
-                //     <div className='flex flex-col gap-1'>
-                //       <h1
-                //         className={`${
-                //           message.sender === loggedUser.id
-                //             ? 'bg-bang-bang'
-                //             : 'bg-almost-white'
-                //         } p-2 rounded-xl`}
-                //       >
-                //         {message.text}
-                //       </h1>
-                //       <h1 className='text-sm'>{message.createdAt}</h1>
-                //       {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
-                //     </div>
-                //   </div>
-                // )
                 return (
-                  <div className='flex justify-end'>
+                  <div
+                    className={`flex ${
+                      message.sender === loggedUser.id
+                    } && justify-end`}
+                  >
                     <div className='flex flex-col gap-1'>
-                      <h1 className='bg-almost-white p-2 rounded-xl'>
+                      <h1
+                        className={`${
+                          message.sender === loggedUser.id
+                            ? 'bg-bang-bang'
+                            : 'bg-almost-white'
+                        } p-2 rounded-xl`}
+                      >
                         {message.text}
                       </h1>
-                      {/* <h1 className='text-sm'>{message.createdAt}</h1> */}
+                      <h1 className='text-sm'>{message.createdAt}</h1>
                       {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
                     </div>
                   </div>
                 )
-              })
-						}
+                // return (
+                //  <div className='flex justify-end'>
+                //   <div className='flex flex-col gap-1'>
+                //     <h1 className='bg-almost-white p-2 rounded-xl'>
+                //      {message.text}
+                //    </h1>
+                //    {/* <h1 className='text-sm'>{message.createdAt}</h1> */}
+                //    {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
+                //  </div>
+                // </div>
+                // )
+              })}
           </div>
         </div>
         <div>
@@ -126,12 +116,12 @@ const ChatArea = () => {
               type='text'
               placeholder='Write a message'
               className='w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0'
-              //value={newMessage}
+              value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
             <button
               className='bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium'
-              //onClick={sendNewMessage}
+              onClick={sendNewMessage}
             >
               <FontAwesomeIcon icon={faPaperPlane} />
             </button>

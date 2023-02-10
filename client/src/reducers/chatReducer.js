@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import chatService from '../services/chats'
 import toast from 'react-hot-toast'
-import { getAllMessages } from './messageReducer'
 
 const chatSlice = createSlice({
   name: 'chats',

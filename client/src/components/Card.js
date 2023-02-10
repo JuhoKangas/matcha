@@ -3,13 +3,11 @@ import { useDispatch } from 'react-redux'
 import Tag from './Tag'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useNavigate } from 'react-router-dom'
 import { otherUserProfile } from '../reducers/usersReducer'
 
 const Card = ({ user, loggedUser }) => {
 	console.log("This is user from card ", user)
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 
 	const setupChat = () => {
 		const newChat = {

@@ -4,16 +4,13 @@ import ChatArea from "../components/ChatArea"
 import UserChatList from "../components/UserChatList"
 import { useDispatch } from 'react-redux'
 import { initializeChats } from "../reducers/chatReducer"
-import { setMessages } from "../reducers/messageReducer"
+import { getAllMessages } from "../reducers/messageReducer"
 
 const Chat = () => {
   const user = useSelector(({ user }) => user)
 	const chats = useSelector(({ chats }) => chats)
-	//const messages = {...allMessages, messages: []}
 	console.log("These are users from Chat: ", user)
 	const selectedChat = chats.selectedChat
-	//const selectedChat = useSelector(state => state.chatReducer)
-	//console.log("This is selected chat from Chat",selectedChat)
 
 	const dispatch = useDispatch()
 	
@@ -22,8 +19,8 @@ const Chat = () => {
   }, [user, dispatch])
 
 	useEffect(() => {
-		dispatch(setMessages())
-  }, [dispatch])
+		selectedChat && dispatch(getAllMessages(selectedChat.id))
+  }, [selectedChat, dispatch])
 
   console.log("chat user is: ", user)
 	//console.log("chat users: ", users)
