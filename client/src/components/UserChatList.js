@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { selectOneChat } from '../reducers/chatReducer'
 import { useSelector } from "react-redux"
 import { getAllMessages } from '../reducers/messageReducer'
+import moment from 'moment'
 
 const UserChatList = () => {
 	const loggedUser = useSelector(({ user }) => user)
@@ -15,9 +16,22 @@ const UserChatList = () => {
     console.log('This is info about selected chat: ', openedChatId)
   }
 
-  const getLastMessage = (recipientUser) => {
-    //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
-    // return chat.lastMessage
+  const getLastMessage = (chat) => {
+		if (chat.last_message_text !== '') {
+			return (
+				<div className='flex justify-between'>
+					<div className='text-gray-light text-sm'>
+						{(chat.last_message_text).length > 20 ? <p>{(chat.last_message_text).substring(0,20)}...</p> : chat.last_message_text}
+					</div>
+					<div className='text-gray-light text-sm'>
+						{moment(chat.updated_at).format('hh:mm a')}
+					</div>
+				</div>
+
+			)
+		}
+		else
+			return ''
   }
 
   const getUnreadMessages = (recipientUser) => {
@@ -54,12 +68,12 @@ const UserChatList = () => {
                 alt='profile-pic'
                 className='w-10 h-10 rounded-full'
               />
-              <div className='flex flex-col gap-1'>
+              <div className='flex flex-col gap-1 w-full'>
                 <div className='flex flex-col justify-between'>
                   <h1 className=''>{loggedUser.id == chat.recipient_user_id ? chat.matcher_user_username : chat.recipient_user_username}</h1>
                   {getUnreadMessages(chat)}
                 </div>
-                <p className='text-gray-500 text-sm'>{getLastMessage(chat)}</p>
+                <p >{getLastMessage(chat)}</p>
               </div>
             </div>
           </div>

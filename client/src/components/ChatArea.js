@@ -92,7 +92,7 @@ const ChatArea = () => {
                       >
                         {message.text}
                       </h1>
-                      <p className='flex justify-end text-sm text-gray-dark'>{moment(message.created_at).format('hh:mm a')}</p>
+                      <p className='flex justify-end text-sm text-gray-light'>{moment(message.created_at).format('hh:mm a')}</p>
                       {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
                     </div>
                   </div>

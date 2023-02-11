@@ -22,7 +22,7 @@ messagesRouter.post('/', async (req, res) => {
 messagesRouter.put('/', async (req, res) => {
 	try {
 		const data = req.body
-		const result = await db.query('UPDATE chats SET last_message_text = $1 WHERE id = $2 returning last_message_text', 
+		const result = await db.query('UPDATE chats SET last_message_text = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 returning last_message_text, updated_at', 
 		[
 			data.text,
 			data.chat

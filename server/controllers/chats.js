@@ -3,7 +3,7 @@ const db = require('../db/index')
 
 chatsRouter.get('/', async (req, res) => {
 	try {
-		const result = await db.query('SELECT * FROM chats WHERE matcher_user_id = $1 OR recipient_user_id = $2', [req.query.userId, req.query.userId])
+		const result = await db.query('SELECT * FROM chats WHERE matcher_user_id = $1 OR recipient_user_id = $2 ORDER BY updated_at DESC', [req.query.userId, req.query.userId])
 		const chatInfo = result.rows
 		res.status(200).json({ 
 			status: 'success',
