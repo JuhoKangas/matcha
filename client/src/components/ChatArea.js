@@ -6,6 +6,7 @@ import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
 import { messageSend } from '../reducers/messageReducer'
 import moment from 'moment'
+import toast from 'react-hot-toast'
 
 const ChatArea = () => {
   const loggedUser = useSelector(({ user }) => user)
@@ -27,7 +28,11 @@ const ChatArea = () => {
       sender: loggedUserId,
       chat: chatId,
     }
-    dispatch(messageSend(message))
+		
+		if (message.text !== '')
+    	dispatch(messageSend(message))
+		else
+			toast.error('Cannot send an empty message')
     setNewMessage('')
   }
 
