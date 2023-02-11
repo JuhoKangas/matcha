@@ -5,6 +5,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
 import { messageSend } from '../reducers/messageReducer'
+import moment from 'moment'
 
 const ChatArea = () => {
   const loggedUser = useSelector(({ user }) => user)
@@ -27,7 +28,7 @@ const ChatArea = () => {
       chat: chatId,
     }
     dispatch(messageSend(message))
-    dispatch(setNewMessage(''))
+    setNewMessage('')
   }
 
   /*   useEffect(() => {
@@ -56,42 +57,42 @@ const ChatArea = () => {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         />
       </head> */}
-      <div className='flex flex-col justify-between bg-almost-white border rounded-2xl h-[85vh] p-5'>
+      <div className='flex flex-col justify-between bg-white border rounded-2xl h-[85vh] p-5'>
         <div>
           <div className='flex gap-5 items-center mb-2'>
             <img
-              src={require(`../assets/img/${selectedChat.recipient_user_img}`)}
+              src={require(`../assets/img/${loggedUser.id == selectedChat.recipient_user_id ? selectedChat.matcher_user_img : selectedChat.recipient_user_img}`)}
               alt='profile-pic'
               className='w-10 h-10 rounded-full'
             />
-            <h1 className='uppercase'>
-              {selectedChat.recipient_user_username}
+            <h1 className='uppercase'> 
+              {loggedUser.id == selectedChat.recipient_user_id ? selectedChat.matcher_user_username : selectedChat.recipient_user_username}
             </h1>
           </div>
           <hr />
         </div>
 
-        <div className='h-[65vh] overflow-y-scroll'>
+        <div className='h-[70vh] overflow-y-scroll pr-5 pl-5'>
           <div className='flex flex-col gap-2'>
             {messages.messages !== undefined &&
               messages.messages.map((message) => {
+								console.log(loggedUser.id)
                 return (
                   <div
-                    className={`flex ${
-                      message.sender === loggedUser.id
-                    } && justify-end`}
+									key={message.id}
+                    className={`flex ${message.sender == loggedUser.id && 'justify-end'}`}
                   >
                     <div className='flex flex-col gap-1'>
                       <h1
                         className={`${
-                          message.sender === loggedUser.id
-                            ? 'bg-bang-bang'
-                            : 'bg-almost-white'
-                        } p-2 rounded-xl`}
+                          message.sender == loggedUser.id
+                            ? 'bg-chitty-chitty text-almost-white rounded-bl-none'
+                            : 'bg-almost-white text-chitty-chitty rounded-tr-none'
+                        } p-3 rounded-xl`}
                       >
                         {message.text}
                       </h1>
-                      <h1 className='text-sm'>{message.createdAt}</h1>
+                      <p className='flex justify-end text-sm text-gray-dark'>{moment(message.created_at).format('hh:mm a')}</p>
                       {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
                     </div>
                   </div>

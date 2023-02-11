@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import userService from '../services/users'
 import toast from 'react-hot-toast'
+import { setSelectedChat } from '../reducers/chatReducer'
 
 const userSlice = createSlice({
   name: 'user',
@@ -46,6 +47,7 @@ export const logoutUser = () => {
     if (response.status === 200) {
       console.log('response data after logout: ', response.data)
       toast.success('You have successfully logged out!')
+			dispatch(setSelectedChat(null))
       dispatch(setUser(response.data))
     } else console.log('logoutUser failed, status: ', response.status)
   }

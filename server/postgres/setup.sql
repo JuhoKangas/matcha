@@ -37,7 +37,9 @@ CREATE TABLE IF NOT EXISTS photos (
 
 CREATE TABLE IF NOT EXISTS chats (
 	id SERIAL NOT NULL PRIMARY KEY,
-	logged_user_id VARCHAR(255),
+	matcher_user_id VARCHAR(255),
+	matcher_user_img VARCHAR(255),
+	matcher_user_username VARCHAR(1000),
 	recipient_user_id VARCHAR(255),
 	recipient_user_img VARCHAR(255),
 	recipient_user_username VARCHAR(1000),

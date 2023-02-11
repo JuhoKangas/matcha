@@ -50,13 +50,13 @@ const UserChatList = () => {
           >
             <div className='flex gap-5 items-center'>
               <img
-                src={require(`../assets/img/${chat.recipient_user_img}`)}
+                src={require(`../assets/img/${loggedUser.id == chat.recipient_user_id ? chat.matcher_user_img : chat.recipient_user_img}`)}
                 alt='profile-pic'
                 className='w-10 h-10 rounded-full'
               />
               <div className='flex flex-col gap-1'>
                 <div className='flex flex-col justify-between'>
-                  <h1 className=''>{chat.recipient_user_username}</h1>
+                  <h1 className=''>{loggedUser.id == chat.recipient_user_id ? chat.matcher_user_username : chat.recipient_user_username}</h1>
                   {getUnreadMessages(chat)}
                 </div>
                 <p className='text-gray-500 text-sm'>{getLastMessage(chat)}</p>
