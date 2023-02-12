@@ -8,7 +8,7 @@ import { messageSend } from '../reducers/messageReducer'
 import moment from 'moment'
 import toast from 'react-hot-toast'
 
-const ChatArea = () => {
+const ChatArea = ({ socket }) => {
   const loggedUser = useSelector(({ user }) => user)
   const chats = useSelector(({ chats }) => chats)
   const messages = useSelector(({ messages }) => messages)
