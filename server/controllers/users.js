@@ -20,33 +20,47 @@ usersRouter.get('/:id', async (request, response) => {
 })
 
 usersRouter.post('/', async (request, response) => {
-  try {
-    const data = request.body
-    const hashedPassword = await bcrypt.hash(data.password, 10)
-    const sanitizedEmail = data.email.toLowerCase()
-    const location = await geoip.lookup(data.ip)
-    const latitude = location.ll[0]
-    const longitude = location.ll[1]
+  const data = request.body
+  if (
+    data.password &&
+    data.ip &&
+    data.email &&
+    data.firstname &&
+    data.lastname &&
+    data.username &&
+    data.age &&
+    data.city &&
+    data.country
+  ) {
+    try {
+      const hashedPassword = await bcrypt.hash(data.password, 10)
+      const sanitizedEmail = data.email.toLowerCase()
+      const location = await geoip.lookup(data.ip)
+      const latitude = location.ll[0]
+      const longitude = location.ll[1]
 
-    const results = await db.query(
-      'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *', // changed the token in the Table to null for now, before we assign an actual automatically generated token
-      [
-        data.firstname,
-        data.lastname,
-        data.username,
-        data.age,
-        data.city,
-        data.country,
-        hashedPassword,
-        sanitizedEmail,
-        data.ip,
-        latitude,
-        longitude,
-      ]
-    )
-    response.status(201).json({ results })
-  } catch (err) {
-    console.log(err)
+      const results = await db.query(
+        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *', // changed the token in the Table to null for now, before we assign an actual automatically generated token
+        [
+          data.firstname,
+          data.lastname,
+          data.username,
+          data.age,
+          data.city,
+          data.country,
+          hashedPassword,
+          sanitizedEmail,
+          data.ip,
+          latitude,
+          longitude,
+        ]
+      )
+      response.status(201).json({ results })
+    } catch (err) {
+      console.log(err)
+    }
+  } else {
+    response.status(400).json({ msg: 'bad request' })
   }
 })
 
