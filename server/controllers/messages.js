@@ -10,9 +10,15 @@ messagesRouter.post('/', async (req, res) => {
 			data.sender,
 			data.chat
 		])
+		const updateChat = await db.query('UPDATE chats SET last_message_sender = $1 WHERE id = $2 returning last_message_sender', 
+		[
+			data.sender,
+			data.chat
+		])
 		res.status(201).json({ 
 			status: 'success',
-			result, 
+			result,
+			//lastMessageSender: updateChat.rows[0] 
 		})
 	} catch (err) {
 		console.log(err)
@@ -22,14 +28,14 @@ messagesRouter.post('/', async (req, res) => {
 messagesRouter.put('/', async (req, res) => {
 	try {
 		const data = req.body
-		const result = await db.query('UPDATE chats SET last_message_text = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 returning last_message_text, updated_at', 
+		const result = await db.query('UPDATE chats SET last_message_text = $1, updated_at = CURRENT_TIMESTAMP, unread_messages = unread_messages + 1 WHERE id = $2 returning last_message_text, updated_at, unread_messages', 
 		[
 			data.text,
 			data.chat
 		])
 		res.status(200).json({ 
 			status: 'success',
-			result, 
+			result
 		})
 	} catch (err) {
 		console.log(err)

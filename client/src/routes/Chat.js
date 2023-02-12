@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import ChatArea from "../components/ChatArea"
 import UserChatList from "../components/UserChatList"
 import { useDispatch } from 'react-redux'
-import { initializeChats } from "../reducers/chatReducer"
+import { initializeChats, updateUnreadMessagesToRead } from "../reducers/chatReducer"
 import { getAllMessages } from "../reducers/messageReducer"
 
 const Chat = () => {
@@ -20,7 +20,16 @@ const Chat = () => {
 
 	useEffect(() => {
 		selectedChat && dispatch(getAllMessages(selectedChat.id))
+		if (selectedChat && selectedChat.last_message_sender && selectedChat.last_message_sender !== user.id)
+			dispatch(updateUnreadMessagesToRead(selectedChat.id))
   }, [selectedChat, dispatch])
+
+/*    	useEffect(() => {
+		if (selectedChat.last_message_sender !== user.id)
+		{
+			clearUnreadMessages()
+		}
+	}, [selectedChat]) */
 
   console.log("chat user is: ", user)
 	//console.log("chat users: ", users)

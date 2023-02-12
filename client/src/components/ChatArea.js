@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
-import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
+//import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
 import { messageSend } from '../reducers/messageReducer'
 import moment from 'moment'
 import toast from 'react-hot-toast'
@@ -26,7 +26,7 @@ const ChatArea = () => {
     const message = {
       text: newMessage,
       sender: loggedUserId,
-      chat: chatId,
+      chat: chatId
     }
 		
 		if (message.text !== '')
@@ -41,18 +41,17 @@ const ChatArea = () => {
     //console.log("messages", messages)
   }, [dispatch, selectedChat]) */
 
-  /* 	const clearUnreadMessages = () => {
-		const chatId = selectedChat.id --> when backend is done
+/*   	const clearUnreadMessages = () => {
+		const chatId = selectedChat.id
 		dispatch(updateUnreadMessagesToRead(chatId))
-	} */
+	}
 
-  /* 	useEffect(() => {
-		getAllMessages(selectedChat.id)
-		if (selectedChat.lastMessage.sender !== loggedUser.id)
+   	useEffect(() => {
+		if (selectedChat.last_message_sender !== loggedUser.id)
 		{
 			clearUnreadMessages()
 		}
-	}, [selectedChat]) --> all of this will be implemented once we have backend set up */
+	}, [selectedChat]) */
 
   return (
     <>
@@ -97,22 +96,12 @@ const ChatArea = () => {
                       >
                         {message.text}
                       </h1>
-                      <p className='flex justify-end text-sm text-gray-light'>{moment(message.created_at).format('hh:mm a')}</p>
-                      {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
+                      <div className='flex justify-end text-sm text-gray-light gap-2'>{moment(message.created_at).format('hh:mm a')}							
+                      {message.sender == loggedUser.id && message.read == 1 ? <FontAwesomeIcon icon={faCheckDouble}/> : ""}
+											</div>
                     </div>
                   </div>
                 )
-                // return (
-                //  <div className='flex justify-end'>
-                //   <div className='flex flex-col gap-1'>
-                //     <h1 className='bg-almost-white p-2 rounded-xl'>
-                //      {message.text}
-                //    </h1>
-                //    {/* <h1 className='text-sm'>{message.createdAt}</h1> */}
-                //    {/* {message.sender === loggedUser.id && ${message.read ? <FontAwesomeIcon icon={faCheckDouble}/>} : ""} */}
-                //  </div>
-                // </div>
-                // )
               })}
           </div>
         </div>

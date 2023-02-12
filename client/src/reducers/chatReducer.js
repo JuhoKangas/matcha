@@ -49,7 +49,6 @@ export const initializeChats = (userId) => {
 export const selectOneChat = (openedChatId) => {
   return async (dispatch) => {
     const response = await chatService.getSelectedChat(openedChatId)
-		console.log("THESEEEEEEEEEEEE: ", response)
 		if (response.status === 200) {
 			dispatch(setSelectedChat(response.data.chats))
 		} else
@@ -61,12 +60,13 @@ export const updateUnreadMessagesToRead = (chatId) => {
   return async (dispatch) => {
     const response = await chatService.updateUnreadChatMessages(chatId)
     if (response.status === 200) {
-      const updatedChats = chatSlice.getState().allChats.map((chat) => {
-        // not sure I can access allChats array this way???
+/*       const updatedChats = chatSlice.getState().allChats.map((chat) => {
         if (chat.id === chatId) return response.data
         return chat
       })
-      dispatch(setChats(updatedChats))
+      dispatch(setChats(updatedChats)) */
+/* 			console.log("RESPONSE DATA FROM CHAT REDUCER", response.data)
+			dispatch(setSelectedChat(response.data)) */
     }
   }
 }

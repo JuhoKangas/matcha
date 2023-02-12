@@ -10,7 +10,6 @@ const UserChatList = () => {
 	const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
   const openChat = (openedChatId) => {
-    //const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
     dispatch(selectOneChat(openedChatId))
 		//dispatch(getAllMessages(openedChatId))
     console.log('This is info about selected chat: ', openedChatId)
@@ -27,22 +26,20 @@ const UserChatList = () => {
 						{moment(chat.updated_at).format('hh:mm a')}
 					</div>
 				</div>
-
 			)
 		}
 		else
 			return ''
   }
 
-  const getUnreadMessages = (recipientUser) => {
-    /* 			const chat = chats.find((chat) => chat.recipient === recipientUser.id) --> when we have a table in db with all the messages
-			if (chat && chat.unreadMessages && chat.lastMessage.sender !== loggedUser.id) {
+  const getUnreadMessages = (chat) => {
+		if (chat.unread_messages && chat.last_message_sender !== loggedUser.id) {
 				return (
-					<div className="bg-bang-bang text-almost-black text-xs rounded-full p-1">
-						{chat.unreadMessages}
+					<div className="bg-bang-bang text-almost-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
+						{chat.unread_messages}
 					</div>
 				)
-			} */
+			}
   }
 
 	const isSelected = (chatId) => {
@@ -60,7 +57,6 @@ const UserChatList = () => {
             className={`bg-almost-white rounded-2xl p-5 cursor-pointer ${isSelected(chat.id) && 'ring-chitty-chitty ring-4'}`}
             key={chat.id}
             onClick={() => openChat(chat.id)}
-            //onClick={() => console.log(chat.id)}
           >
             <div className='flex gap-5 items-center'>
               <img
@@ -69,11 +65,11 @@ const UserChatList = () => {
                 className='w-10 h-10 rounded-full'
               />
               <div className='flex flex-col gap-1 w-full'>
-                <div className='flex flex-col justify-between'>
+                <div className='flex flex-row justify-between'>
                   <h1 className=''>{loggedUser.id == chat.recipient_user_id ? chat.matcher_user_username : chat.recipient_user_username}</h1>
-                  {getUnreadMessages(chat)}
+                 {getUnreadMessages(chat)}
                 </div>
-                <p >{getLastMessage(chat)}</p>
+                {getLastMessage(chat)}
               </div>
             </div>
           </div>
