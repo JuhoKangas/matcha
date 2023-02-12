@@ -65,28 +65,39 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.put('/setup', async (request, response) => {
-  try {
-    const data = request.body
-    console.log('In users controllers.')
-    const results = await db.query(
-      "UPDATE users SET gender_identity = $1, gender_interest = $2, bio = $3, tags = $4, profile_picture = $5, completed = 'yes' WHERE id = $6 returning id, username, firstname, lastname, email, age, gender_identity, gender_interest, tags, bio, city, country, active, fame, online, latitude, longitude, profile_picture",
-      [
-        data.genderIdentity,
-        data.genderInterest,
-        data.bio,
-        data.tags,
-        data.profilePicture,
-        data.id,
-      ]
-    )
-    response.status(201).json({
-      status: 'success',
-      data: {
-        user: results.rows[0],
-      },
-    })
-  } catch (err) {
-    console.log(err)
+  const data = request.body
+  if (
+    data.genderIdentity &&
+    data.genderInterest &&
+    data.bio &&
+    data.tags &&
+    data.profilePicture &&
+    data.id
+  ) {
+    try {
+      console.log('In users controllers.')
+      const results = await db.query(
+        "UPDATE users SET gender_identity = $1, gender_interest = $2, bio = $3, tags = $4, profile_picture = $5, completed = 'yes' WHERE id = $6 returning id, username, firstname, lastname, email, age, gender_identity, gender_interest, tags, bio, city, country, active, fame, online, latitude, longitude, profile_picture",
+        [
+          data.genderIdentity,
+          data.genderInterest,
+          data.bio,
+          data.tags,
+          data.profilePicture,
+          data.id,
+        ]
+      )
+      response.status(201).json({
+        status: 'success',
+        data: {
+          user: results.rows[0],
+        },
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  } else {
+    response.status(400).json({ err: 'bad request' })
   }
 })
 
