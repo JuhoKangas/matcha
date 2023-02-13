@@ -50,6 +50,8 @@ const Register = () => {
       errors.age = "Unfortunately we don't accept dating at over 122"
     } else if (formData.age < 18) {
       errors.age = 'You have to be over 18 to use this application'
+    } else if (isNaN(formData.age)) {
+      errors.age = "That's not a number, this is a number: '23'"
     }
 
     if (!formData.city) {
