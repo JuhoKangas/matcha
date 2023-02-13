@@ -3,25 +3,41 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const db = require('../db/index')
 
+loginRouter.post('/check', async (req, res) => {
+  const { email, password } = req.body
+
+  const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
+  const user = data.rows[0]
+
+  if (!user) {
+    return res.status(200).json({
+      error: 'invalid username or password',
+    })
+  }
+
+  const passwordCorrect = await bcrypt.compare(password, user.password)
+
+  if (!passwordCorrect) {
+    return res.status(200).json({
+      error: 'invalid username or password',
+    })
+  }
+
+  return res.status(200).json({ msg: 'user found' })
+})
+
 loginRouter.post('/', async (req, res) => {
   const { email, password, coordinates } = req.body
 
   const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
-  const photosData = await db.query(
-    'SELECT photo FROM photos WHERE user_id = $1',
-    [data.rows[0].id]
-  )
   const user = data.rows[0]
-  const photos = photosData.rows
 
-  console.log(photos)
   if (!user) {
     return res.status(401).json({
       error: 'invalid username or password',
     })
   }
 
-  //comment out if manually created user (due to password not being hashed)
   const passwordCorrect = await bcrypt.compare(password, user.password)
 
   if (!passwordCorrect) {
@@ -29,6 +45,12 @@ loginRouter.post('/', async (req, res) => {
       error: 'invalid username or password',
     })
   }
+
+  const photosData = await db.query(
+    'SELECT photo FROM photos WHERE user_id = $1',
+    [user.id]
+  )
+  const photos = photosData.rows
 
   if (coordinates) {
     const updatedCoordinates = await db.query(
