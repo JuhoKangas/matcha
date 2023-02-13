@@ -23,11 +23,11 @@ export const initializeUsers = () => {
   }
 }
 
-export const otherUserProfile = (userId) => {
+/* export const otherUserProfile = (userId) => {
 	return async (dispatch) => {
     const user = await userService.getOne(userId)
     dispatch(setSingleUser(user))
   }
-}
+} */
 
 export default usersSlice.reducer

@@ -14,9 +14,9 @@ const getAll = () => {
   return request.then((res) => res.data.data.rows)
 }
 
-const getOne = (userId) => {
-	return axios.post(getOneUserUrl, {params: {userId: userId}})
-}
+/* const getOne = (userId) => {
+	return axios.get(getOneUserUrl, {params: {userId: userId}})
+} */
 
 const create = (newUser) => {
   return axios.post(baseUrl, newUser)
@@ -57,4 +57,4 @@ const logout = () => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, checkUser, logout, update, setup, upload, deletePhoto, getOne }
+export default { getAll, create, checkUser, logout, update, setup, upload, deletePhoto }

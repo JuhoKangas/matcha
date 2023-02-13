@@ -9,7 +9,7 @@ usersRouter.get('/', async (request, response) => {
   response.json({ data })
 })
 
-usersRouter.get('/getOne', async (request, response) => {
+/* usersRouter.get('/getOne', async (request, response) => {
 	try {
 		const data = await db.query(
 			'SELECT username, age, gender_identity, gender_interest, bio, tags, city, country, fame, profile_picture FROM users WHERE id = $1',
@@ -26,7 +26,7 @@ usersRouter.get('/getOne', async (request, response) => {
 	} catch (err) {
     console.log(err)
   }
-})
+}) */
 
 usersRouter.post('/', async (request, response) => {
   try {

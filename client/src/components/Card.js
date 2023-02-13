@@ -4,26 +4,25 @@ import Tag from './Tag'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { otherUserProfile } from '../reducers/usersReducer'
+import { Link } from 'react-router-dom'
 
 const Card = ({ user, loggedUser }) => {
-	console.log("This is user from card ", user)
-	const dispatch = useDispatch()
+  console.log('This is user from card ', user)
+  const dispatch = useDispatch()
 
-	const setupChat = () => {
-		const newChat = {
-			loggedUserId: loggedUser.id,
-			loggedUserImg: loggedUser.profilePicture,
-			loggedUserUsername: loggedUser.username,
-			recipientId: user.id,
-			recipientImg: user.profile_picture,
-			recipientUsername: user.username
-		}
-		dispatch(createChat(newChat))
-	}
+  const setupChat = () => {
+    const newChat = {
+      loggedUserId: loggedUser.id,
+      loggedUserImg: loggedUser.profilePicture,
+      loggedUserUsername: loggedUser.username,
+      recipientId: user.id,
+      recipientImg: user.profile_picture,
+      recipientUsername: user.username,
+    }
+    dispatch(createChat(newChat))
+  }
 
-	const otherProfile = (userId) => {
-		dispatch(otherUserProfile(userId))
-  };
+  const usernamePath = `/${user.username}`
 
   return (
     <div className='p-3 flex flex-col items-center'>
@@ -38,9 +37,11 @@ const Card = ({ user, loggedUser }) => {
           <div className='flex justify-between'>
             <div className='text-xl'>
               {/* TO DO: on username click, redirect to profile page */}
-              <span className='font-bold text-chitty-chitty hover:text-blue-800 cursor-pointer' onClick={otherProfile(user.id)}>
-                {user.username},{' '}
-              </span>
+              <Link to={usernamePath}>
+                <span className='font-bold text-chitty-chitty hover:text-blue-800 cursor-pointer'>
+                  {user.username},{' '}
+                </span>
+              </Link>
               <span className='font-light text-gray-400'>{user.age}</span>
             </div>
 
@@ -65,19 +66,14 @@ const Card = ({ user, loggedUser }) => {
               <span className='text-chitty-chitty'>Bio: </span>
               <span className='text-gray-400'>{user.bio}</span>
             </div>
-						<div className='flex flex-row justify-between'>
-							<button
-									className='w-10 mt-4'
-									onClick={setupChat}
-								>
-									<HeartIcon className='h-8 w-8' />
-								</button>
-								<button
-									className='w-10 mt-4'
-								>
-									<XMarkIcon className='h-8 w-8' />
-								</button>
-						</div>
+            <div className='flex flex-row justify-between'>
+              <button className='w-10 mt-4' onClick={setupChat}>
+                <HeartIcon className='h-8 w-8' />
+              </button>
+              <button className='w-10 mt-4'>
+                <XMarkIcon className='h-8 w-8' />
+              </button>
+            </div>
           </div>
         </div>
       </div>
