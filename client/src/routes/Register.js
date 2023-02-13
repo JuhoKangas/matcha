@@ -99,8 +99,8 @@ const Register = () => {
     if (errors !== {}) {
       for (const error in errors) {
         toast.error(errors[error])
+        return
       }
-      return
     }
 
     const newUser = {
