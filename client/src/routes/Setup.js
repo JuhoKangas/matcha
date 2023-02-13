@@ -137,8 +137,8 @@ const Setup = ({ user }) => {
     if (errors !== {}) {
       for (const error in errors) {
         toast.error(errors[error])
+        return
       }
-      return
     }
 
     dispatch(finishSetup(profileData))
