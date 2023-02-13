@@ -5,9 +5,9 @@ const logger = require('./utils/logger')
 
 const server = http.createServer(app)
 
-const { Server } = require("socket.io");
+/* const { Server } = require("socket.io");
 const io = new Server(server);
-
+ */
 /* const io = require('socket.io')(server, {
 	cors: {
 		origin: 'http://localhost:3000'
@@ -15,13 +15,13 @@ const io = new Server(server);
 }) */
 
 // check the socket connection form client
-io.on('connection', (socket) => {
+/* io.on('connection', (socket) => {
 	console.log("Connected with socket id", socket.id)
 	socket.on('join-room', (userId) => {
 		console.log("user joined room", userId)
 		socket.join(userId)
 	})
-})
+}) */
 
 const PORT = config.PORT || 3001
 
