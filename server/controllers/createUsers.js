@@ -46,8 +46,8 @@ const getLocation = () => {
   const coord = userData.coordinates[index].split(' ')
   const location = {
     city: userData.cities[index],
-    latitude: Number(coord[0]) + randomSign(gpsDeviation()),
-    longitude: Number(coord[1]) + randomSign(gpsDeviation()),
+    latitude: (Number(coord[0]) + randomSign(gpsDeviation())).toFixed(4),
+    longitude: (Number(coord[1]) + randomSign(gpsDeviation())).toFixed(4),
   }
   return location
 }

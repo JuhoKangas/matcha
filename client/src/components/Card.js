@@ -2,18 +2,17 @@ import React from 'react'
 import Tag from './Tag'
 
 import { useSelector } from 'react-redux'
-import { getDistance } from 'geolib'
+import { getDistanceKm } from '../utils/getDistanceKm'
 
 const Card = ({ user }) => {
-  console.log('This is user from card ', user)
+  // console.log('This is user from card ', user)
   const loggedInUser = useSelector(({ user }) => user)
 
-  const distance = getDistance(
-    {
-      latitude: loggedInUser.latitude,
-      longitude: loggedInUser.longitude,
-    },
-    { latitude: user.latitude, longitude: user.longitude }
+  const distance = getDistanceKm(
+    loggedInUser.latitude,
+    loggedInUser.longitude,
+    user.latitude,
+    user.longitude
   )
 
   return (
@@ -50,7 +49,7 @@ const Card = ({ user }) => {
               <span className="text-chitty-chitty"></span>
               <div className="flex flex-wrap gap-2 mb-3">
                 {user.tags.map((tag) => (
-                  <Tag key={tag} tagName={tag} hover="none" />
+                  <Tag key={tag.id} tagName={tag} hover="none" />
                 ))}
               </div>
             </div>

@@ -17,7 +17,7 @@ const DistanceFilters = () => {
       <ReactSlider
         step={1}
         min={0}
-        max={300}
+        max={500}
         className="flex w-full h-1 items-center bg-gray-200 rounded-md cursor-grab"
         thumbClassName="absolute w-4 h-4 cursor-grab bg-chitty-chitty rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-chitty-chitty"
         value={distanceFilters}

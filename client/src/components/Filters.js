@@ -7,7 +7,7 @@ import TagFilters from './TagFilters'
 import AgeFilters from './AgeFilters'
 import DistanceFilters from './DistanceFilters'
 
-import { getDistance } from 'geolib'
+import { getDistanceKm } from '../utils/getDistanceKm'
 import FameFilters from './FameFilters'
 
 const Filters = () => {
@@ -33,19 +33,13 @@ const Filters = () => {
           return false
       }
 
-      //getDistance() has 1m accuracy, unless specified otherwise. Returns in meters
-      const dist = getDistance(
-        {
-          latitude: loggedInUser.latitude,
-          longitude: loggedInUser.longitude,
-        },
-        { latitude: u.latitude, longitude: u.longitude }
+      const dist = getDistanceKm(
+        loggedInUser.latitude,
+        loggedInUser.longitude,
+        u.latitude,
+        u.longitude
       )
 
-      // if (u.username === 'ow') dist = 30
-      // if (u.username === 'om') dist = 6
-
-      // console.log('dist is: ', dist, loggedInUser, u)
       if (dist < distanceFilters[0]) return false
       if (dist > distanceFilters[1]) return false
 
