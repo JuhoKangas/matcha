@@ -20,10 +20,10 @@ const UserChatList = () => {
 			return (
 				<div className='flex justify-between'>
 					<div className='text-gray-light text-sm'>
-						{(chat.last_message_text).length > 20 ? <p>{(chat.last_message_text).substring(0,20)}...</p> : chat.last_message_text}
+						{chat.last_message_text && (chat.last_message_text).length > 20 ? <p>{(chat.last_message_text).substring(0,20)}...</p> : chat.last_message_text}
 					</div>
 					<div className='text-gray-light text-sm'>
-						{moment(chat.updated_at).format('hh:mm a')}
+						{chat.last_message_text && moment(chat.updated_at).format('hh:mm a')}
 					</div>
 				</div>
 			)

@@ -5,10 +5,10 @@ import UserChatList from "../components/UserChatList"
 import { useDispatch } from 'react-redux'
 import { initializeChats, updateUnreadMessagesToRead } from "../reducers/chatReducer"
 import { getAllMessages } from "../reducers/messageReducer"
-//import { io } from 'socket.io-client'
+import { io } from 'socket.io-client'
 
 const Chat = () => {
-	//const socket = io('http://localhost:3001')
+	const socket = io('http://localhost:3001')
   const user = useSelector(({ user }) => user)
 	const chats = useSelector(({ chats }) => chats)
 	console.log("These are users from Chat: ", user)
@@ -24,12 +24,12 @@ const Chat = () => {
 		selectedChat && dispatch(getAllMessages(selectedChat.id))
 		if (selectedChat && selectedChat.last_message_sender && selectedChat.last_message_sender !== user.id)
 			dispatch(updateUnreadMessagesToRead(selectedChat.id))
-  }, [selectedChat, dispatch])
+  }, [selectedChat, dispatch, user])
 
-/* 	useEffect(() => {
+	useEffect(() => {
 		// join the room
 		socket.emit('join-room', user.id)
-	}, [user]) */
+	}, [user, socket])
 
 /*    	useEffect(() => {
 		if (selectedChat.last_message_sender !== user.id)

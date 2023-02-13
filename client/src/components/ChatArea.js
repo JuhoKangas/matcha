@@ -97,7 +97,7 @@ const ChatArea = ({ socket }) => {
                         {message.text}
                       </h1>
                       <div className='flex justify-end text-sm text-gray-light gap-2'>{moment(message.created_at).format('hh:mm a')}							
-                      {message.sender == loggedUser.id && message.read == 1 ? <FontAwesomeIcon icon={faCheckDouble}/> : ""}
+                      <i className='text-green-600'>{message.sender == loggedUser.id && message.read == 1 ? <FontAwesomeIcon icon={faCheckDouble}/> : ""}</i> 
 											</div>
                     </div>
                   </div>

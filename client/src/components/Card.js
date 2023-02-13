@@ -12,7 +12,7 @@ const Card = ({ user, loggedUser }) => {
 	const setupChat = () => {
 		const newChat = {
 			loggedUserId: loggedUser.id,
-			loggedUserImg: loggedUser.profile_picture,
+			loggedUserImg: loggedUser.profilePicture,
 			loggedUserUsername: loggedUser.username,
 			recipientId: user.id,
 			recipientImg: user.profile_picture,
