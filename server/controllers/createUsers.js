@@ -1,7 +1,7 @@
-const db = require("../db/index")
-const createUsersRouter = require("express").Router()
-const userData = require("../utils/userData")
-const bcrypt = require("bcrypt")
+const db = require('../db/index')
+const createUsersRouter = require('express').Router()
+const userData = require('../utils/userData')
+const bcrypt = require('bcrypt')
 
 const getRandomNumber = (ceil) => {
   return Math.floor(Math.random() * ceil)
@@ -37,13 +37,13 @@ const randomSign = (number) => {
 }
 
 const gpsDeviation = () => {
-  // 0.2 is around 22.2km of deviation
-  return Math.random() * 0.2
+  // 0.05 is around 5.5km of deviation
+  return Math.random() * 0.05
 }
 
 const getLocation = () => {
   const index = getRandomNumber(userData.cities.length)
-  const coord = userData.coordinates[index].split(" ")
+  const coord = userData.coordinates[index].split(' ')
   const location = {
     city: userData.cities[index],
     latitude: Number(coord[0]) + randomSign(gpsDeviation()),
@@ -54,38 +54,38 @@ const getLocation = () => {
 
 const getGenderinterest = (sex) => {
   const number = Math.random() // 0 - 1
-  if (sex === "male") {
+  if (sex === 'male') {
     if (number < 0.6) {
-      return "female"
+      return 'female'
     } else if (number >= 0.6 && number < 0.8) {
-      return "male"
+      return 'male'
     } else {
-      return "everyone"
+      return 'everyone'
     }
-  } else if (sex === "female") {
+  } else if (sex === 'female') {
     if (number < 0.6) {
-      return "male"
+      return 'male'
     } else if (number >= 0.6 && number < 0.8) {
-      return "female"
+      return 'female'
     } else {
-      return "everyone"
+      return 'everyone'
     }
   } else {
     if (number < 0.3) {
-      return "male"
+      return 'male'
     } else if (number >= 0.3 && number < 0.6) {
-      return "female"
+      return 'female'
     } else {
-      return "everyone"
+      return 'everyone'
     }
   }
 }
 
 const getRandomMale = async (index) => {
   const username = userData.usernames[index]
-  const password = await bcrypt.hash("password", 10)
+  const password = await bcrypt.hash('password', 10)
   const location = getLocation()
-  const genderIdentity = Math.random() < 0.8 ? "male" : "other"
+  const genderIdentity = Math.random() < 0.8 ? 'male' : 'other'
 
   const user = {
     username: username,
@@ -101,7 +101,7 @@ const getRandomMale = async (index) => {
     city: location.city,
     latitude: location.latitude,
     longitude: location.longitude,
-    country: "Finland",
+    country: 'Finland',
     fame: getRandomNumber(100),
     profile_picture:
       userData.malePictures[getRandomNumber(userData.malePictures.length)],
@@ -112,9 +112,9 @@ const getRandomMale = async (index) => {
 
 const getRandomFemale = async (index) => {
   const username = userData.usernames[index]
-  const password = await bcrypt.hash("password", 10)
+  const password = await bcrypt.hash('password', 10)
   const location = getLocation()
-  const genderIdentity = Math.random() < 0.8 ? "female" : "other"
+  const genderIdentity = Math.random() < 0.8 ? 'female' : 'other'
 
   const user = {
     username: username,
@@ -130,7 +130,7 @@ const getRandomFemale = async (index) => {
     city: location.city,
     latitude: location.latitude,
     longitude: location.longitude,
-    country: "Finland",
+    country: 'Finland',
     fame: getRandomNumber(100),
     profile_picture:
       userData.femalePictures[getRandomNumber(userData.femalePictures.length)],
@@ -139,9 +139,9 @@ const getRandomFemale = async (index) => {
   return user
 }
 
-createUsersRouter.get("/", async (req, res) => {
+createUsersRouter.get('/', async (req, res) => {
   for (const tag of userData.tags) {
-    db.query("INSERT INTO tags (tagname) VALUES ($1) ON CONFLICT DO NOTHING", [
+    db.query('INSERT INTO tags (tagname) VALUES ($1) ON CONFLICT DO NOTHING', [
       tag,
     ])
   }
@@ -197,7 +197,7 @@ createUsersRouter.get("/", async (req, res) => {
       )
     }
   }
-  res.send("users created")
+  res.send('users created')
 })
 
 module.exports = createUsersRouter
