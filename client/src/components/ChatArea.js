@@ -5,19 +5,22 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 //import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
 import { messageSend } from '../reducers/messageReducer'
+//import getChatMessages from '../services/messages'
+import messageService from '../services/messages'
 import moment from 'moment'
 import toast from 'react-hot-toast'
 
 const ChatArea = ({ socket }) => {
   const loggedUser = useSelector(({ user }) => user)
   const chats = useSelector(({ chats }) => chats)
-  const messages = useSelector(({ messages }) => messages)
+  //const messages = useSelector(({ messages }) => messages)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
 
-  console.log('messages', messages)
   const [newMessage, setNewMessage] = useState('')
-
+	const [messages = [], setMessages] = useState([])
+	console.log("These are MESSAGES", messages)
+	
   const sendNewMessage = (e) => {
     e.preventDefault()
     const loggedUserId = loggedUser.id
@@ -28,13 +31,47 @@ const ChatArea = ({ socket }) => {
       sender: loggedUserId,
       chat: chatId
     }
+
+		// send message to server using socket
+		socket.emit('send-message', {
+			...message,
+			recipient: Number(selectedChat.recipient_user_id),
+			read: 0
+		})
 		
+		// store message in db
 		if (message.text !== '')
     	dispatch(messageSend(message))
 		else
 			toast.error('Cannot send an empty message')
     setNewMessage('')
   }
+
+	const getMessages = async () => {
+		try {
+			const response = await messageService.getChatMessages(selectedChat.id)
+			if (response.status === 200)
+				setMessages(response.data.messages)
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
+	useEffect(() => {
+		getMessages()
+		//receive message from server using socket
+		socket.off('receive-message').on('receive-message', (message) => {
+			setMessages((messages) => [...messages, message])
+			console.log("This is MESSAGE FROM FRONT IN SOCLETS", message)
+			
+		})
+
+	}, [selectedChat])
+
+	useEffect(() => {
+		const messagesContainer = document.getElementById('messages')
+		messagesContainer.scrollTop = messagesContainer.scrollHeight
+	}, [messages])
 
   /*   useEffect(() => {
     dispatch(getAllMessages(selectedChat.id))
@@ -76,11 +113,10 @@ const ChatArea = ({ socket }) => {
           <hr />
         </div>
 
-        <div className='h-[70vh] overflow-y-scroll pr-5 pl-5'>
+        <div className='h-[70vh] overflow-y-scroll pr-5 pl-5' id='messages'>
           <div className='flex flex-col gap-2'>
-            {messages.messages !== undefined &&
-              messages.messages.map((message) => {
-								console.log(loggedUser.id)
+            {messages !== undefined &&
+              messages.map((message) => {
                 return (
                   <div
 									key={message.id}

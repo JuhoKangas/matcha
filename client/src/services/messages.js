@@ -11,7 +11,6 @@ const updateChatLastMessage = (message) => {
 }
 
 const getChatMessages = (selectedChatId) => {
-	console.log("In chat get messsages", selectedChatId)
   return axios.get(baseUrl, {params: {selectedChatId: selectedChatId}})
 }
 

@@ -31,7 +31,7 @@ export const messageSend = (message) => {
   }
 }
 
-export const getAllMessages = (selectedChatId) => {
+/* export const getAllMessages = (selectedChatId) => {
   return async (dispatch) => {
     console.log('In get all mesgs in reducer')
     const response = await messageService.getChatMessages(selectedChatId)
@@ -42,7 +42,7 @@ export const getAllMessages = (selectedChatId) => {
       dispatch(setMessages(finalMessages))
     } else console.log('loading messages failed, status: ', response.status)
   }
-}
+} */
 
 export const { setMessages, setNewMessage } = messageSlice.actions
 
