@@ -22,7 +22,11 @@ io.on('connection', (socket) => {
 	})
 	// send message only to users who are in the current chat
 	socket.on('send-message', (message) => {
-		io.to(message.loggedUser).to(message.recipient).emit('receive-message', message)
+		io.to(message.user1).to(message.user2).emit('receive-message', message)
+	})
+
+	socket.on('clear-unread-messages', (data) => {
+		io.to(data.user1).to(data.user2).emit('unread-messages-cleared', data)
 	})
 })
 

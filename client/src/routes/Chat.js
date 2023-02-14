@@ -22,8 +22,9 @@ const Chat = () => {
 
 	useEffect(() => {
 		//selectedChat && dispatch(getAllMessages(selectedChat.id))
-		if (selectedChat && selectedChat.last_message_sender && selectedChat.last_message_sender !== user.id)
+		if (selectedChat && selectedChat.last_message_sender && selectedChat.last_message_sender !== user.id) {
 			dispatch(updateUnreadMessagesToRead(selectedChat.id))
+		}
 		//receive message from server using socket
 /* 		socket.on('receive-message', (message) => {
 			dispatch(getAllMessages(selectedChat.id))

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUpFromBracket, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 //import { updateUnreadMessagesToRead } from '../reducers/chatReducer'
 import { messageSend } from '../reducers/messageReducer'
+import { setChats } from '../reducers/chatReducer'
 //import getChatMessages from '../services/messages'
 import messageService from '../services/messages'
+import store from '../store'
 import moment from 'moment'
 import toast from 'react-hot-toast'
 
@@ -19,7 +21,6 @@ const ChatArea = ({ socket }) => {
 
   const [newMessage, setNewMessage] = useState('')
 	const [messages = [], setMessages] = useState([])
-	console.log("These are MESSAGES", messages)
 	
   const sendNewMessage = (e) => {
     e.preventDefault()
@@ -35,8 +36,8 @@ const ChatArea = ({ socket }) => {
 		// send message to server using socket
 		socket.emit('send-message', {
 			...message,
-			loggedUser: Number(selectedChat.matcher_user_id),
-			recipient: Number(selectedChat.recipient_user_id),
+			user1: Number(selectedChat.matcher_user_id),
+			user2: Number(selectedChat.recipient_user_id),
 			read: 0
 		})
 		
@@ -62,11 +63,38 @@ const ChatArea = ({ socket }) => {
 		getMessages()
 		//receive message from server using socket
 		socket.off('receive-message').on('receive-message', (message) => {
-			setMessages((messages) => [...messages, message])
-			console.log("This is MESSAGE FROM FRONT IN SOCLETS", message)
-			
+			const tempSelectedChat = store.getState().chats.selectedChat
+			if (tempSelectedChat.id === message.chat)
+				setMessages((messages) => [...messages, message])			
 		})
 
+		socket.on('unread-messages-cleared', (data) => {
+			const tempAllChats = store.getState().chats.allChats
+			const tempSelectedChat = store.getState().chats.selectedChat
+
+			if (data.chat === tempSelectedChat.id && data.sender === loggedUser.id) {
+				const updatedChats = tempAllChats.map((chat) => {
+					if (chat.id === data.chat) {
+						return {
+							...chat,
+							unread_messages: 0
+						}
+					}
+					return chat
+				})
+				console.log("Updated CHATS FROM CHAT AREA", updatedChats)
+				dispatch(setChats(updatedChats))
+
+				setMessages((prevMessages) => {
+					return prevMessages.map((message) => {
+						return {
+							...message,
+							read: 1
+						}
+					})
+				})
+			}
+		})
 	}, [selectedChat])
 
 	useEffect(() => {

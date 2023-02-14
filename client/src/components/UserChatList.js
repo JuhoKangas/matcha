@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { selectOneChat } from '../reducers/chatReducer'
+import { selectOneChat, setChats } from '../reducers/chatReducer'
 import { useSelector } from "react-redux"
 import { getAllMessages } from '../reducers/messageReducer'
 import moment from 'moment'
@@ -14,6 +14,11 @@ const UserChatList = ({ socket }) => {
   const openChat = (openedChatId) => {
     dispatch(selectOneChat(openedChatId))
 		//dispatch(getAllMessages(openedChatId))
+		socket.emit('clear-unread-messages', {
+			chat: selectedChat.id,
+			user1: Number(selectedChat.matcher_user_id),
+			user2: Number(selectedChat.recipient_user_id)
+		})
     console.log('This is info about selected chat: ', openedChatId)
   }
 
@@ -51,11 +56,26 @@ const UserChatList = ({ socket }) => {
 			return false
 	}
 
-/* 	useEffect(() => {
-		socket.on('receive-messsage', (message) => {
-			const tempSelectedChat = store
+	useEffect(() => {
+		socket.on('receive-message', (message) => {
+			const tempSelectedChat = store.getState().chats.selectedChat
+			const tempAllChats = store.getState().chats.allChats
+			if (tempSelectedChat?.id !== message.chat) {
+				const updatedAllChats = tempAllChats.map(((chat) => {
+					if (chat.id === message.chat) {
+						return {
+							...chat,
+							unread_messages: chat?.unread_messages + 1,
+							last_message_text: message.text
+						}
+					}
+					return chat
+				}))
+				dispatch(setChats(updatedAllChats))
+				console.log("UP{DATED CHATS", store.getState().chats.allChats)
+			}
 		})
-	}, []) */
+	}, [])
 
   return (
     <div className='flex flex-col gap-3 w-96 '>
