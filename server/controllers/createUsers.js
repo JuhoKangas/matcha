@@ -27,7 +27,8 @@ const getRandomLastName = () => {
 const getTags = () => {
   const tags = []
   while (tags.length < 5) {
-    tags.push(userData.tags[getRandomNumber(userData.tags.length)])
+    const newTag = userData.tags[getRandomNumber(userData.tags.length)]
+    if (!tags.includes(newTag)) tags.push(newTag)
   }
   return tags
 }
