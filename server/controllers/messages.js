@@ -44,9 +44,8 @@ messagesRouter.put('/', async (req, res) => {
 
 messagesRouter.get('/', async (req, res) => {
 	try {
-		const result = await db.query('SELECT * FROM messages WHERE chat_id = $1', [req.query.selectedChatId])
+		const result = await db.query('SELECT * FROM messages WHERE chat_id = $1 ORDER BY id ASC', [req.query.selectedChatId])
 		const allMessages = result.rows
-		console.log("These are messages from backend ", allMessages)
 		res.status(200).json({
 			status: 'success',
 			messages: allMessages
