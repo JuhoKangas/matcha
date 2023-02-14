@@ -3,8 +3,10 @@ import { selectOneChat } from '../reducers/chatReducer'
 import { useSelector } from "react-redux"
 import { getAllMessages } from '../reducers/messageReducer'
 import moment from 'moment'
+import { useEffect } from 'react'
+import store from '../store'
 
-const UserChatList = () => {
+const UserChatList = ({ socket }) => {
 	const loggedUser = useSelector(({ user }) => user)
 	const chats = useSelector(({ chats }) => chats)
 	const selectedChat = chats.selectedChat
@@ -48,6 +50,12 @@ const UserChatList = () => {
 		else
 			return false
 	}
+
+/* 	useEffect(() => {
+		socket.on('receive-messsage', (message) => {
+			const tempSelectedChat = store
+		})
+	}, []) */
 
   return (
     <div className='flex flex-col gap-3 w-96 '>

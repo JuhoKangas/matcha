@@ -56,7 +56,7 @@ const Chat = () => {
     <div className="h-screen w-screen">
 			<div className="flex p-10 gap-5">
 				<div className="w-96">
-					<UserChatList />
+					<UserChatList socket={socket}/>
 				</div>
 				<div className="w-full">
 					{chats.selectedChat && <ChatArea socket={socket}/>}

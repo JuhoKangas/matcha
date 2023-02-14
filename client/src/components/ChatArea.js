@@ -35,6 +35,7 @@ const ChatArea = ({ socket }) => {
 		// send message to server using socket
 		socket.emit('send-message', {
 			...message,
+			loggedUser: Number(selectedChat.matcher_user_id),
 			recipient: Number(selectedChat.recipient_user_id),
 			read: 0
 		})

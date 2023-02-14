@@ -17,11 +17,12 @@ const io = require('socket.io')(server, {
 // check the socket connection form client
 io.on('connection', (socket) => {
 	socket.on('join-room', (userId) => {
+		console.log("usder joined room", userId)
 		socket.join(userId)
 	})
 	// send message only to users who are in the current chat
 	socket.on('send-message', (message) => {
-		io.to(message.sender).to(message.recipient).emit('receive-message', message)
+		io.to(message.loggedUser).to(message.recipient).emit('receive-message', message)
 	})
 })
 
