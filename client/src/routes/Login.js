@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/userReducer'
+import { checkUser } from '../utils/checkUser'
+import toast from 'react-hot-toast'
 
 const Login = ({ user }) => {
   const dispatch = useDispatch()
@@ -28,11 +30,13 @@ const Login = ({ user }) => {
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
-    event.target.email.value = ''
-    event.target.password.value = ''
-    dispatch(loginUser(email, password, coordinates))
-    // TO DO: navigate user to home only if successfully logged in
-    navigate('/setup')
+    if (await checkUser(email, password)) {
+      dispatch(loginUser(email, password, coordinates))
+      // TO DO: navigate user to home if profile is completed
+      navigate('/setup')
+    } else {
+      toast.error('Username or password was incorrect')
+    }
   }
 
   return (
