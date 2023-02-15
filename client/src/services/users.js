@@ -38,13 +38,13 @@ const update = (updatedUserInfo) => {
 }
 
 const upload = (userPhoto) => {
-	console.log("User photo from service", userPhoto)
+  console.log('User photo from service', userPhoto)
   return axios.post(uploadUrl, userPhoto, { withCredentials: true })
 }
 
 const deletePhoto = (deleteUserPhoto) => {
-	console.log("Delete photo from services", deleteUserPhoto)
-	return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
+  console.log('Delete photo from services', deleteUserPhoto)
+  return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
 }
 
 const logout = () => {
@@ -52,4 +52,13 @@ const logout = () => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, checkUser, logout, update, setup, upload, deletePhoto }
+export default {
+  getAll,
+  create,
+  checkUser,
+  logout,
+  update,
+  setup,
+  upload,
+  deletePhoto,
+}

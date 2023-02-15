@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
 const geoip = require('geoip-lite')
+const { upload } = require('../utils/upload.js')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query(
@@ -65,6 +66,7 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.put('/setup', async (request, response) => {
+  upload.single('profile')
   const data = request.body
   if (
     data.genderIdentity &&
