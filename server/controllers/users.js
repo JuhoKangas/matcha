@@ -66,7 +66,6 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.put('/setup', async (request, response) => {
-  upload.single('profile')
   const data = request.body
   if (
     data.genderIdentity &&
