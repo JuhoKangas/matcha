@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS users (
 	ip VARCHAR(255),
 	latitude NUMERIC,
 	longitude NUMERIC,
-	profile_picture VARCHAR(1000)
+	profile_picture VARCHAR(1000),
+	distance NUMERIC DEFAULT 10000000
 );
 
 CREATE TABLE IF NOT EXISTS tags (

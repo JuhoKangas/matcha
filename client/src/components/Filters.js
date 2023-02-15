@@ -6,8 +6,6 @@ import { setFilteredUsers } from '../reducers/filteredUsersReducer'
 import TagFilters from './TagFilters'
 import AgeFilters from './AgeFilters'
 import DistanceFilters from './DistanceFilters'
-
-import { getDistanceKm } from '../utils/getDistanceKm'
 import FameFilters from './FameFilters'
 
 const Filters = () => {
@@ -32,16 +30,8 @@ const Filters = () => {
         if (tagFilters.every((tag) => u.tags.includes(tag)) !== true)
           return false
       }
-
-      const dist = getDistanceKm(
-        loggedInUser.latitude,
-        loggedInUser.longitude,
-        u.latitude,
-        u.longitude
-      )
-
-      if (dist < distanceFilters[0]) return false
-      if (dist > distanceFilters[1]) return false
+      if (u.distance < distanceFilters[0]) return false
+      if (u.distance > distanceFilters[1]) return false
 
       if (u.fame < fameFilters[0]) return false
       if (u.fame > fameFilters[1]) return false
