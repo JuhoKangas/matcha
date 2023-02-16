@@ -12,9 +12,9 @@ import sortingFilterReducer from './reducers/sortingFilterReducer'
 
 const store = configureStore({
   reducer: {
+    user: userReducer,
     users: usersReducer,
     filteredUsers: filteredUsersReducer,
-    user: userReducer,
     tags: tagsReducer,
     tagFilters: tagFilterReducer,
     ageFilters: ageFilterReducer,
