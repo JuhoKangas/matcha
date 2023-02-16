@@ -12,6 +12,7 @@ const tagsRouter = require('./controllers/tags')
 const photosRouter = require('./controllers/photos')
 const authRouter = require('./controllers/auth')
 const createUsersRouter = require('./controllers/createUsers')
+const uploadRouter = require('./controllers/upload')
 
 //cookies
 const bodyParser = require('body-parser')
@@ -36,6 +37,7 @@ app.use('/tags', tagsRouter)
 app.use('/photos', photosRouter)
 app.use('/auth', authRouter)
 app.use('/createusers', createUsersRouter)
+app.use('/upload', express.static('./uploads'), uploadRouter)
 
 app.use(middleware.authenticateJWT)
 app.use(middleware.unknownEndpoint)
