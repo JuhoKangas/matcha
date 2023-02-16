@@ -4,7 +4,7 @@ import { finishSetup } from '../reducers/userReducer'
 import tags from '../services/tags'
 import Tag from '../components/Tag'
 import toast from 'react-hot-toast'
-import axios from 'axios'
+import userService from '../services/users'
 
 const Setup = ({ user }) => {
   const dispatch = useDispatch()
@@ -138,8 +138,7 @@ const Setup = ({ user }) => {
     const uploadPhotoData = new FormData()
     uploadPhotoData.append('profile', formImage)
 
-    axios.post('http://localhost:3001/upload', uploadPhotoData)
-  
+    userService.uploadPhoto(uploadPhotoData)
 
     const errors = validateForm(profileData)
 

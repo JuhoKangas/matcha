@@ -7,6 +7,7 @@ const settingsUrl = 'http://localhost:3001/settings'
 const setupUrl = 'http://localhost:3001/users/setup'
 const uploadUrl = 'http://localhost:3001/photos'
 const deleteUrl = 'http://localhost:3001/photos/delete'
+const uploadPicUrl = 'http://localhost:3001/upload'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -19,6 +20,10 @@ const create = (newUser) => {
 
 const setup = (profileData) => {
   return axios.put(setupUrl, profileData, { withCredentials: true })
+}
+
+const uploadPhoto = (imageData) => {
+  return axios.post(uploadPicUrl, imageData)
 }
 
 const checkUser = (email, password, coordinates) => {
@@ -61,4 +66,5 @@ export default {
   setup,
   upload,
   deletePhoto,
+  uploadPhoto,
 }
