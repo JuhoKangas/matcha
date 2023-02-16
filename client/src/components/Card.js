@@ -1,20 +1,7 @@
 import React from 'react'
 import Tag from './Tag'
 
-import { useSelector } from 'react-redux'
-import { getDistanceKm } from '../utils/getDistanceKm'
-
 const Card = ({ user }) => {
-  // console.log('This is user from card ', user)
-  const loggedInUser = useSelector(({ user }) => user)
-
-  const distance = getDistanceKm(
-    loggedInUser.latitude,
-    loggedInUser.longitude,
-    user.latitude,
-    user.longitude
-  )
-
   return (
     <div className="p-3 flex flex-col items-center">
       <div className="w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg">
@@ -41,7 +28,7 @@ const Card = ({ user }) => {
           </div>
 
           <div className="text-sm text-gray-400">
-            {user.city}, {distance} km away
+            {user.city}, {user.distance} km away
           </div>
 
           <div className="my-4">

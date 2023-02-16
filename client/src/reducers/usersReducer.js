@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import userService from '../services/users'
+import { getDistanceKm } from '../utils/getDistanceKm'
 
 const usersSlice = createSlice({
   name: 'users',
@@ -13,10 +14,21 @@ const usersSlice = createSlice({
 
 export const { setUsers } = usersSlice.actions
 
-export const initializeUsers = () => {
+export const initializeUsers = (loggedInUser) => {
   return async (dispatch) => {
     const users = await userService.getAll()
-    dispatch(setUsers(users))
+    const usersWithLocation = users.map((user) => {
+      return {
+        ...user,
+        distance: getDistanceKm(
+          loggedInUser.latitude,
+          loggedInUser.longitude,
+          user.latitude,
+          user.longitude
+        ),
+      }
+    })
+    dispatch(setUsers(usersWithLocation))
   }
 }
 

@@ -1,18 +1,28 @@
 import UsersList from '../components/UsersList'
 import Filters from '../components/Filters'
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { initializeUsers } from '../reducers/usersReducer'
+import Sorting from '../components/Sorting'
 
 const Home = (props) => {
   const dispatch = useDispatch()
+  const loggedInUser = useSelector(({ user }) => user)
 
   useEffect(() => {
-    dispatch(initializeUsers())
+    dispatch(initializeUsers(loggedInUser))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
   return (
     <div>
+      <div
+        className="text-center font-montserrat font-bold leading-tight text-almost-white
+		 text-lg my-10"
+      >
+        Sort by
+        <Sorting />
+      </div>
       <div
         className="text-center font-montserrat font-bold leading-tight text-almost-white
 		 text-lg my-10"
