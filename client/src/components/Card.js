@@ -36,7 +36,7 @@ const Card = ({ user }) => {
               <span className="text-chitty-chitty"></span>
               <div className="flex flex-wrap gap-2 mb-3">
                 {user.tags.map((tag) => (
-                  <Tag key={tag.id} tagName={tag} hover="none" />
+                  <Tag key={tag} tagName={tag} hover="none" />
                 ))}
               </div>
             </div>
