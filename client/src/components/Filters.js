@@ -12,6 +12,7 @@ const Filters = () => {
   const dispatch = useDispatch()
 
   const users = useSelector(({ users }) => users)
+  const loggedInUser = useSelector(({ user }) => user)
 
   const tagFilters = useSelector(({ tagFilters }) => tagFilters)
   const ageFilters = useSelector(({ ageFilters }) => ageFilters)
@@ -30,6 +31,18 @@ const Filters = () => {
       if (u.distance < distanceFilters[0] || u.distance > distanceFilters[1])
         return false
       if (u.fame < fameFilters[0] || u.fame > fameFilters[1]) return false
+      if (
+        loggedInUser.genderIdentity !== u.genderInterest &&
+        u.genderInterest !== 'everyone'
+      ) {
+        return false
+      }
+      if (
+        loggedInUser.genderInterest !== u.genderIdentity &&
+        loggedInUser.genderInterest !== 'everyone'
+      ) {
+        return false
+      }
       return true
     }
 

@@ -94,6 +94,7 @@ loginRouter.post('/', async (req, res) => {
       latitude: user.latitude,
       longitude: user.longitude,
       tags: user.tags,
+      completed: user.completed,
     })
 })
 

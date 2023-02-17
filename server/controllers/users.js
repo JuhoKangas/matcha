@@ -6,7 +6,7 @@ const geoip = require('geoip-lite')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query(
-    'SELECT id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags FROM users'
+    'SELECT id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags, completed FROM users'
   )
   response.json({ data })
 })
@@ -16,7 +16,13 @@ usersRouter.get('/:id', async (request, response) => {
     request.params.id,
   ])
   const user = data.rows[0]
-  response.json({ ...user, profilePicture: user.profile_picture })
+  response.json({
+    ...user,
+    profilePicture: user.profile_picture,
+    //NOT SURE IF THIS AFFECTS ANYTHING... WHRE IS THIS USED >.<
+    // genderIdentity: user.gender_identity,
+    // genderInterest: user.gender_interest,
+  })
 })
 
 usersRouter.post('/', async (request, response) => {
@@ -40,7 +46,7 @@ usersRouter.post('/', async (request, response) => {
       const longitude = location.ll[1]
 
       const results = await db.query(
-        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *', // changed the token in the Table to null for now, before we assign an actual automatically generated token
+        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags, completed', // changed the token in the Table to null for now, before we assign an actual automatically generated token
         [
           data.firstname,
           data.lastname,
@@ -55,7 +61,7 @@ usersRouter.post('/', async (request, response) => {
           longitude,
         ]
       )
-      response.status(201).json({ results })
+      response.status(201).json({ results }) //HERE
     } catch (err) {
       console.log(err)
     }
