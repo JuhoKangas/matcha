@@ -135,11 +135,6 @@ const Setup = ({ user }) => {
       id: user.id,
     }
 
-    const uploadPhotoData = new FormData()
-    uploadPhotoData.append('profile', formImage)
-
-    userService.uploadPhoto(uploadPhotoData)
-
     const errors = validateForm(profileData)
 
     if (errors !== {}) {
@@ -149,7 +144,13 @@ const Setup = ({ user }) => {
       }
     }
 
-    dispatch(finishSetup(profileData))
+    const uploadPhotoData = new FormData()
+    uploadPhotoData.append('profile', formImage)
+
+    const response = await userService.uploadPhoto(uploadPhotoData)
+    dispatch(
+      finishSetup({ ...profileData, profilePicture: response.data.filename })
+    )
   }
 
   return (

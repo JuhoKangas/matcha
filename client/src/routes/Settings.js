@@ -475,7 +475,7 @@ const Settings = ({ user }) => {
               ) : (
                 <img
                   className='object-cover rounded-full h-60 w-60'
-                  src={require(`../assets/img/${user.profilePicture}`)}
+                  src={`http:localhost:3001/uploads/${user.profilePicture}`}
                   alt=''
                 />
               )}

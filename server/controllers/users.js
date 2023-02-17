@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
 const geoip = require('geoip-lite')
-const { upload } = require('../utils/upload.js')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query(
