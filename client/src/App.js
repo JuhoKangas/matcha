@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-import { BrowserRouter as Router, Routes, Route, useMatch } from 'react-router-dom'
+import { Routes, Route, useMatch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
@@ -21,44 +21,47 @@ import Landing from './routes/Landing'
 import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-	const users = useSelector(({ users }) => users)
+  const users = useSelector(({ users }) => users)
   const user = useSelector(({ user }) => user)
-	const match = useMatch('/:username')
-	//console.log(match.params.username)
-	const selectedUser = match ? users.find(user => user.username === match.params.username) : null
-	//const users = useSelector(({ users }) => users)
-	console.log(selectedUser)
-  console.log('This is user from App.js: ', user)
+  const match = useMatch('/:username')
+  const selectedUser = match
+    ? users.find((user) => user.username === match.params.username)
+    : null
 
   return (
     <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
-      {/* <Router> */}
-        {user.bio && <Navbar user={user} />}
-        <Toaster position='top-center' reverseOrder={false} />
-        <div className='grow'>
-          <Routes>
-            <Route path='/' element={<Landing />}></Route>
-            {user.bio && <Route path='/home' element={<Home />}></Route>}
-            <Route path='/login' element={<Login user={user} />}></Route>
-            <Route path='/register' element={<Register />} />
-            {user.bio && <Route path='/matches' element={<Matches />} />}
-            {user.bio && <Route path='/browse' element={<Browse />} />}
-            {user.bio && (
-              <Route path='/profile' element={<Profile user={user} />} />
-            )}
-            {user.bio && (
-              <Route path='/settings' element={<Settings user={user} />} />
-            )}
-            {user.bio && (
-              <Route path='/photos' element={<Photos user={user} />} />
-            )}
-            {user.bio && <Route path='/blocked' element={<Blocked />} />}
-            {<Route path='/setup' element={<Setup user={user} />} />}
-            {user.bio && <Route path='/chat' element={<Chat />} />}
-						{selectedUser && <Route path='/:username' element={<UserProfile selectedUser={selectedUser} />} />}
-          </Routes>
-        </div>
-     {/*  </Router> */}
+      {user.bio && <Navbar user={user} />}
+      <Toaster position='top-center' reverseOrder={false} />
+      <div className='grow'>
+        <Routes>
+          <Route path='/' element={<Landing />}></Route>
+          {user.bio && <Route path='/home' element={<Home />}></Route>}
+          <Route path='/login' element={<Login user={user} />}></Route>
+          <Route path='/register' element={<Register />} />
+          {user.bio && <Route path='/matches' element={<Matches />} />}
+          {user.bio && <Route path='/browse' element={<Browse />} />}
+          {user.bio && (
+            <Route path='/profile' element={<Profile user={user} />} />
+          )}
+          {user.bio && (
+            <Route path='/settings' element={<Settings user={user} />} />
+          )}
+          {user.bio && (
+            <Route path='/photos' element={<Photos user={user} />} />
+          )}
+          {user.bio && <Route path='/blocked' element={<Blocked />} />}
+          {<Route path='/setup' element={<Setup user={user} />} />}
+          {user.bio && <Route path='/chat' element={<Chat />} />}
+          {selectedUser && (
+            <Route
+              path='/:username'
+              element={
+                <UserProfile loggedUser={user} selectedUser={selectedUser} />
+              }
+            />
+          )}
+        </Routes>
+      </div>
       <Footer />
     </div>
   )

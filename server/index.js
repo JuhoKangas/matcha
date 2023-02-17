@@ -22,6 +22,7 @@ io.on('connection', (socket) => {
 	})
 	// send message only to users who are in the current chat
 	socket.on('send-message', (message) => {
+		console.log('amedeo was here', message)
 		io.to(message.user1).to(message.user2).emit('receive-message', message)
 	})
 

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch } from 'react-redux'
 
 const UserProfile = ({ loggedUser, selectedUser }) => {
   console.log('In other user profile page, user info: ', selectedUser)
-  const dispatch = useDispatch
+  const dispatch = useDispatch()
 
   const setupChat = () => {
     const newChat = {
@@ -18,6 +18,9 @@ const UserProfile = ({ loggedUser, selectedUser }) => {
     }
     dispatch(createChat(newChat))
   }
+
+	//const photos = dispatch(getSelectedUserPhotos(selectedUser.id))
+	//console.log("Photos of selecetd user", photos)
 
   return (
     <div className='flex flex-col ml-32 mr-56 mt-20 text-almost-white'>
@@ -33,26 +36,33 @@ const UserProfile = ({ loggedUser, selectedUser }) => {
           <p className='mb-3'>Username: {selectedUser.username}</p>
           <p className='mb-3'>Name: {selectedUser.firstname}</p>
           <p className='mb-3'>Age: {selectedUser.age}</p>
-					<p className='mb-3'>Gender identity: {selectedUser.gender_identity}</p>
-					<p className='mb-3'>Interested in: {selectedUser.gender_interest === 'female' ? 'women' : 'men'}</p>
+          <p className='mb-3'>
+            Gender identity: {selectedUser.gender_identity}
+          </p>
+          <p className='mb-3'>
+            Interested in:{' '}
+            {selectedUser.gender_interest === 'female' ? 'women' : 'men'}
+          </p>
         </div>
         <div>
           <p>City: {selectedUser.city}</p>
-					<p>Country: {selectedUser.country}</p>
-					<p>Fame: {selectedUser.fame}</p>
+          <p>Country: {selectedUser.country}</p>
+          <p>Fame: {selectedUser.fame}</p>
         </div>
       </div>
 
-      <div className='flex flex-row justify-between mr-64 ml-64'>
-        <button className='w-10 mt-4' onClick={setupChat}>
-          <HeartIcon className='h-12 w-12' />
-        </button>
-        <button className='w-10 mt-4'>
-          <XMarkIcon className='h-12 w-12' />
-        </button>
+      <div className='flex flex-row justify-center items-center mt-10 '>
+        <div className='flex gap-96 '>
+          <button className='w-10 mt-4' onClick={setupChat}>
+            <HeartIcon className='h-12 w-12' />
+          </button>
+          <button className='w-10 mt-4'>
+            <XMarkIcon className='h-12 w-12' />
+          </button>
+        </div>
       </div>
-      {/* <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
-          {selectedUser.photos.map((photo) => (
+			{/* <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
+          {photos.map((photo) => (
             <img
               src={require(`../assets/img/${photo.photo}`)}
               alt=''

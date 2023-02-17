@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import Tag from './Tag'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { otherUserProfile } from '../reducers/usersReducer'
 import { Link } from 'react-router-dom'
 
 const Card = ({ user, loggedUser }) => {

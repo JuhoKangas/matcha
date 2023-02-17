@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit'
 import toast from 'react-hot-toast'
 import messageService from '../services/messages'
@@ -30,19 +31,6 @@ export const messageSend = (message) => {
     }
   }
 }
-
-/* export const getAllMessages = (selectedChatId) => {
-  return async (dispatch) => {
-    console.log('In get all mesgs in reducer')
-    const response = await messageService.getChatMessages(selectedChatId)
-    console.log('response from geting all chat messages', response)
-    if (response.status === 200) {
-      console.log('Response data messages is this', response.data.messages)
-      const finalMessages = response.data.messages
-      dispatch(setMessages(finalMessages))
-    } else console.log('loading messages failed, status: ', response.status)
-  }
-} */
 
 export const { setMessages, setNewMessage } = messageSlice.actions
 

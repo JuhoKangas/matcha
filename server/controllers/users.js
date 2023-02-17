@@ -9,24 +9,24 @@ usersRouter.get('/', async (request, response) => {
   response.json({ data })
 })
 
-/* usersRouter.get('/getOne', async (request, response) => {
+usersRouter.get('/getSelectedPhotos', async (request, response) => {
+	const userId = req.body
+	console.log("User id is THIS", userId)
 	try {
-		const data = await db.query(
-			'SELECT username, age, gender_identity, gender_interest, bio, tags, city, country, fame, profile_picture FROM users WHERE id = $1',
-			[request.query.userId]
-		)
+		const photosData = await db.query(
+      'SELECT photo FROM photos WHERE user_id = $1',
+      [userId]
+    )
+    const photos = photosData.rows
 
-		const userInfo = data.rows[0]
-
-		res.status(200).json({
+    res.status(200).json({
       status: 'success',
-      result,
-      userInfo: userInfo,
+      photos: photos,
     })
 	} catch (err) {
     console.log(err)
   }
-}) */
+})
 
 usersRouter.post('/', async (request, response) => {
   try {

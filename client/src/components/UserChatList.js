@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { selectOneChat, setChats } from '../reducers/chatReducer'
 import { useSelector } from "react-redux"
-import { getAllMessages } from '../reducers/messageReducer'
+
 import moment from 'moment'
 import { useEffect } from 'react'
 import store from '../store'
@@ -13,8 +13,7 @@ const UserChatList = ({ socket }) => {
   const dispatch = useDispatch()
   const openChat = (openedChatId) => {
     dispatch(selectOneChat(openedChatId))
-		//dispatch(getAllMessages(openedChatId))
-		socket.emit('clear-unread-messages', {
+		selectedChat && socket.emit('clear-unread-messages', {
 			chat: selectedChat.id,
 			user1: Number(selectedChat.matcher_user_id),
 			user2: Number(selectedChat.recipient_user_id)
@@ -58,6 +57,7 @@ const UserChatList = ({ socket }) => {
 
 	useEffect(() => {
 		socket.on('receive-message', (message) => {
+			console.log('amedeo was here', message)
 			const tempSelectedChat = store.getState().chats.selectedChat
 			const tempAllChats = store.getState().chats.allChats
 			if (tempSelectedChat?.id !== message.chat) {
@@ -75,7 +75,7 @@ const UserChatList = ({ socket }) => {
 				console.log("UP{DATED CHATS", store.getState().chats.allChats)
 			}
 		})
-	}, [])
+	}, []) // eslint-disable-line
 
   return (
     <div className='flex flex-col gap-3 w-96 '>
@@ -88,13 +88,13 @@ const UserChatList = ({ socket }) => {
           >
             <div className='flex gap-5 items-center'>
               <img
-                src={require(`../assets/img/${loggedUser.id == chat.recipient_user_id ? chat.matcher_user_img : chat.recipient_user_img}`)}
+                src={require(`../assets/img/${loggedUser.id === Number(chat.recipient_user_id) ? chat.matcher_user_img : chat.recipient_user_img}`)}
                 alt='profile-pic'
                 className='w-10 h-10 rounded-full'
               />
               <div className='flex flex-col gap-1 w-full'>
                 <div className='flex flex-row justify-between'>
-                  <h1 className=''>{loggedUser.id == chat.recipient_user_id ? chat.matcher_user_username : chat.recipient_user_username}</h1>
+                  <h1 className=''>{loggedUser.id === Number(chat.recipient_user_id) ? chat.matcher_user_username : chat.recipient_user_username}</h1>
                  {getUnreadMessages(chat)}
                 </div>
                 {getLastMessage(chat)}
