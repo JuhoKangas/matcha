@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from './reducers/usersReducer'
 import filteredUsersReducer from './reducers/filteredUsersReducer'
 import userReducer from './reducers/userReducer'
-import tagFilterReducer from './reducers/tagFilterReducer'
+import TagFilterReducer from './reducers/TagFilterReducer'
 import tagsReducer from './reducers/tagsReducer'
 import ageFilterReducer from './reducers/ageFilterReducer'
 import distanceFilterReducer from './reducers/distanceFilterReducer'
@@ -16,7 +16,7 @@ const store = configureStore({
     users: usersReducer,
     filteredUsers: filteredUsersReducer,
     tags: tagsReducer,
-    tagFilters: tagFilterReducer,
+    tagFilters: TagFilterReducer,
     ageFilters: ageFilterReducer,
     distanceFilters: distanceFilterReducer,
     fameFilters: fameFilterReducer,

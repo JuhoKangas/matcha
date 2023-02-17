@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
@@ -11,7 +11,6 @@ import FameFilters from './FameFilters'
 const Filters = () => {
   const dispatch = useDispatch()
 
-  const loggedInUser = useSelector(({ user }) => user)
   const users = useSelector(({ users }) => users)
 
   const tagFilters = useSelector(({ tagFilters }) => tagFilters)
@@ -23,7 +22,6 @@ const Filters = () => {
     const allUsers = [...users]
 
     function passesFilters(u) {
-      if (u.id === loggedInUser.id) return false
       if (u.age < ageFilters[0] || u.age > ageFilters[1]) return false
       if (tagFilters.length > 0) {
         if (tagFilters.every((tag) => u.tags.includes(tag)) !== true)
@@ -38,6 +36,11 @@ const Filters = () => {
     const filteredAll = allUsers.filter(passesFilters)
     dispatch(setFilteredUsers(filteredAll))
   }
+
+  useEffect(() => {
+    handleApplyClick()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="flex items-center flew-wrap flex-col gap-2 my-3 justify-center">

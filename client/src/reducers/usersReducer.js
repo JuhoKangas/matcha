@@ -17,7 +17,10 @@ export const { setUsers } = usersSlice.actions
 export const initializeUsers = (loggedInUser) => {
   return async (dispatch) => {
     const users = await userService.getAll()
-    const usersWithLocation = users.map((user) => {
+    const usersExceptLoggedIn = users.filter(
+      (user) => user.id !== loggedInUser.id
+    )
+    const usersWithLocation = usersExceptLoggedIn.map((user) => {
       return {
         ...user,
         distance: getDistanceKm(

@@ -5,6 +5,15 @@ const Tag = (props) => {
         {props.tagName}
       </div>
     )
+  } else if (props.isSelected === true) {
+    return (
+      <div
+        className="px-2 text-white ring-1 ring-chitty-chitty rounded-xl bg-chitty-chitty w-min whitespace-nowrap text-sm cursor-pointer hover:text-chitty-chitty bg-none"
+        onClick={props.onClick}
+      >
+        {props.tagName}
+      </div>
+    )
   } else {
     return (
       <div

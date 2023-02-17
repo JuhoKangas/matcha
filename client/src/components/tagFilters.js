@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addTagFilter, removeTagFilter } from '../reducers/tagFilterReducer'
+import { addTagFilter, removeTagFilter } from '../reducers/TagFilterReducer'
 import { initializeTags } from '../reducers/tagsReducer'
 import Tag from './Tag'
 
@@ -13,7 +13,14 @@ const TagFilters = () => {
   }, [dispatch])
 
   const tagFilters = useSelector(({ tagFilters }) => tagFilters)
-  console.log('in TagFilters tagFilters is: ', tagFilters)
+
+  function isSelected(tagname) {
+    const isSelected = tagFilters.find((tag) => tag === tagname)
+    if (isSelected !== undefined) {
+      return true
+    }
+    return false
+  }
 
   const handleTag = (e) => {
     e.preventDefault()
@@ -34,7 +41,12 @@ const TagFilters = () => {
   return (
     <div className="flex flex-wrap gap-2 my-3 justify-center w-3/5">
       {allTags.map((tag) => (
-        <Tag key={tag.id} tagName={tag.tagname} onClick={handleTag} />
+        <Tag
+          key={tag.id}
+          tagName={tag.tagname}
+          onClick={handleTag}
+          isSelected={isSelected(tag.tagname)}
+        />
       ))}
     </div>
   )
