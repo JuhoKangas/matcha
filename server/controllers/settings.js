@@ -50,7 +50,6 @@ settingsRouter.put('/', async (req, res) => {
             ]
           )
 
-    console.log('These are results ', results)
     res.status(200).json({
       status: 'success',
       data: {
