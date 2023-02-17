@@ -99,7 +99,7 @@ const Navbar = ({ user }) => {
                       {/* USER PHOTO */}
                       <img
                         className='h-8 w-8 rounded-full'
-                        src={`http:localhost:3001/uploads/${user.profilePicture}`}
+                        src={`http://localhost:3001/uploads/${user.profilePicture}`}
                         alt='user profilepicture'
                       />
                     </Menu.Button>
