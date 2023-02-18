@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import ChatArea from "../components/ChatArea"
 import UserChatList from "../components/UserChatList"
@@ -11,7 +11,7 @@ const Chat = () => {
   const user = useSelector(({ user }) => user)
 	const chats = useSelector(({ chats }) => chats)
 	const selectedChat = chats.selectedChat
-
+	const [onlineUsers, setOnlineUsers] = useState([])
 	const dispatch = useDispatch()
 	
 	useEffect(() => {
@@ -26,14 +26,20 @@ const Chat = () => {
 
 	useEffect(() => {
 		// join the room
-		socket.emit('join-room', user.id)
+		if (user) {
+			socket.emit('join-room', user.id)
+			socket.emit('is-online', user.id)
+			socket.on('online-users', (users) => {
+				setOnlineUsers(users)
+			})
+		}
 	}, [user])
 
   return (
     <div className="h-screen w-screen">
 			<div className="flex p-10 gap-5">
 				<div className="w-96">
-					<UserChatList socket={socket}/>
+					<UserChatList socket={socket} onlineUsers={onlineUsers}/>
 				</div>
 				<div className="w-full">
 					{chats.selectedChat && <ChatArea socket={socket}/>}

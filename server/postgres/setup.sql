@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS chats (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	unread_messages INT DEFAULT 0,
 	last_message_text VARCHAR(1000),
-	last_message_sender INT
+	last_message_sender INT, 
+	show_online INT
 );
 
 CREATE TABLE IF NOT EXISTS messages (

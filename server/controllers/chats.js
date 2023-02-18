@@ -18,14 +18,15 @@ chatsRouter.post('/', async (req, res) => {
   try {
     const data = req.body
     const result = await db.query(
-      'INSERT INTO chats (matcher_user_id, matcher_user_img, matcher_user_username, recipient_user_id, recipient_user_img, recipient_user_username) VALUES ($1, $2, $3, $4, $5, $6) returning *', // changed the token in the Table to null for now, before we assign an actual automatically generated token
+      'INSERT INTO chats (matcher_user_id, matcher_user_img, matcher_user_username, recipient_user_id, recipient_user_img, recipient_user_username, show_online) VALUES ($1, $2, $3, $4, $5, $6, $7) returning *', // changed the token in the Table to null for now, before we assign an actual automatically generated token
       [
         data.loggedUserId,
 				data.loggedUserImg,
 				data.loggedUserUsername,
         data.recipientId,
 				data.recipientImg,
-				data.recipientUsername
+				data.recipientUsername,
+				data.recipientId
       ]
     )
     res.status(201).json({ 

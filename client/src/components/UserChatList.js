@@ -6,7 +6,8 @@ import moment from 'moment'
 import { useEffect } from 'react'
 import store from '../store'
 
-const UserChatList = ({ socket }) => {
+const UserChatList = ({ socket, onlineUsers }) => {
+	console.log("In online users ", onlineUsers)
 	const loggedUser = useSelector(({ user }) => user)
 	const chats = useSelector(({ chats }) => chats)
 	const selectedChat = chats.selectedChat
@@ -59,7 +60,7 @@ const UserChatList = ({ socket }) => {
 		socket.on('receive-message', (message) => {
 			console.log('amedeo was here', message)
 			const tempSelectedChat = store.getState().chats.selectedChat
-			const tempAllChats = store.getState().chats.allChats
+			let tempAllChats = store.getState().chats.allChats
 			if (tempSelectedChat?.id !== message.chat) {
 				const updatedAllChats = tempAllChats.map(((chat) => {
 					if (chat.id === message.chat) {
@@ -71,9 +72,15 @@ const UserChatList = ({ socket }) => {
 					}
 					return chat
 				}))
-				dispatch(setChats(updatedAllChats))
-				console.log("UP{DATED CHATS", store.getState().chats.allChats)
+				tempAllChats = updatedAllChats
 			}
+			
+			// order chats according to the latest message
+			const latestChat = tempAllChats.find((chat) => chat.id === message.chat)
+			const otherChats = tempAllChats.filter((chat) => chat.id !== message.chat)
+			tempAllChats = [latestChat, ...otherChats]
+			dispatch(setChats(tempAllChats))
+			console.log("UP{DATED CHATS", store.getState().chats.allChats)
 		})
 	}, []) // eslint-disable-line
 
@@ -87,11 +94,14 @@ const UserChatList = ({ socket }) => {
             onClick={() => openChat(chat.id)}
           >
             <div className='flex gap-5 items-center'>
-              <img
-                src={require(`../assets/img/${loggedUser.id === Number(chat.recipient_user_id) ? chat.matcher_user_img : chat.recipient_user_img}`)}
-                alt='profile-pic'
-                className='w-10 h-10 rounded-full'
-              />
+							<div className='relative'>
+								<img
+									src={require(`../assets/img/${loggedUser.id === Number(chat.recipient_user_id) ? chat.matcher_user_img : chat.recipient_user_img}`)}
+									alt='profile-pic'
+									className='w-12 h-10 rounded-full'
+								/>
+								{onlineUsers.includes(Number(chat.recipient_user_id)) ? <div className='bg-green-600 rounded-full w-3 h-3 absolute bottom-0 right-0'> </div> : <></>}
+							</div>
               <div className='flex flex-col gap-1 w-full'>
                 <div className='flex flex-row justify-between'>
                   <h1 className=''>{loggedUser.id === Number(chat.recipient_user_id) ? chat.matcher_user_username : chat.recipient_user_username}</h1>

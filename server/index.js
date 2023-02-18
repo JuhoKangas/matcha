@@ -14,6 +14,7 @@ const io = require('socket.io')(server, {
 	}
 })
 
+let onlineUsers = []
 // check the socket connection form client
 io.on('connection', (socket) => {
 	socket.on('join-room', (userId) => {
@@ -28,6 +29,14 @@ io.on('connection', (socket) => {
 
 	socket.on('clear-unread-messages', (data) => {
 		io.to(data.user1).to(data.user2).emit('unread-messages-cleared', data)
+	})
+
+	socket.on('is-online', (userId) => {
+		if(!onlineUsers.includes(userId)) {
+			onlineUsers.push(userId)
+		}
+		console.log("In online users ", onlineUsers)
+		io.emit('online-users', onlineUsers)
 	})
 })
 
