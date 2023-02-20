@@ -15,6 +15,8 @@ const UsersList = () => {
   }
 
   const sortedUsers = [...filteredUsers]
+  sortedUsers.sort((a, b) => a.distance - b.distance)
+  sortedUsers.sort((a, b) => b.fame - a.fame)
 
   if (sortingFilter === 'Tags') {
     sortedUsers.sort(
@@ -24,7 +26,7 @@ const UsersList = () => {
     sortedUsers.sort((a, b) => a.age - b.age)
   } else if (sortingFilter === 'Fame') {
     sortedUsers.sort((a, b) => b.fame - a.fame)
-  } else {
+  } else if (sortingFilter === 'Distance') {
     sortedUsers.sort((a, b) => a.distance - b.distance)
   }
 
