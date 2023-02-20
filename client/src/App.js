@@ -83,8 +83,8 @@ const App = () => {
           ) : (
         <Routes>
           <Route path='/' element={<Landing />}></Route>
-          {loggedInUser.completed === true && <Route path='/home' element={<Home socket={socket} />}></Route>}
-          <Route path='/login' element={<Login />}></Route>
+          {loggedInUser.completed === true && <Route path='/home' element={<Home socket={socket} />} />}
+          <Route path='/login' element={loggedInUser.username === undefined ? <Login /> : <Navigate replace to='/setup' />} />
           <Route path='/register' element={<Register />} />
           {loggedInUser.completed && <Route path='/matches' element={<Matches />} />}
           {loggedInUser.completed && <Route path='/browse' element={<Browse />} />}
@@ -98,7 +98,7 @@ const App = () => {
             <Route path='/photos' element={<Photos user={loggedInUser} />} />
           )}
           {loggedInUser.completed && <Route path='/blocked' element={<Blocked />} />}
-          {<Route path='/setup' element={loggedInUser.completed === false ? <Setup /> : <Navigate replace to='/home' />} /> }
+          <Route path='/setup' element={loggedInUser.completed === false ? <Setup /> : <Navigate replace to='/home' />} /> 
           {loggedInUser.completed && <Route path='/chat' element={<Chat socket={socket} />} />}
           {selectedUser && (
             <Route
