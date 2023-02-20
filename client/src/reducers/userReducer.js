@@ -41,13 +41,13 @@ export const loginUser = (email, password, coordinates) => {
   }
 }
 
-export const logoutUser = () => {
+export const logoutUser = (userId) => {
   return async (dispatch) => {
-    const response = await userService.logout()
+    const response = await userService.logout(userId)
     if (response.status === 200) {
       console.log('response data after logout: ', response.data)
       toast.success('You have successfully logged out!')
-			dispatch(setSelectedChat(null))
+      dispatch(setSelectedChat(null))
       dispatch(setUser(response.data))
     } else console.log('logoutUser failed, status: ', response.status)
   }

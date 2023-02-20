@@ -63,8 +63,8 @@ const getSelectedUserPhotos = (selectedUserId) => {
   })
 }
 
-const logout = () => {
-  return axios.post(logoutUrl, {}, { withCredentials: true })
+const logout = (userId) => {
+  return axios.post(logoutUrl, { userId: userId }, { withCredentials: true })
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

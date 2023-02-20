@@ -26,10 +26,10 @@ usersRouter.get('/:id', async (request, response) => {
 })
 
 usersRouter.get('/getSelectedPhotos', async (request, response) => {
-	const userId = req.body
-	console.log("User id is THIS", userId)
-	try {
-		const photosData = await db.query(
+  const userId = req.body
+  console.log('User id is THIS', userId)
+  try {
+    const photosData = await db.query(
       'SELECT photo FROM photos WHERE user_id = $1',
       [userId]
     )
@@ -39,19 +39,22 @@ usersRouter.get('/getSelectedPhotos', async (request, response) => {
       status: 'success',
       photos: photos,
     })
-	} catch (err) {
+  } catch (err) {
     console.log(err)
   }
 })
 
 usersRouter.get('/user/:username', async (req, res) => {
-	const username = req.params.username
-	try {
-		const user = await db.query('SELECT username, online, firstname, lastname, fame, age, city, country, latitude, longitude FROM users WHERE username = $1', [username])
-		response.status(200).json({ user })
-	} catch (e) {
-		console.log(e)
-	}
+  const username = req.params.username
+  try {
+    const user = await db.query(
+      'SELECT username, online, firstname, lastname, fame, age, city, country, latitude, longitude FROM users WHERE username = $1',
+      [username]
+    )
+    response.status(200).json({ user })
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 usersRouter.post('/', async (request, response) => {
@@ -142,6 +145,9 @@ usersRouter.delete('/:id', async (request, response) => {
 })
 
 usersRouter.post('/logout', async (request, response) => {
+  await db.query('UPDATE users SET online = 0 WHERE id = $1', [
+    request.body.userId,
+  ])
   response
     .clearCookie('authorization', { domain: 'localhost', path: '/' })
     .send({})

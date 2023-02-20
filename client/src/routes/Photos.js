@@ -92,14 +92,16 @@ const Photos = ({ user }) => {
       </h2>
       <div className='flex flex-col justify-center items-center'>
         <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
-          {user.photos.map((photo) => (
-            <img
-              src={`http://localhost:3001/uploads/${photo.photo}`}
-              alt=''
-              className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
-              onClick={() => choosePicToDelete(photo.photo)}
-            />
-          ))}
+          {user.photos
+            ? user.photos.map((photo) => (
+                <img
+                  src={`http://localhost:3001/uploads/${photo.photo}`}
+                  alt=''
+                  className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
+                  onClick={() => choosePicToDelete(photo.photo)}
+                />
+              ))
+            : ''}
         </div>
         <button
           className='flex items-center justify-center bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l py-3 px-5 mt-5 mb-10 rounded focus:outline-none focus:shadow-outline font-montserrat text-lg'

@@ -13,7 +13,7 @@ import { logoutUser } from '../reducers/userReducer'
 const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-	const loggedInUser = useSelector(({user}) => user)
+  const loggedInUser = useSelector(({ user }) => user)
 
   const navigation = [
     { name: 'Home', href: '/home' },
@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const handleLogout = async (event) => {
     event.preventDefault()
-    dispatch(logoutUser())
+    dispatch(logoutUser(loggedInUser.id))
     navigate('/')
   }
 

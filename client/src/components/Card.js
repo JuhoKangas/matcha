@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 
 const Card = ({ user }) => {
   const loggedUser = useSelector(({ user }) => user)
-  console.log('This is user from card ', user)
   const dispatch = useDispatch()
 
   const setupChat = () => {

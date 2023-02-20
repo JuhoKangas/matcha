@@ -50,22 +50,19 @@ settingsRouter.put('/', async (req, res) => {
             ]
           )
 
+    const user = await db.query('SELECT * FROM users WHERE id = $1', [
+      formData.id,
+    ])
+
     res.status(200).json({
       status: 'success',
       data: {
         user: {
-          id: results.rows[0].id,
-          firstname: results.rows[0].firstname,
-          lastname: results.rows[0].lastname,
-          username: results.rows[0].username,
-          age: results.rows[0].age,
+          ...user.rows[0],
           genderIdentity: results.rows[0].gender_identity,
           genderInterest: results.rows[0].gender_interest,
-          bio: results.rows[0].bio,
-          city: results.rows[0].city,
-          country: results.rows[0].country,
-          email: results.rows[0].email,
           profilePicture: results.rows[0].profile_picture,
+          password: '',
         },
         //results.rows[0],
       },
