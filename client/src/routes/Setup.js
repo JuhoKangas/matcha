@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { finishSetup } from '../reducers/userReducer'
 import tags from '../services/tags'
 import Tag from '../components/Tag'
 import toast from 'react-hot-toast'
 import userService from '../services/users'
 
-const Setup = ({ user }) => {
+const Setup = () => {
   const dispatch = useDispatch()
+	const loggedInUser = useSelector(({user}) => user)
 
   const [formData, setFormData] = useState({
     genderIdentity: 'other',
@@ -132,7 +133,7 @@ const Setup = ({ user }) => {
       bio: formData.bio,
       tags: formData.tags,
       profilePicture: dbPhotoFile,
-      id: user.id,
+      id: loggedInUser.id,
     }
 
     const errors = validateForm(profileData)

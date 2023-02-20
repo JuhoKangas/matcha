@@ -1,11 +1,12 @@
 import React from 'react'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-const UserProfile = ({ loggedUser, selectedUser }) => {
+const UserProfile = ({ selectedUser }) => {
   console.log('In other user profile page, user info: ', selectedUser)
   const dispatch = useDispatch()
+	const loggedUser = useSelector(({user}) => user)
 
   const setupChat = () => {
     const newChat = {
@@ -26,7 +27,7 @@ const UserProfile = ({ loggedUser, selectedUser }) => {
     <div className='flex flex-col ml-32 mr-56 mt-20 text-almost-white'>
       <div className='flex flex-col items-center justify-center'>
         <img
-          src={`http://localhost:3001/uploads/${selectedUser.profile_picture}`}
+          src={`http://localhost:3001/uploads/${selectedUser.profilePicture}`}
           className='object-cover rounded-full h-60 w-60 border border-almost-white mb-10'
           alt='profile-pic'
         ></img>

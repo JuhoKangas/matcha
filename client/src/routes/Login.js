@@ -5,8 +5,9 @@ import { loginUser } from '../reducers/userReducer'
 import { checkUser } from '../utils/checkUser'
 import toast from 'react-hot-toast'
 
-const Login = ({ user }) => {
+const Login = () => {
   const dispatch = useDispatch()
+
   const [coordinates, setCoordinates] = useState(null)
   const navigate = useNavigate()
 
@@ -26,14 +27,12 @@ const Login = ({ user }) => {
   }, [])
 
   const login = async (event) => {
-    //comment
     event.preventDefault()
     const email = event.target.email.value
     const password = event.target.password.value
     if (await checkUser(email, password)) {
       dispatch(loginUser(email, password, coordinates))
-      // TO DO: navigate user to home if profile is completed
-      navigate('/setup')
+			navigate('/setup')
     } else {
       toast.error('Username or password was incorrect')
     }

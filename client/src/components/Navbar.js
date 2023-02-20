@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -10,9 +10,10 @@ import {
 import { useNavigate, Link } from 'react-router-dom'
 import { logoutUser } from '../reducers/userReducer'
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+	const loggedInUser = useSelector(({user}) => user)
 
   const navigation = [
     { name: 'Home', href: '/home' },
@@ -92,7 +93,7 @@ const Navbar = ({ user }) => {
                     <ChatBubbleLeftRightIcon className='h-6 w-6' />
                   </Link>
                   <p className='font-montserrat text-almost-white pt-1'>
-                    {user.username}
+                    {loggedInUser.username}
                   </p>
                 </div>
 
@@ -104,7 +105,7 @@ const Navbar = ({ user }) => {
                       {/* USER PHOTO */}
                       <img
                         className='h-8 w-8 rounded-full'
-                        src={`http://localhost:3001/uploads/${user.profilePicture}`}
+                        src={`http://localhost:3001/uploads/${loggedInUser.profilePicture}`}
                         alt='user profilepicture'
                       />
                     </Menu.Button>

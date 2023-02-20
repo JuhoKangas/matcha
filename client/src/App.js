@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './index.css'
-import { Routes, Route, useMatch } from 'react-router-dom'
+import { Routes, Route, useMatch, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
@@ -28,7 +28,7 @@ const socket = io('http://localhost:3001')
 
 const App = () => {
   const users = useSelector(({ users }) => users)
-  const user = useSelector(({ user }) => user)
+  const loggedInUser = useSelector(({ user }) => user)
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -39,14 +39,14 @@ const App = () => {
 		
 		useEffect(() => {
 			// join the room
-			if (user) {
-				socket && socket.emit('join-room', user.id)
+			if (loggedInUser) {
+				socket && socket.emit('join-room', loggedInUser.id)
 	/* 			socket.emit('is-online', user.id)
 				socket.on('online-users', (users) => {
 					setOnlineUsers(users)
 				}) */
 			}
-		}, [user])
+		}, [loggedInUser])
 
   useEffect(() => {
     if (Cookies.get('authorization')) {
@@ -66,7 +66,7 @@ const App = () => {
 
   return (
     <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
-      {user.bio && <Navbar user={user} socket={socket} />}
+      {loggedInUser.bio && <Navbar socket={socket} />}
       <Toaster position='top-center' reverseOrder={false} />
       <div className='grow'>
 			{isLoading ? (
@@ -83,28 +83,28 @@ const App = () => {
           ) : (
         <Routes>
           <Route path='/' element={<Landing />}></Route>
-          {user.bio && <Route path='/home' element={<Home socket={socket} />}></Route>}
-          <Route path='/login' element={<Login user={user} />}></Route>
+          {loggedInUser.completed === true && <Route path='/home' element={<Home socket={socket} />}></Route>}
+          <Route path='/login' element={<Login />}></Route>
           <Route path='/register' element={<Register />} />
-          {user.bio && <Route path='/matches' element={<Matches />} />}
-          {user.bio && <Route path='/browse' element={<Browse />} />}
-          {user.bio && (
-            <Route path='/profile' element={<Profile user={user} />} />
+          {loggedInUser.completed && <Route path='/matches' element={<Matches />} />}
+          {loggedInUser.completed && <Route path='/browse' element={<Browse />} />}
+          {loggedInUser.completed && (
+            <Route path='/profile' element={<Profile user={loggedInUser} />} />
           )}
-          {user.bio && (
-            <Route path='/settings' element={<Settings user={user} />} />
+          {loggedInUser.completed && (
+            <Route path='/settings' element={<Settings user={loggedInUser} />} />
           )}
-          {user.bio && (
-            <Route path='/photos' element={<Photos user={user} />} />
+          {loggedInUser.completed && (
+            <Route path='/photos' element={<Photos user={loggedInUser} />} />
           )}
-          {user.bio && <Route path='/blocked' element={<Blocked />} />}
-          {<Route path='/setup' element={<Setup user={user} />} />}
-          {user.bio && <Route path='/chat' element={<Chat socket={socket} />} />}
+          {loggedInUser.completed && <Route path='/blocked' element={<Blocked />} />}
+          {<Route path='/setup' element={loggedInUser.completed === false ? <Setup /> : <Navigate replace to='/home' />} /> }
+          {loggedInUser.completed && <Route path='/chat' element={<Chat socket={socket} />} />}
           {selectedUser && (
             <Route
               path='/:username'
               element={
-                <UserProfile loggedUser={user} selectedUser={selectedUser} />
+                <UserProfile selectedUser={selectedUser} />
               }
             />
           )}

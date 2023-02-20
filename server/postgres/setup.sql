@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 	bio VARCHAR(1000),
 	city VARCHAR(1000),
 	country VARCHAR(1000),
-	completed BOOLEAN DEFAULT 'no',
+	completed BOOLEAN DEFAULT 'f',
 	active SMALLINT DEFAULT 0,
 	token varchar(255) NOT NULL DEFAULT 0,
 	fame INT NOT NULL DEFAULT 0,
