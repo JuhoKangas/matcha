@@ -12,8 +12,8 @@ const Home = (props) => {
 
   useEffect(() => {
     dispatch(initializeUsers(loggedInUser))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 		dispatch(setSelectedChat(null))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
   return (
