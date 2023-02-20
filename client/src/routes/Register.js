@@ -64,6 +64,11 @@ const Register = () => {
 
     if (!formData.password) {
       errors.password = 'Please add password'
+    } else if (
+      !/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.password)
+    ) {
+      errors.password =
+        'Password must be at least 8 characters and contain only letters and numbers'
     }
 
     if (!formData.email) {

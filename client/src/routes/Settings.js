@@ -34,8 +34,8 @@ const Settings = ({ user }) => {
   console.log('this is init gender identity: ', user.genderIdentity)
   console.log('this is picture: ', user.profilePicture)
 
-	useEffect(() => {
-		dispatch(setSelectedChat(null))
+  useEffect(() => {
+    dispatch(setSelectedChat(null))
   }, [dispatch])
 
   const handleChange = (e) => {
@@ -97,6 +97,13 @@ const Settings = ({ user }) => {
       errors.country = 'Please add your country'
     }
 
+    if (formData.password) {
+      if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(formData.password)) {
+        errors.password =
+          'Password must be at least 8 characters and contain only letters and numbers'
+      }
+    }
+
     if (!formData.email) {
       errors.email = 'Please add your email'
     } else if (
@@ -126,6 +133,8 @@ const Settings = ({ user }) => {
       bio: initialBio.value,
       profilePicture: dbPhotoFile,
     }
+
+    console.log('UPDATED USERINFO', updatedUserInfo)
 
     if (updatedUserInfo.password !== confirmPassword) {
       toast.error('Passwords do not match!')
