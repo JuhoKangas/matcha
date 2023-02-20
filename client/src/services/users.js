@@ -48,6 +48,10 @@ const deletePhoto = (deleteUserPhoto) => {
 	return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
 }
 
+const getUserByUsername = (username) => {
+	return axios.get(`${baseUrl}/user/${username}`, {withCredentials: true})
+}
+
 const getSelectedUserPhotos = (selectedUserId) => {
 	return axios.get(getSelectedUserPhotosUrl, selectedUserId, { withCredentials: true })
 }
@@ -57,4 +61,4 @@ const logout = () => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, checkUser, logout, update, setup, upload, deletePhoto, getSelectedUserPhotos }
+export default { getAll, create, checkUser, logout, update, setup, upload, getUserByUsername, deletePhoto, getSelectedUserPhotos }

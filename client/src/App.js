@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.css'
 import { Routes, Route, useMatch } from 'react-router-dom'
 import Navbar from './components/Navbar'
@@ -19,6 +19,8 @@ import { useSelector } from 'react-redux'
 import Home from './routes/Home'
 import Landing from './routes/Landing'
 import { Toaster } from 'react-hot-toast'
+import { io } from 'socket.io-client'
+const socket = io('http://localhost:3001')
 
 const App = () => {
   const users = useSelector(({ users }) => users)
@@ -27,15 +29,26 @@ const App = () => {
   const selectedUser = match
     ? users.find((user) => user.username === match.params.username)
     : null
+		
+		useEffect(() => {
+			// join the room
+			if (user) {
+				socket && socket.emit('join-room', user.id)
+	/* 			socket.emit('is-online', user.id)
+				socket.on('online-users', (users) => {
+					setOnlineUsers(users)
+				}) */
+			}
+		}, [user])
 
   return (
     <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
-      {user.bio && <Navbar user={user} />}
+      {user.bio && <Navbar user={user} socket={socket} />}
       <Toaster position='top-center' reverseOrder={false} />
       <div className='grow'>
         <Routes>
           <Route path='/' element={<Landing />}></Route>
-          {user.bio && <Route path='/home' element={<Home />}></Route>}
+          {user.bio && <Route path='/home' element={<Home socket={socket} />}></Route>}
           <Route path='/login' element={<Login user={user} />}></Route>
           <Route path='/register' element={<Register />} />
           {user.bio && <Route path='/matches' element={<Matches />} />}
@@ -51,7 +64,7 @@ const App = () => {
           )}
           {user.bio && <Route path='/blocked' element={<Blocked />} />}
           {<Route path='/setup' element={<Setup user={user} />} />}
-          {user.bio && <Route path='/chat' element={<Chat />} />}
+          {user.bio && <Route path='/chat' element={<Chat socket={socket} />} />}
           {selectedUser && (
             <Route
               path='/:username'

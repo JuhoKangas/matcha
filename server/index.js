@@ -31,13 +31,13 @@ io.on('connection', (socket) => {
 		io.to(data.user1).to(data.user2).emit('unread-messages-cleared', data)
 	})
 
-	socket.on('is-online', (userId) => {
+/* 	socket.on('is-online', (userId) => {
 		if(!onlineUsers.includes(userId)) {
 			onlineUsers.push(userId)
 		}
 		console.log("In online users ", onlineUsers)
 		io.emit('online-users', onlineUsers)
-	})
+	}) */
 })
 
 const PORT = config.PORT || 3001

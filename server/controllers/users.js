@@ -28,6 +28,16 @@ usersRouter.get('/getSelectedPhotos', async (request, response) => {
   }
 })
 
+usersRouter.get('/user/:username', async (req, res) => {
+	const username = req.params.username
+	try {
+		const user = await db.query('SELECT username, online, firstname, lastname, fame, age, city, country, latitude, longitude FROM users WHERE username = $1', [username])
+		response.status(200).json({ user })
+	} catch (e) {
+		console.log(e)
+	}
+})
+
 usersRouter.post('/', async (request, response) => {
   try {
     const data = request.body
