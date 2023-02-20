@@ -11,6 +11,8 @@ import fameFilterReducer from './reducers/fameFilterReducer'
 import sortingFilterReducer from './reducers/sortingFilterReducer'
 import chatReducer from './reducers/chatReducer'
 import messageReducer from './reducers/messageReducer'
+import likesReducer from './reducers/likesReducer'
+//import matchesReducer from './reducers/matchesReducer'
 
 const store = configureStore({
   reducer: {
@@ -25,6 +27,8 @@ const store = configureStore({
     sortingFilters: sortingFilterReducer,
     chats: chatReducer,
     messages: messageReducer,
+		likes: likesReducer,
+		//matches: matchesReducer,
   },
 })
 

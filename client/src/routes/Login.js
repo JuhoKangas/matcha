@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { loginUser } from '../reducers/userReducer'
 import { checkUser } from '../utils/checkUser'
 import toast from 'react-hot-toast'
+import { initializeLikes } from '../reducers/likesReducer'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -32,6 +33,7 @@ const Login = () => {
     const password = event.target.password.value
     if (await checkUser(email, password)) {
       dispatch(loginUser(email, password, coordinates))
+			dispatch(initializeLikes())
 			navigate('/setup')
     } else {
       toast.error('Username or password was incorrect')

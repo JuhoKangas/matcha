@@ -4,11 +4,15 @@ import Tag from './Tag'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
+import { addLikes } from '../reducers/likesReducer'
 
 const Card = ({ user }) => {
   const loggedUser = useSelector(({ user }) => user)
-  console.log('This is user from card ', user)
   const dispatch = useDispatch()
+
+  const handleLike = (toLikeId) => {
+    dispatch(addLikes(loggedUser.id, toLikeId))
+  }
 
   const setupChat = () => {
     console.log('setup chat')
@@ -70,7 +74,7 @@ const Card = ({ user }) => {
               <span className='text-gray-400'>{user.bio}</span>
             </div>
             <div className='flex flex-row justify-between'>
-              <button className='w-10 mt-4' onClick={setupChat}>
+              <button className='w-10 mt-4' onClick={() => handleLike(user.id)}>
                 <HeartIcon className='h-8 w-8' />
               </button>
               <button className='w-10 mt-4'>
