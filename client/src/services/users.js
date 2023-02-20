@@ -8,6 +8,7 @@ const setupUrl = 'http://localhost:3001/users/setup'
 const uploadUrl = 'http://localhost:3001/photos'
 const deleteUrl = 'http://localhost:3001/photos/delete'
 const getSelectedUserPhotosUrl = 'http://localhost:3001/users/getSelectedPhotos'
+const uploadPicUrl = 'http://localhost:3001/upload'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -20,6 +21,10 @@ const create = (newUser) => {
 
 const setup = (profileData) => {
   return axios.put(setupUrl, profileData, { withCredentials: true })
+}
+
+const uploadPhoto = (imageData) => {
+  return axios.post(uploadPicUrl, imageData)
 }
 
 const checkUser = (email, password, coordinates) => {
@@ -39,21 +44,23 @@ const update = (updatedUserInfo) => {
 }
 
 const upload = (userPhoto) => {
-	console.log("User photo from service", userPhoto)
+  console.log('User photo from service', userPhoto)
   return axios.post(uploadUrl, userPhoto, { withCredentials: true })
 }
 
 const deletePhoto = (deleteUserPhoto) => {
-	console.log("Delete photo from services", deleteUserPhoto)
-	return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
+  console.log('Delete photo from services', deleteUserPhoto)
+  return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
 }
 
 const getUserByUsername = (username) => {
-	return axios.get(`${baseUrl}/user/${username}`, {withCredentials: true})
+  return axios.get(`${baseUrl}/user/${username}`, { withCredentials: true })
 }
 
 const getSelectedUserPhotos = (selectedUserId) => {
-	return axios.get(getSelectedUserPhotosUrl, selectedUserId, { withCredentials: true })
+  return axios.get(getSelectedUserPhotosUrl, selectedUserId, {
+    withCredentials: true,
+  })
 }
 
 const logout = () => {
@@ -61,4 +68,16 @@ const logout = () => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, checkUser, logout, update, setup, upload, getUserByUsername, deletePhoto, getSelectedUserPhotos }
+export default {
+  getAll,
+  create,
+  checkUser,
+  logout,
+  update,
+  getUserByUsername,
+  setup,
+  upload,
+  getSelectedUserPhotos,
+  deletePhoto,
+  uploadPhoto,
+}

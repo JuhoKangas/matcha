@@ -14,6 +14,7 @@ const authRouter = require('./controllers/auth')
 const createUsersRouter = require('./controllers/createUsers')
 const chatsRouter = require('./controllers/chats')
 const messagesRouter = require('./controllers/messages')
+const uploadRouter = require('./controllers/upload')
 
 //cookies
 const bodyParser = require('body-parser')
@@ -40,6 +41,8 @@ app.use('/auth', authRouter)
 app.use('/createusers', createUsersRouter)
 app.use('/chats', chatsRouter)
 app.use('/messages', messagesRouter)
+app.use('/uploads', express.static('./uploads'))
+app.use('/upload', uploadRouter)
 
 app.use(middleware.authenticateJWT)
 app.use(middleware.unknownEndpoint)

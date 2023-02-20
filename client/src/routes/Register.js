@@ -40,7 +40,7 @@ const Register = () => {
     if (!formData.userName) {
       errors.userName = 'Please add username'
     } else if (formData.userName.length > 60) {
-      errors.lastName =
+      errors.userName =
         "Your username can't be over 60 characters. It's just arbitary limit that I came up with, in fact our database would handle usernames up to 1000 characters but it would probably break the styling of the page so we just gonna have it like this now."
     }
 

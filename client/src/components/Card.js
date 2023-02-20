@@ -29,7 +29,7 @@ const Card = ({ user }) => {
     <div className='p-3 flex flex-col items-center'>
       <div className='w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg'>
         <img
-          src={require(`../assets/img/${user.profilePicture}`)}
+          src={`http://localhost:3001/uploads/${user.profilePicture}`}
           className='w-full rounded-t-lg user-image p-1'
           title='tphoto'
           alt='Profile pics'

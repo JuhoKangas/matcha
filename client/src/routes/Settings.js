@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useField } from '../hooks'
 import { updateSettings } from '../reducers/userReducer'
 import { setSelectedChat } from '../reducers/chatReducer'
+import userService from '../services/users'
 
 const Settings = ({ user }) => {
   const navigate = useNavigate()
@@ -22,6 +23,8 @@ const Settings = ({ user }) => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [file, setFile] = useState('')
   const [dbPhotoFile, setDbPhotoFile] = useState(user.profilePicture)
+  const [formImage, setFormImage] = useState('')
+  const [pictureChanged, setPictureChanged] = useState(false)
   const [formData, setFormData] = useState({
     genderIdentity: user.genderIdentity,
     genderInterest: user.genderInterest,
@@ -46,9 +49,63 @@ const Settings = ({ user }) => {
   }
 
   const handlePhotoChange = (e) => {
-    console.log(e.target.files[0])
     setFile(URL.createObjectURL(e.target.files[0]))
     setDbPhotoFile(e.target.files[0].name)
+    setFormImage(e.target.files[0])
+    setPictureChanged(true)
+  }
+
+  const validateForm = (formData) => {
+    const errors = {}
+
+    if (!formData.firstname) {
+      errors.firstname = 'Please add first name'
+    } else if (formData.firstname.length > 1000) {
+      errors.firstname =
+        "Your first name can't realistically be over 1000 characters"
+    }
+
+    if (!formData.lastname) {
+      errors.lastname = 'Please add last name'
+    } else if (formData.lastname.length > 1000) {
+      errors.lastname =
+        "Your last name can't realistically be over 1000 characters"
+    }
+
+    if (!formData.username) {
+      errors.username = 'Please add username'
+    } else if (formData.username.length > 60) {
+      errors.username =
+        "Your username can't be over 60 characters. It's just arbitary limit that I came up with, in fact our database would handle usernames up to 1000 characters but it would probably break the styling of the page so we just gonna have it like this now."
+    }
+
+    if (!formData.age) {
+      errors.age = 'Please add your age'
+    } else if (formData.age > 122) {
+      errors.age = "Unfortunately we don't accept dating at over 122"
+    } else if (formData.age < 18) {
+      errors.age = 'You have to be over 18 to use this application'
+    } else if (isNaN(formData.age)) {
+      errors.age = "That's not a number, this is a number: '23'"
+    }
+
+    if (!formData.city) {
+      errors.city = 'Please add your city'
+    }
+
+    if (!formData.country) {
+      errors.country = 'Please add your country'
+    }
+
+    if (!formData.email) {
+      errors.email = 'Please add your email'
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
+    ) {
+      errors.email = 'Please add proper email'
+    }
+
+    return errors
   }
 
   const handleRegister = async (e) => {
@@ -75,7 +132,29 @@ const Settings = ({ user }) => {
       return
     }
 
-    dispatch(updateSettings(updatedUserInfo))
+    const errors = validateForm(updatedUserInfo)
+
+    if (errors !== {}) {
+      for (const error in errors) {
+        toast.error(errors[error])
+        return
+      }
+    }
+
+    if (pictureChanged) {
+      const uploadPhotoData = new FormData()
+      uploadPhotoData.append('profile', formImage)
+
+      const response = await userService.uploadPhoto(uploadPhotoData)
+      dispatch(
+        updateSettings({
+          ...updatedUserInfo,
+          profilePicture: response.data.filename,
+        })
+      )
+    } else {
+      dispatch(updateSettings(updatedUserInfo))
+    }
 
     // TODO: only navigate user to profile page if info successfuly updated
     navigate('/profile')
@@ -480,7 +559,7 @@ const Settings = ({ user }) => {
               ) : (
                 <img
                   className='object-cover rounded-full h-60 w-60'
-                  src={require(`../assets/img/${user.profilePicture}`)}
+                  src={`http://localhost:3001/uploads/${user.profilePicture}`}
                   alt=''
                 />
               )}

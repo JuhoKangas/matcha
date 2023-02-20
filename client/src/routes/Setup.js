@@ -4,6 +4,7 @@ import { finishSetup } from '../reducers/userReducer'
 import tags from '../services/tags'
 import Tag from '../components/Tag'
 import toast from 'react-hot-toast'
+import userService from '../services/users'
 
 const Setup = ({ user }) => {
   const dispatch = useDispatch()
@@ -16,6 +17,7 @@ const Setup = ({ user }) => {
   })
   const [allTags, setAllTags] = useState([])
   const [file, setFile] = useState('')
+  const [formImage, setFormImage] = useState('')
   const [dbPhotoFile, setDbPhotoFile] = useState('')
 
   useEffect(() => {
@@ -24,6 +26,7 @@ const Setup = ({ user }) => {
 
   const handlePhotoChange = (e) => {
     console.log(e.target.files[0].name)
+    setFormImage(e.target.files[0])
     setFile(URL.createObjectURL(e.target.files[0]))
     setDbPhotoFile(e.target.files[0].name)
   }
@@ -141,7 +144,13 @@ const Setup = ({ user }) => {
       }
     }
 
-    dispatch(finishSetup(profileData))
+    const uploadPhotoData = new FormData()
+    uploadPhotoData.append('profile', formImage)
+
+    const response = await userService.uploadPhoto(uploadPhotoData)
+    dispatch(
+      finishSetup({ ...profileData, profilePicture: response.data.filename })
+    )
   }
 
   return (
