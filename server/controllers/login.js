@@ -28,7 +28,9 @@ loginRouter.post('/check', async (req, res) => {
 
 loginRouter.post('/', async (req, res) => {
   const { email, password, coordinates } = req.body
+	const online = 1
 
+	const updateOnlineStatus = await db.query('UPDATE users SET online = $1 WHERE email = $2', [online, email])
   const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
   const user = data.rows[0]
 
@@ -90,6 +92,7 @@ loginRouter.post('/', async (req, res) => {
       genderInterest: user.gender_interest,
       bio: user.bio,
       profilePicture: user.profile_picture,
+			online: user.online,
       photos: photos,
       latitude: user.latitude,
       longitude: user.longitude,

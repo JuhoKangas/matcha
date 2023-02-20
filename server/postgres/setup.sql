@@ -35,3 +35,39 @@ CREATE TABLE IF NOT EXISTS photos (
 	user_id INT NOT NULL,
 	photo VARCHAR(1000)
 );
+
+CREATE TABLE IF NOT EXISTS chats (
+	id SERIAL NOT NULL PRIMARY KEY,
+	matcher_user_id VARCHAR(255),
+	matcher_user_img VARCHAR(255),
+	matcher_user_username VARCHAR(1000),
+	recipient_user_id VARCHAR(255),
+	recipient_user_img VARCHAR(255),
+	recipient_user_username VARCHAR(1000),
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	unread_messages INT DEFAULT 0,
+	last_message_text VARCHAR(1000),
+	last_message_sender INT, 
+	show_online INT
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+	id SERIAL NOT NULL PRIMARY KEY,
+	chat_id VARCHAR(255),
+	sender VARCHAR(255),
+	text VARCHAR(1000),
+	read SMALLINT DEFAULT 0,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS likes (
+	id SERIAL NOT NULL PRIMARY KEY,
+	user1 INT NOT NULL,
+	user2 INT NOT NULL
+)
+
+CREATE TABLE IF NOT EXISTS matches (
+	id SERIAL NOT NULL PRIMARY KEY,
+	user1 INT NOT NULL,
+	user2 INT NOT NULL
+)

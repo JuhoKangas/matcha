@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeUsers } from '../reducers/usersReducer'
 import Sorting from '../components/Sorting'
+import { setSelectedChat } from '../reducers/chatReducer'
 
 const Home = (props) => {
   const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const Home = (props) => {
   useEffect(() => {
     dispatch(initializeUsers(loggedInUser))
     // eslint-disable-next-line react-hooks/exhaustive-deps
+		dispatch(setSelectedChat(null))
   }, [dispatch])
 
   return (

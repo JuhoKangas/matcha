@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './index.css'
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom'
+import { Routes, Route, useMatch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
@@ -16,6 +11,8 @@ import Settings from './routes/Settings'
 import Photos from './routes/Photos'
 import Blocked from './routes/Blocked'
 import Setup from './routes/Setup'
+import Chat from './routes/Chat'
+import UserProfile from './routes/UserProfile'
 import Footer from './components/Footer'
 import { Hearts } from 'react-loader-spinner'
 
@@ -26,11 +23,30 @@ import { Toaster } from 'react-hot-toast'
 import authService from './services/auth'
 import Cookies from 'js-cookie'
 import { setUser } from './reducers/userReducer'
+import { io } from 'socket.io-client'
+const socket = io('http://localhost:3001')
 
 const App = () => {
+  const users = useSelector(({ users }) => users)
   const user = useSelector(({ user }) => user)
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
+
+	const match = useMatch('/:username')
+  const selectedUser = match
+    ? users.find((user) => user.username === match.params.username)
+    : null
+		
+		useEffect(() => {
+			// join the room
+			if (user) {
+				socket && socket.emit('join-room', user.id)
+	/* 			socket.emit('is-online', user.id)
+				socket.on('online-users', (users) => {
+					setOnlineUsers(users)
+				}) */
+			}
+		}, [user])
 
   useEffect(() => {
     if (Cookies.get('authorization')) {
@@ -50,11 +66,10 @@ const App = () => {
 
   return (
     <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
-      <Router>
-        {user.bio && <Navbar user={user} />}
-        <Toaster position='top-center' reverseOrder={false} />
-        <div className='grow'>
-          {isLoading ? (
+      {user.bio && <Navbar user={user} socket={socket} />}
+      <Toaster position='top-center' reverseOrder={false} />
+      <div className='grow'>
+			{isLoading ? (
             // Todo: fix the css to position the hearts to the middle of the page
             <Hearts
               height='80'
@@ -66,30 +81,36 @@ const App = () => {
               visible={true}
             />
           ) : (
-            <Routes>
-              <Route path='/' element={<Landing />} />
-              {user.bio && <Route path='/home' element={<Home />} />}
-              <Route path='/login' element={<Login />} />
-              <Route path='/register' element={<Register />} />
-              {user.bio && <Route path='/matches' element={<Matches />} />}
-              {user.bio && <Route path='/browse' element={<Browse />} />}
-              {user.bio && (
-                <Route path='/profile' element={<Profile user={user} />} />
-              )}
-              {user.bio && (
-                <Route path='/settings' element={<Settings user={user} />} />
-              )}
-              {user.bio && (
-                <Route path='/photos' element={<Photos user={user} />} />
-              )}
-              {user.bio && <Route path='/blocked' element={<Blocked />} />}
-              <Route path='/setup' element={<Setup user={user} />} />
-              {/* todo: Route path * functions incorrectly when reloading the page */}
-              {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
-            </Routes>
+        <Routes>
+          <Route path='/' element={<Landing />}></Route>
+          {user.bio && <Route path='/home' element={<Home socket={socket} />}></Route>}
+          <Route path='/login' element={<Login user={user} />}></Route>
+          <Route path='/register' element={<Register />} />
+          {user.bio && <Route path='/matches' element={<Matches />} />}
+          {user.bio && <Route path='/browse' element={<Browse />} />}
+          {user.bio && (
+            <Route path='/profile' element={<Profile user={user} />} />
           )}
-        </div>
-      </Router>
+          {user.bio && (
+            <Route path='/settings' element={<Settings user={user} />} />
+          )}
+          {user.bio && (
+            <Route path='/photos' element={<Photos user={user} />} />
+          )}
+          {user.bio && <Route path='/blocked' element={<Blocked />} />}
+          {<Route path='/setup' element={<Setup user={user} />} />}
+          {user.bio && <Route path='/chat' element={<Chat socket={socket} />} />}
+          {selectedUser && (
+            <Route
+              path='/:username'
+              element={
+                <UserProfile loggedUser={user} selectedUser={selectedUser} />
+              }
+            />
+          )}
+        </Routes>
+				)}
+      </div>
       <Footer />
     </div>
   )
