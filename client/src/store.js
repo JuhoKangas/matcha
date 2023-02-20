@@ -9,6 +9,8 @@ import ageFilterReducer from './reducers/ageFilterReducer'
 import distanceFilterReducer from './reducers/distanceFilterReducer'
 import fameFilterReducer from './reducers/fameFilterReducer'
 import sortingFilterReducer from './reducers/sortingFilterReducer'
+import chatReducer from './reducers/chatReducer'
+import messageReducer from './reducers/messageReducer'
 
 const store = configureStore({
   reducer: {
@@ -21,6 +23,8 @@ const store = configureStore({
     distanceFilters: distanceFilterReducer,
     fameFilters: fameFilterReducer,
     sortingFilters: sortingFilterReducer,
+		chats: chatReducer,
+		messages: messageReducer,
   },
 })
 

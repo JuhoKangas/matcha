@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useField } from '../hooks'
 import { updateSettings } from '../reducers/userReducer'
+import { setSelectedChat } from '../reducers/chatReducer'
 
 const Settings = ({ user }) => {
   const navigate = useNavigate()
@@ -29,6 +30,10 @@ const Settings = ({ user }) => {
   console.log('this is user in settings: ', user)
   console.log('this is init gender identity: ', user.genderIdentity)
   console.log('this is picture: ', user.profilePicture)
+
+	useEffect(() => {
+		dispatch(setSelectedChat(null))
+  }, [dispatch])
 
   const handleChange = (e) => {
     const value = e.target.value

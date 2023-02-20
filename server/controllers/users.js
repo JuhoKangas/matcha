@@ -25,6 +25,35 @@ usersRouter.get('/:id', async (request, response) => {
   })
 })
 
+usersRouter.get('/getSelectedPhotos', async (request, response) => {
+	const userId = req.body
+	console.log("User id is THIS", userId)
+	try {
+		const photosData = await db.query(
+      'SELECT photo FROM photos WHERE user_id = $1',
+      [userId]
+    )
+    const photos = photosData.rows
+
+    res.status(200).json({
+      status: 'success',
+      photos: photos,
+    })
+	} catch (err) {
+    console.log(err)
+  }
+})
+
+usersRouter.get('/user/:username', async (req, res) => {
+	const username = req.params.username
+	try {
+		const user = await db.query('SELECT username, online, firstname, lastname, fame, age, city, country, latitude, longitude FROM users WHERE username = $1', [username])
+		response.status(200).json({ user })
+	} catch (e) {
+		console.log(e)
+	}
+})
+
 usersRouter.post('/', async (request, response) => {
   const data = request.body
   if (

@@ -7,6 +7,7 @@ const settingsUrl = 'http://localhost:3001/settings'
 const setupUrl = 'http://localhost:3001/users/setup'
 const uploadUrl = 'http://localhost:3001/photos'
 const deleteUrl = 'http://localhost:3001/photos/delete'
+const getSelectedUserPhotosUrl = 'http://localhost:3001/users/getSelectedPhotos'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -47,9 +48,17 @@ const deletePhoto = (deleteUserPhoto) => {
 	return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
 }
 
+const getUserByUsername = (username) => {
+	return axios.get(`${baseUrl}/user/${username}`, {withCredentials: true})
+}
+
+const getSelectedUserPhotos = (selectedUserId) => {
+	return axios.get(getSelectedUserPhotosUrl, selectedUserId, { withCredentials: true })
+}
+
 const logout = () => {
   return axios.post(logoutUrl, {}, { withCredentials: true })
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, checkUser, logout, update, setup, upload, deletePhoto }
+export default { getAll, create, checkUser, logout, update, setup, upload, getUserByUsername, deletePhoto, getSelectedUserPhotos }

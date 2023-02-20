@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import userService from '../services/users'
 import toast from 'react-hot-toast'
+import { setSelectedChat } from '../reducers/chatReducer'
 
 const userSlice = createSlice({
   name: 'user',
@@ -9,10 +10,10 @@ const userSlice = createSlice({
     setUser(state, action) {
       return (state = action.payload)
     },
-		setPhotos(state, action) {
-			const userPhotos = {...state, photos: action.payload}
-			return userPhotos
-		}
+    setPhotos(state, action) {
+      const userPhotos = { ...state, photos: action.payload }
+      return userPhotos
+    },
   },
 })
 
@@ -46,6 +47,7 @@ export const logoutUser = () => {
     if (response.status === 200) {
       console.log('response data after logout: ', response.data)
       toast.success('You have successfully logged out!')
+			dispatch(setSelectedChat(null))
       dispatch(setUser(response.data))
     } else console.log('logoutUser failed, status: ', response.status)
   }
@@ -72,7 +74,7 @@ export const uploadPhoto = (userPhoto) => {
     if (response.status === 200) {
       toast.success('You have successfully uploaded a photo!')
       dispatch(setPhotos(response.data.photos))
-			console.log(response.data.photos)
+      console.log(response.data.photos)
     } else {
       console.log('upload failed, status: ', response.status)
       toast.error('Error occured, your photo was not uploaded.')
@@ -81,17 +83,17 @@ export const uploadPhoto = (userPhoto) => {
 }
 
 export const deletePhoto = (deleteUserPhoto) => {
-	return async (dispatch) => {
-		const response = await userService.deletePhoto(deleteUserPhoto)
-		if (response.status === 200) {
-			console.log('This is response from deletePhoto in useReducer', response)
-			toast.success('You have successfully deleted your photo!')
-			dispatch(setPhotos(response.data.photos))
-		} else {
+  return async (dispatch) => {
+    const response = await userService.deletePhoto(deleteUserPhoto)
+    if (response.status === 200) {
+      console.log('This is response from deletePhoto in useReducer', response)
+      toast.success('You have successfully deleted your photo!')
+      dispatch(setPhotos(response.data.photos))
+    } else {
       console.log('delete photo failed, status: ', response.status)
       toast.error('Error occured, your photo was not deleted.')
     }
-	}
+  }
 }
 
 export const registerUser = (newUser) => {
