@@ -11,9 +11,9 @@ const Photos = ({ user }) => {
   const [photoToDelete, setPhotoToDelete] = useState('')
 
   useEffect(() => {
-		dispatch(setSelectedChat(null))
-  }, [dispatch])	
-	
+    dispatch(setSelectedChat(null))
+  }, [dispatch])
+
   const handleChange = (e) => {
     console.log(e.target.files)
     setFile(URL.createObjectURL(e.target.files[0]))
@@ -94,7 +94,7 @@ const Photos = ({ user }) => {
         <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
           {user.photos.map((photo) => (
             <img
-              src={require(`../assets/img/${photo.photo}`)}
+              src={`http://localhost:3001/uploads/${photo.photo}`}
               alt=''
               className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
               onClick={() => choosePicToDelete(photo.photo)}

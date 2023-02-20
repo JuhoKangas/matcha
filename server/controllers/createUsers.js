@@ -151,8 +151,8 @@ createUsersRouter.get('/', async (req, res) => {
     if (i < 250) {
       const user = await getRandomMale(i)
       db.query(
-        `INSERT INTO users (username, firstname, lastname, email, password, age, gender_identity, gender_interest, tags, bio, city, country, fame, latitude, longitude, profile_picture)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+        `INSERT INTO users (username, firstname, lastname, email, password, age, gender_identity, gender_interest, tags, bio, city, country, fame, latitude, longitude, profile_picture, completed)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, TRUE)`,
         [
           user.username,
           user.firstName,
@@ -175,8 +175,8 @@ createUsersRouter.get('/', async (req, res) => {
     } else {
       const user = await getRandomFemale(i)
       db.query(
-        `INSERT INTO users (username, firstname, lastname, email, password, age, gender_identity, gender_interest, tags, bio, city, country, fame, latitude, longitude, profile_picture)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+        `INSERT INTO users (username, firstname, lastname, email, password, age, gender_identity, gender_interest, tags, bio, city, country, fame, latitude, longitude, profile_picture, completed)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, TRUE)`,
         [
           user.username,
           user.firstName,

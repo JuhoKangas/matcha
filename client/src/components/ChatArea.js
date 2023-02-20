@@ -101,11 +101,11 @@ const ChatArea = ({ socket }) => {
         <div>
           <div className='flex gap-5 items-center mb-2'>
             <img
-              src={require(`../assets/img/${
+              src={`http://localhost:3001/uploads/${
                 loggedUser.id === Number(selectedChat.recipient_user_id)
                   ? selectedChat.matcher_user_img
                   : selectedChat.recipient_user_img
-              }`)}
+              }`}
               alt='profile-pic'
               className='w-10 h-10 rounded-full'
             />

@@ -19,14 +19,14 @@ const UserProfile = ({ loggedUser, selectedUser }) => {
     dispatch(createChat(newChat))
   }
 
-	//const photos = dispatch(getSelectedUserPhotos(selectedUser.id))
-	//console.log("Photos of selecetd user", photos)
+  //const photos = dispatch(getSelectedUserPhotos(selectedUser.id))
+  //console.log("Photos of selecetd user", photos)
 
   return (
     <div className='flex flex-col ml-32 mr-56 mt-20 text-almost-white'>
       <div className='flex flex-col items-center justify-center'>
         <img
-          src={require(`../assets/img/${selectedUser.profile_picture}`)}
+          src={`http://localhost:3001/uploads/${selectedUser.profile_picture}`}
           className='object-cover rounded-full h-60 w-60 border border-almost-white mb-10'
           alt='profile-pic'
         ></img>
@@ -61,15 +61,6 @@ const UserProfile = ({ loggedUser, selectedUser }) => {
           </button>
         </div>
       </div>
-			{/* <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
-          {photos.map((photo) => (
-            <img
-              src={require(`../assets/img/${photo.photo}`)}
-              alt=''
-              className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
-            />
-          ))}
-        </div> */}
     </div>
   )
 }

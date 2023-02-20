@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addTagFilter, removeTagFilter } from '../reducers/TagFilterReducer'
+import { addTagFilter, removeTagFilter } from '../reducers/tagFilterReducer'
 import { initializeTags } from '../reducers/tagsReducer'
 import Tag from './Tag'
 
@@ -39,7 +39,7 @@ const TagFilters = () => {
   }
 
   return (
-    <div className="flex flex-wrap gap-2 my-3 justify-center w-3/5">
+    <div className='flex flex-wrap gap-2 my-3 justify-center w-3/5'>
       {allTags.map((tag) => (
         <Tag
           key={tag.id}

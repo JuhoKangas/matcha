@@ -101,11 +101,11 @@ const UserChatList = ({ socket }) => {
               <div className='flex gap-5 items-center'>
                 <div className='relative'>
                   <img
-                    src={require(`../assets/img/${
+                    src={`http://localhost:3001/uploads/${
                       loggedUser.id === Number(chat.recipient_user_id)
                         ? chat.matcher_user_img
                         : chat.recipient_user_img
-                    }`)}
+                    }`}
                     alt='profile-pic'
                     className='w-12 h-10 rounded-full'
                   />
