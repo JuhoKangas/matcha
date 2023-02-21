@@ -26,7 +26,7 @@ const UserProfile = ({ socket, selectedUser }) => {
     socket.emit('notification', {
       user1: loggedUser.id,
       user2: selectedUser.id,
-      content: `${selectedUser.username} viewed your profile.`,
+      content: `${loggedUser.username} viewed your profile.`,
       type: 1,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
