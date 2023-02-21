@@ -16,23 +16,22 @@ const Card = ({ user, socket }) => {
 		socket.emit('notification', {
       user1: loggedUser.id,
       user2: user.id,
-      content: `${user.username} viewed your profile.`,
+      content: `${user.username} liked you.`,
       type: 1,
     })
+
+			console.log('setup chat')
+			const newChat = {
+				loggedUserId: loggedUser.id,
+				loggedUserImg: loggedUser.profilePicture,
+				loggedUserUsername: loggedUser.username,
+				recipientId: user.id,
+				recipientImg: user.profilePicture,
+				recipientUsername: user.username,
+			}
+			dispatch(createChat(newChat))
   }
 
-  const setupChat = () => {
-    console.log('setup chat')
-    const newChat = {
-      loggedUserId: loggedUser.id,
-      loggedUserImg: loggedUser.profilePicture,
-      loggedUserUsername: loggedUser.username,
-      recipientId: user.id,
-      recipientImg: user.profilePicture,
-      recipientUsername: user.username,
-    }
-    dispatch(createChat(newChat))
-  }
 
   const usernamePath = `/${user.username}`
 

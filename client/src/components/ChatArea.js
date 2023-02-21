@@ -15,6 +15,7 @@ const ChatArea = ({ socket }) => {
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
+	console.log("SELECTED CHAT ", selectedChat)
 
   const [newMessage, setNewMessage] = useState('')
   const [messages = [], setMessages] = useState([])
@@ -36,6 +37,13 @@ const ChatArea = ({ socket }) => {
       user1: Number(selectedChat.matcher_user_id),
       user2: Number(selectedChat.recipient_user_id),
       read: 0,
+    })
+
+		socket.emit('notification', {
+      user1: loggedUser.id,
+      user2: loggedUser.id === Number(selectedChat.matcher_user_id) ? Number(selectedChat.recipient_user_id) :  Number(selectedChat.matcher_user_id),
+      content: `${selectedChat.recipient_user_username} sent you a message.`,
+      type: 2,
     })
 
     // store message in db
