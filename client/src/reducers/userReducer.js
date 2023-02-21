@@ -27,16 +27,11 @@ export const initializeUser = (userId) => {
 }
 
 export const loginUser = (email, password, coordinates) => {
-  console.log('in reducer.')
   return async (dispatch) => {
-    console.log('in reducer async.')
     const response = await userService.checkUser(email, password, coordinates)
-    console.log('in reducer response', response)
-    console.log('in reducer response status', response.status)
     if (response.status === 200) {
       toast.success('You are successfully logged in!')
       dispatch(setUser(response.data))
-      console.log('in reducer res data ', response.data)
     } else console.log('loginUser failed, status: ', response.status)
   }
 }
@@ -45,7 +40,6 @@ export const logoutUser = (userId) => {
   return async (dispatch) => {
     const response = await userService.logout(userId)
     if (response.status === 200) {
-      console.log('response data after logout: ', response.data)
       toast.success('You have successfully logged out!')
       dispatch(setSelectedChat(null))
       dispatch(setUser(response.data))
@@ -59,9 +53,7 @@ export const updateSettings = (updatedUserInfo) => {
     if (response.status === 200) {
       toast.success('You have successfully updated your information!')
       dispatch(setUser(response.data.data.user))
-      console.log('THis is response data ', response.data.data.user)
     } else {
-      console.log('update failed, status: ', response.status)
       toast.error('Error occured, information was not updated.')
     }
   }
@@ -70,13 +62,10 @@ export const updateSettings = (updatedUserInfo) => {
 export const uploadPhoto = (userPhoto) => {
   return async (dispatch) => {
     const response = await userService.upload(userPhoto)
-    console.log('This is response from useReducer', response)
     if (response.status === 200) {
       toast.success('You have successfully uploaded a photo!')
       dispatch(setPhotos(response.data.photos))
-      console.log(response.data.photos)
     } else {
-      console.log('upload failed, status: ', response.status)
       toast.error('Error occured, your photo was not uploaded.')
     }
   }
@@ -86,11 +75,9 @@ export const deletePhoto = (deleteUserPhoto) => {
   return async (dispatch) => {
     const response = await userService.deletePhoto(deleteUserPhoto)
     if (response.status === 200) {
-      console.log('This is response from deletePhoto in useReducer', response)
       toast.success('You have successfully deleted your photo!')
       dispatch(setPhotos(response.data.photos))
     } else {
-      console.log('delete photo failed, status: ', response.status)
       toast.error('Error occured, your photo was not deleted.')
     }
   }
@@ -103,7 +90,6 @@ export const registerUser = (newUser) => {
       toast.success('You have successfully created your account!')
       dispatch(setUser(response.data))
     } else {
-      console.log('registration failed, status: ', response.status)
       toast.error('Error occured, registration failed.')
     }
   }
@@ -116,7 +102,6 @@ export const finishSetup = (profileData) => {
       toast.success('You have successfully set up your profile!')
       dispatch(setUser(response.data.data.user))
     } else {
-      console.log('setup failed, status: ', response.status)
       toast.error('Error occured, setup failed.')
     }
   }
