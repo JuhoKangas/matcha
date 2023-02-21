@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { finishSetup } from '../reducers/userReducer'
 import tags from '../services/tags'
@@ -8,7 +9,8 @@ import userService from '../services/users'
 
 const Setup = () => {
   const dispatch = useDispatch()
-	const loggedInUser = useSelector(({user}) => user)
+  const navigate = useNavigate()
+  const loggedInUser = useSelector(({ user }) => user)
 
   const [formData, setFormData] = useState({
     genderIdentity: 'other',
@@ -152,6 +154,9 @@ const Setup = () => {
     dispatch(
       finishSetup({ ...profileData, profilePicture: response.data.filename })
     )
+    setTimeout(() => {
+      navigate('/home')
+    }, 1000)
   }
 
   return (

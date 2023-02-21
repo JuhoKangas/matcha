@@ -123,7 +123,7 @@ usersRouter.put('/setup', async (request, response) => {
   ) {
     try {
       const results = await db.query(
-        "UPDATE users SET gender_identity = $1, gender_interest = $2, bio = $3, tags = $4, profile_picture = $5, completed = 'yes' WHERE id = $6 returning id, username, firstname, lastname, email, age, gender_identity, gender_interest, tags, bio, city, country, active, fame, online, latitude, longitude, profile_picture",
+        "UPDATE users SET gender_identity = $1, gender_interest = $2, bio = $3, tags = $4, profile_picture = $5, completed = 'yes' WHERE id = $6 returning *",
         [
           data.genderIdentity,
           data.genderInterest,
@@ -133,10 +133,19 @@ usersRouter.put('/setup', async (request, response) => {
           data.id,
         ]
       )
+
+      const completedUser = results.rows[0]
+
       response.status(201).json({
         status: 'success',
         data: {
-          user: results.rows[0],
+          user: {
+            ...completedUser,
+            genderIdentity: completedUser.gender_identity,
+            genderInterest: completedUser.gender_interest,
+            profilePicture: completedUser.profile_picture,
+            password: '',
+          },
         },
       })
     } catch (err) {
