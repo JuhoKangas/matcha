@@ -9,10 +9,14 @@ const likesSlice = createSlice({
     setLikes(state, action) {
       return action.payload
     },
+    addLike(state, action) {
+      const newLikes = [...state, action.payload]
+      return newLikes
+    },
   },
 })
 
-export const { setLikes } = likesSlice.actions
+export const { setLikes, addLike } = likesSlice.actions
 
 export const initializeLikes = () => {
   return async (dispatch) => {
@@ -21,19 +25,12 @@ export const initializeLikes = () => {
   }
 }
 
-export const addLikes = (loggedInUserId, userId) => {
+export const likeUser = (loggedInUserId, userId) => {
   return async (dispatch) => {
-    const likes = await likesService.getAll()
-    const hasLiked = likes.filter(
-      (like) => like.user1 === loggedInUserId && like.user2 === userId
-    )
-    if (hasLiked.length === 0) {
-      const response = await likesService.createLike(loggedInUserId, userId)
-      if (response.status === 201) {
-        console.log('Likes from BACKEND', response)
-        //dispatch(setLikes(...likes, response.data.results.rows))
-      }
-    } else toast.error('You have already liked this user')
+    const response = await likesService.createLike(loggedInUserId, userId)
+    if (response.status === 201) {
+      dispatch(addLike(response.data.results.rows[0]))
+    } else toast.error('Sorry, could not like this user')
   }
 }
 
