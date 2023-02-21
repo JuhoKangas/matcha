@@ -33,8 +33,10 @@ const Login = () => {
     const password = event.target.password.value
     if (await checkUser(email, password)) {
       dispatch(loginUser(email, password, coordinates))
-			dispatch(initializeLikes())
-			navigate('/setup')
+      dispatch(initializeLikes())
+      setTimeout(() => {
+        navigate('/setup')
+      }, 300)
     } else {
       toast.error('Username or password was incorrect')
     }

@@ -23,13 +23,18 @@ loginRouter.post('/check', async (req, res) => {
     })
   }
 
+  if (user.active === 0) {
+    return res.status(200).json({
+      error: 'Email is not yet activated',
+    })
+  }
+
   return res.status(200).json({ msg: 'user found' })
 })
 
 loginRouter.post('/', async (req, res) => {
   const { email, password, coordinates } = req.body
 
-  db.query('UPDATE users SET online = 1 WHERE email = $1', [email])
   const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
   const user = data.rows[0]
 
@@ -63,6 +68,7 @@ loginRouter.post('/', async (req, res) => {
     console.log('coordinates not updated')
   }
 
+  db.query('UPDATE users SET online = 1 WHERE email = $1', [email])
   const userForToken = {
     username: user.username,
     id: user.id,

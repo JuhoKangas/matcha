@@ -114,6 +114,7 @@ export const finishSetup = (profileData) => {
     const response = await userService.setup(profileData)
     if (response.status === 201) {
       toast.success('You have successfully set up your profile!')
+      dispatch(setUser(response.data.data.user))
     } else {
       console.log('setup failed, status: ', response.status)
       toast.error('Error occured, setup failed.')
