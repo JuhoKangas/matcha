@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
 			console.log(err)
 		}
 		data.type === 1 && io.emit('show-notification', data)
+		data.type === 2 && io.emit('show-msg-notification', data)
 	})
 
 /* 	socket.on('is-online', (userId) => {

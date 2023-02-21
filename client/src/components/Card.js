@@ -16,7 +16,16 @@ const Card = ({ user, socket }) => {
     const otherHasLiked = likes.filter(
       (like) => like.user1 === toLikeId && like.user2 === loggedInUser.id
     )
-    dispatch(likeUser(loggedInUser.id, toLikeId))
+
+		dispatch(likeUser(loggedInUser.id, toLikeId))
+		
+		socket.emit('notification', {
+      user1: loggedInUser.id,
+      user2: toLikeId,
+      content: `${user.username} liked you.`,
+      type: 1,
+    })
+
     //notification to other user they were liked
     if (otherHasLiked.length !== 0) {
       dispatch(matchUsers(loggedInUser.id, toLikeId))
