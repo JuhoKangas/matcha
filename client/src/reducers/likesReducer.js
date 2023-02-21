@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-hot-toast'
 import likesService from '../services/likes'
+import { matchUsers } from './matchesReducer'
 
 const likesSlice = createSlice({
   name: 'likes',
@@ -29,7 +30,10 @@ export const likeUser = (loggedInUserId, userId) => {
   return async (dispatch) => {
     const response = await likesService.createLike(loggedInUserId, userId)
     if (response.status === 201) {
-      dispatch(addLike(response.data.results.rows[0]))
+      dispatch(initializeLikes())
+      if (response.data.msg === 'Match') {
+        dispatch(matchUsers(loggedInUserId, userId))
+      }
     } else toast.error('Sorry, could not like this user')
   }
 }

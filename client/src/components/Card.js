@@ -1,25 +1,18 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Tag from './Tag'
-import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { likeUser } from '../reducers/likesReducer'
-import { matchUsers } from '../reducers/matchesReducer'
 
 const Card = ({ user, socket }) => {
   const loggedInUser = useSelector(({ user }) => user)
-  const likes = useSelector(({ likes }) => likes)
   const dispatch = useDispatch()
 
   const handleLike = (toLikeId) => {
-    const otherHasLiked = likes.filter(
-      (like) => like.user1 === toLikeId && like.user2 === loggedInUser.id
-    )
+    dispatch(likeUser(loggedInUser.id, toLikeId))
 
-		dispatch(likeUser(loggedInUser.id, toLikeId))
-
-		socket.emit('notification', {
+    socket.emit('notification', {
       user1: loggedInUser.id,
       user2: toLikeId,
       content: `${user.username} liked you.`,
@@ -27,20 +20,20 @@ const Card = ({ user, socket }) => {
     })
 
     //notification to other user they were liked
-    if (otherHasLiked.length !== 0) {
-      dispatch(matchUsers(loggedInUser.id, toLikeId))
-      //NOTIFICATION/ MESSAGE TO ME: NEW MATCH!
-      //setupChat
-			const newChat = {
-				    loggedUserId: loggedInUser.id,
-				    loggedUserImg: loggedInUser.profilePicture,
-				    loggedUserUsername: loggedInUser.username,
-				    recipientId: user.id,
-				    recipientImg: user.profilePicture,
-				    recipientUsername: user.username,
-				  }
-				  dispatch(createChat(newChat))
-    }
+
+    //IF MATCHED CREATE CHAT
+    // if (otherHasLiked.length !== 0) {
+    //   //NOTIFICATION/ MESSAGE TO ME: NEW MATCH!
+    //   const newChat = {
+    //     loggedUserId: loggedInUser.id,
+    //     loggedUserImg: loggedInUser.profilePicture,
+    //     loggedUserUsername: loggedInUser.username,
+    //     recipientId: user.id,
+    //     recipientImg: user.profilePicture,
+    //     recipientUsername: user.username,
+    //   }
+    //   dispatch(createChat(newChat))
+    // }
   }
 
   //console.log('OH MY LIKES: ', likes)
