@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Tag from './Tag'
-// import { createChat } from '../reducers/chatReducer'
+import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { likeUser } from '../reducers/likesReducer'
@@ -18,7 +18,7 @@ const Card = ({ user, socket }) => {
     )
 
 		dispatch(likeUser(loggedInUser.id, toLikeId))
-		
+
 		socket.emit('notification', {
       user1: loggedInUser.id,
       user2: toLikeId,
@@ -31,10 +31,19 @@ const Card = ({ user, socket }) => {
       dispatch(matchUsers(loggedInUser.id, toLikeId))
       //NOTIFICATION/ MESSAGE TO ME: NEW MATCH!
       //setupChat
+			const newChat = {
+				    loggedUserId: loggedInUser.id,
+				    loggedUserImg: loggedInUser.profilePicture,
+				    loggedUserUsername: loggedInUser.username,
+				    recipientId: user.id,
+				    recipientImg: user.profilePicture,
+				    recipientUsername: user.username,
+				  }
+				  dispatch(createChat(newChat))
     }
   }
 
-  console.log('OH MY LIKES: ', likes)
+  //console.log('OH MY LIKES: ', likes)
 
   // const handleUnlike = (toUnlikeId) => {
   //   dispatch(removeLikes(loggedUser.id, toUnlikeId))
