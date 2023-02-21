@@ -32,21 +32,21 @@ const App = () => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
-	const match = useMatch('/:username')
+  const match = useMatch('/:username')
   const selectedUser = match
     ? users.find((user) => user.username === match.params.username)
     : null
-		
-		useEffect(() => {
-			// join the room
-			if (loggedInUser) {
-				socket && socket.emit('join-room', loggedInUser.id)
-	/* 			socket.emit('is-online', user.id)
+
+  useEffect(() => {
+    // join the room
+    if (loggedInUser) {
+      socket && socket.emit('join-room', loggedInUser.id)
+      /* 			socket.emit('is-online', user.id)
 				socket.on('online-users', (users) => {
 					setOnlineUsers(users)
 				}) */
-			}
-		}, [loggedInUser])
+    }
+  }, [loggedInUser])
 
   useEffect(() => {
     if (Cookies.get('authorization')) {
@@ -69,47 +69,79 @@ const App = () => {
       {loggedInUser.bio && <Navbar socket={socket} />}
       <Toaster position='top-center' reverseOrder={false} />
       <div className='grow'>
-			{isLoading ? (
-            // Todo: fix the css to position the hearts to the middle of the page
-            <Hearts
-              height='80'
-              width='80'
-              color='#007991'
-              ariaLabel='hearts-loading'
-              wrapperStyle={{}}
-              wrapperClass=''
-              visible={true}
-            />
-          ) : (
-        <Routes>
-          <Route path='/' element={<Landing />}></Route>
-          {loggedInUser.completed === true && <Route path='/home' element={<Home socket={socket} />} />}
-          <Route path='/login' element={loggedInUser.username === undefined ? <Login /> : <Navigate replace to='/setup' />} />
-          <Route path='/register' element={<Register />} />
-          {loggedInUser.completed && <Route path='/matches' element={<Matches />} />}
-          {loggedInUser.completed && <Route path='/browse' element={<Browse />} />}
-          {loggedInUser.completed && (
-            <Route path='/profile' element={<Profile user={loggedInUser} />} />
-          )}
-          {loggedInUser.completed && (
-            <Route path='/settings' element={<Settings user={loggedInUser} />} />
-          )}
-          {loggedInUser.completed && (
-            <Route path='/photos' element={<Photos user={loggedInUser} />} />
-          )}
-          {loggedInUser.completed && <Route path='/blocked' element={<Blocked />} />}
-          <Route path='/setup' element={loggedInUser.completed === false ? <Setup /> : <Navigate replace to='/home' />} /> 
-          {loggedInUser.completed && <Route path='/chat' element={<Chat socket={socket} />} />}
-          {selectedUser && (
+        {isLoading ? (
+          // Todo: fix the css to position the hearts to the middle of the page
+          <Hearts
+            height='80'
+            width='80'
+            color='#007991'
+            ariaLabel='hearts-loading'
+            wrapperStyle={{}}
+            wrapperClass=''
+            visible={true}
+          />
+        ) : (
+          <Routes>
+            <Route path='/' element={<Landing />}></Route>
+            {loggedInUser.completed === true && (
+              <Route path='/home' element={<Home socket={socket} />} />
+            )}
             <Route
-              path='/:username'
+              path='/login'
               element={
-                <UserProfile selectedUser={selectedUser} />
+                loggedInUser.username === undefined ? (
+                  <Login />
+                ) : (
+                  <Navigate replace to='/setup' />
+                )
               }
             />
-          )}
-        </Routes>
-				)}
+            <Route path='/register' element={<Register />} />
+            {loggedInUser.completed && (
+              <Route path='/matches' element={<Matches />} />
+            )}
+            {loggedInUser.completed && (
+              <Route path='/browse' element={<Browse />} />
+            )}
+            {loggedInUser.completed && (
+              <Route
+                path='/profile'
+                element={<Profile user={loggedInUser} />}
+              />
+            )}
+            {loggedInUser.completed && (
+              <Route
+                path='/settings'
+                element={<Settings user={loggedInUser} />}
+              />
+            )}
+            {loggedInUser.completed && (
+              <Route path='/photos' element={<Photos user={loggedInUser} />} />
+            )}
+            {loggedInUser.completed && (
+              <Route path='/blocked' element={<Blocked />} />
+            )}
+            <Route
+              path='/setup'
+              element={
+                loggedInUser.completed === false ? (
+                  <Setup />
+                ) : (
+                  <Navigate replace to='/home' />
+                )
+              }
+            />
+            {loggedInUser.completed && (
+              <Route path='/chat' element={<Chat socket={socket} />} />
+            )}
+            {selectedUser && (
+              <Route
+                path='/:username'
+                element={<UserProfile selectedUser={selectedUser} />}
+              />
+            )}
+          </Routes>
+        )}
       </div>
       <Footer />
     </div>

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
 const geoip = require('geoip-lite')
+const { sendEmail } = require('../utils/sendEmail')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query(
@@ -71,6 +72,13 @@ usersRouter.post('/', async (request, response) => {
     data.country
   ) {
     try {
+      //Create Token for the email, use jwt and the email
+      const token = jwt.sign({ email: data.email }, process.env.SECRET)
+
+      //Send email to the user with the token
+      sendEmail('activate', data.email, token, 0, 0)
+
+      //Add the token to the backend to "token"
       const hashedPassword = await bcrypt.hash(data.password, 10)
       const sanitizedEmail = data.email.toLowerCase()
       const location = await geoip.lookup(data.ip)
@@ -78,7 +86,7 @@ usersRouter.post('/', async (request, response) => {
       const longitude = location.ll[1]
 
       const results = await db.query(
-        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags, completed', // changed the token in the Table to null for now, before we assign an actual automatically generated token
+        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude, token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags, completed', // changed the token in the Table to null for now, before we assign an actual automatically generated token
         [
           data.firstname,
           data.lastname,
@@ -91,6 +99,7 @@ usersRouter.post('/', async (request, response) => {
           data.ip,
           latitude,
           longitude,
+          token,
         ]
       )
       response.status(201).json({ results }) //HERE
