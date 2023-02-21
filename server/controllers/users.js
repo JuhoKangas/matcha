@@ -20,9 +20,9 @@ usersRouter.get('/:id', async (request, response) => {
   response.json({
     ...user,
     profilePicture: user.profile_picture,
-    //NOT SURE IF THIS AFFECTS ANYTHING... WHRE IS THIS USED >.<
-    // genderIdentity: user.gender_identity,
-    // genderInterest: user.gender_interest,
+    genderIdentity: user.gender_identity,
+    genderInterest: user.gender_interest,
+    password: '',
   })
 })
 

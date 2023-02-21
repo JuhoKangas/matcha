@@ -82,7 +82,12 @@ const App = () => {
           />
         ) : (
           <Routes>
-            <Route path='/' element={<Landing />}></Route>
+            <Route
+              path='/'
+              element={
+                loggedInUser.username ? <Home socket={socket} /> : <Landing />
+              }
+            ></Route>
             {loggedInUser.completed === true && (
               <Route path='/home' element={<Home socket={socket} />} />
             )}
@@ -137,9 +142,12 @@ const App = () => {
             {selectedUser && (
               <Route
                 path='/:username'
-                element={<UserProfile selectedUser={selectedUser} socket={socket}/>}
+                element={
+                  <UserProfile selectedUser={selectedUser} socket={socket} />
+                }
               />
             )}
+            <Route path='*' element={<Navigate replace to='/' />} />
           </Routes>
         )}
       </div>
