@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createChat } from '../reducers/chatReducer'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
+//import getSelectedUserPhotos from '../services/users'
 
-const UserProfile = ({ selectedUser }) => {
+const UserProfile = ({ socket, selectedUser }) => {
   console.log('In other user profile page, user info: ', selectedUser)
   const dispatch = useDispatch()
-	const loggedUser = useSelector(({user}) => user)
+  const loggedUser = useSelector(({ user }) => user)
 
   const setupChat = () => {
     const newChat = {
@@ -20,7 +21,18 @@ const UserProfile = ({ selectedUser }) => {
     dispatch(createChat(newChat))
   }
 
-  //const photos = dispatch(getSelectedUserPhotos(selectedUser.id))
+  useEffect(() => {
+    console.log('ONE IN USERPROFILE')
+    socket.emit('notification', {
+      user1: loggedUser.id,
+      user2: selectedUser.id,
+      content: `${selectedUser.username} viewed your profile.`,
+      type: 1,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  //const photos = getSelectedUserPhotos(selectedUser.id)
   //console.log("Photos of selecetd user", photos)
 
   return (

@@ -6,7 +6,7 @@ import { initializeUsers } from '../reducers/usersReducer'
 import Sorting from '../components/Sorting'
 import { setSelectedChat } from '../reducers/chatReducer'
 
-const Home = (props) => {
+const Home = ({socket}) => {
   const dispatch = useDispatch()
   const loggedInUser = useSelector(({ user }) => user)
 
@@ -38,7 +38,7 @@ const Home = (props) => {
       >
         Anyone you fancy?
       </div>
-      <UsersList />
+      <UsersList socket={socket} />
     </div>
   )
 }

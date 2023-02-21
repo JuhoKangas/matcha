@@ -104,7 +104,7 @@ const App = () => {
             <Route
               path='/:username'
               element={
-                <UserProfile selectedUser={selectedUser} />
+                <UserProfile selectedUser={selectedUser} socket={socket} />
               }
             />
           )}

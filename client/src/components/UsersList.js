@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Card from './Card'
 
-const UsersList = () => {
+const UsersList = ({socket}) => {
   const loggedInUser = useSelector(({ user }) => user)
   const filteredUsers = useSelector(({ filteredUsers }) => filteredUsers)
   const sortingFilter = useSelector(({ sortingFilters }) => sortingFilters)
@@ -33,7 +33,7 @@ const UsersList = () => {
   return (
     <div className="flex flex-col gap-8">
       {sortedUsers.map((u) => (
-        <Card key={u.id} user={u} />
+        <Card key={u.id} user={u} socket={socket} />
       ))}
     </div>
   )

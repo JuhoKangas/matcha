@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Tag from './Tag'
 import { createChat } from '../reducers/chatReducer'
@@ -6,12 +6,19 @@ import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { addLikes } from '../reducers/likesReducer'
 
-const Card = ({ user }) => {
+const Card = ({ user, socket }) => {
   const loggedUser = useSelector(({ user }) => user)
   const dispatch = useDispatch()
 
   const handleLike = (toLikeId) => {
     dispatch(addLikes(loggedUser.id, toLikeId))
+
+		socket.emit('notification', {
+      user1: loggedUser.id,
+      user2: user.id,
+      content: `${user.username} viewed your profile.`,
+      type: 1,
+    })
   }
 
   const setupChat = () => {

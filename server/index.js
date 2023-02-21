@@ -2,6 +2,7 @@ const app = require('./app')
 const http = require('http')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
+const db = require('./db/index')
 
 const server = http.createServer(app)
 
@@ -29,6 +30,16 @@ io.on('connection', (socket) => {
 
 	socket.on('clear-unread-messages', (data) => {
 		io.to(data.user1).to(data.user2).emit('unread-messages-cleared', data)
+	})
+
+	socket.on('notification', (data) => {
+		console.log('ONE IN SERVER')
+		try {
+			db.query('INSERT INTO notifications (sender, recipient, message) VALUES ($1, $2, $3)', [data.user1, data.user2, data.content])
+		} catch (err) {
+			console.log(err)
+		}
+		data.type === 1 && io.emit('show-notification', data)
 	})
 
 /* 	socket.on('is-online', (userId) => {

@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
@@ -10,10 +10,11 @@ import {
 import { useNavigate, Link } from 'react-router-dom'
 import { logoutUser } from '../reducers/userReducer'
 
-const Navbar = () => {
+const Navbar = ({socket}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const loggedInUser = useSelector(({ user }) => user)
+	const [newNotification, setNewNotification] = useState(false)
 
   const navigation = [
     { name: 'Home', href: '/home' },
@@ -27,6 +28,13 @@ const Navbar = () => {
     dispatch(logoutUser(loggedInUser.id))
     navigate('/')
   }
+
+	useEffect(() => {
+		socket.on('show-notification', (data) => {
+			console.log(data)
+			loggedInUser.id === data.user2 && setNewNotification(true) 
+		})
+	}, [socket, loggedInUser.id])
 
   return (
     <Disclosure as='nav' className='bg-gray-800'>
@@ -75,9 +83,7 @@ const Navbar = () => {
               <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
                 <div className='flex gap-4 mr-2'>
                   <div className='relative'>
-                    <div className='w-4 h-4 bg-red-600 rounded-full p-1 text-xs flex items-center justify-center absolute ml-4 text-almost-white'>
-                      2
-                    </div>
+                    {newNotification && <div className='w-4 h-4 bg-red-600 rounded-full p-1 text-xs flex items-center justify-center absolute ml-4 text-almost-white'></div>}
                     <button
                       type='button'
                       className='rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'
