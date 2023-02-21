@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const db = require('../db/index')
 const geoip = require('geoip-lite')
+const { sendEmail } = require('../utils/sendEmail')
 
 usersRouter.get('/', async (request, response) => {
   const data = await db.query(
@@ -71,6 +72,13 @@ usersRouter.post('/', async (request, response) => {
     data.country
   ) {
     try {
+      //Create Token for the email, use jwt and the email
+      const token = jwt.sign({ email: data.email }, process.env.SECRET)
+
+      //Send email to the user with the token
+      sendEmail('activate', data.email, token, 0, 0)
+
+      //Add the token to the backend to "token"
       const hashedPassword = await bcrypt.hash(data.password, 10)
       const sanitizedEmail = data.email.toLowerCase()
       const location = await geoip.lookup(data.ip)
@@ -78,7 +86,7 @@ usersRouter.post('/', async (request, response) => {
       const longitude = location.ll[1]
 
       const results = await db.query(
-        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags, completed', // changed the token in the Table to null for now, before we assign an actual automatically generated token
+        'INSERT INTO users (firstname, lastname, username, age, city, country, password, email, ip, latitude, longitude, token) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) returning id, firstname, lastname, username, age, city, country, bio, gender_identity AS "genderIdentity", gender_interest AS "genderInterest", profile_picture AS "profilePicture", latitude, longitude, active, fame, last_seen AS "lastSeen", online, tags, completed', // changed the token in the Table to null for now, before we assign an actual automatically generated token
         [
           data.firstname,
           data.lastname,
@@ -91,6 +99,7 @@ usersRouter.post('/', async (request, response) => {
           data.ip,
           latitude,
           longitude,
+          token,
         ]
       )
       response.status(201).json({ results }) //HERE
@@ -114,7 +123,7 @@ usersRouter.put('/setup', async (request, response) => {
   ) {
     try {
       const results = await db.query(
-        "UPDATE users SET gender_identity = $1, gender_interest = $2, bio = $3, tags = $4, profile_picture = $5, completed = 'yes' WHERE id = $6 returning id, username, firstname, lastname, email, age, gender_identity, gender_interest, tags, bio, city, country, active, fame, online, latitude, longitude, profile_picture",
+        "UPDATE users SET gender_identity = $1, gender_interest = $2, bio = $3, tags = $4, profile_picture = $5, completed = 'yes' WHERE id = $6 returning *",
         [
           data.genderIdentity,
           data.genderInterest,
@@ -124,10 +133,19 @@ usersRouter.put('/setup', async (request, response) => {
           data.id,
         ]
       )
+
+      const completedUser = results.rows[0]
+
       response.status(201).json({
         status: 'success',
         data: {
-          user: results.rows[0],
+          user: {
+            ...completedUser,
+            genderIdentity: completedUser.gender_identity,
+            genderInterest: completedUser.gender_interest,
+            profilePicture: completedUser.profile_picture,
+            password: '',
+          },
         },
       })
     } catch (err) {

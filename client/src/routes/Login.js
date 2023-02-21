@@ -36,7 +36,9 @@ const Login = () => {
       dispatch(loginUser(email, password, coordinates))
       dispatch(initializeLikes())
       dispatch(initializeMatches())
-      navigate('/setup')
+      setTimeout(() => {
+        navigate('/setup')
+      }, 300)
     } else {
       toast.error('Username or password was incorrect')
     }
