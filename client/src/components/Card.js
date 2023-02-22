@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Tag from './Tag'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -9,9 +9,14 @@ const Card = ({ user, socket }) => {
   const loggedInUser = useSelector(({ user }) => user)
   const dispatch = useDispatch()
 
+  const cardUserRef = useRef()
+
   const handleLike = (userToLike) => {
     dispatch(likeUser(loggedInUser, userToLike))
 
+    //SAVE FOR KATA:
+    // likeButtonRef.current.style.background = 'red'
+    cardUserRef.current.style.display = 'none'
     socket.emit('notification', {
       user1: loggedInUser.id,
       user2: userToLike.id,
@@ -34,7 +39,7 @@ const Card = ({ user, socket }) => {
   const usernamePath = `/${user.username}`
 
   return (
-    <div className="p-3 flex flex-col items-center">
+    <div ref={cardUserRef} className="p-3 flex flex-col items-center">
       <div className="w-80 h-min rounded-lg bg-white border border-gray-400 shadow-lg">
         <img
           src={`http://localhost:3001/uploads/${user.profilePicture}`}
@@ -45,7 +50,6 @@ const Card = ({ user, socket }) => {
         <div className="p-4">
           <div className="flex justify-between">
             <div className="text-xl">
-              {/* TO DO: on username click, redirect to profile page */}
               <Link to={usernamePath}>
                 <span className="font-bold text-chitty-chitty hover:text-blue-800 cursor-pointer">
                   {user.username},{' '}
@@ -55,7 +59,7 @@ const Card = ({ user, socket }) => {
             </div>
 
             <div className="text-lg text-gray-500">
-              {/* TO DO: change number to flame or stars? */}
+              <HeartIcon className="h-4 w-4 inline-block fill-chitty-chitty" />{' '}
               {user.fame}
             </div>
           </div>

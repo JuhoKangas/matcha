@@ -20,7 +20,7 @@ likesRouter.post('/', async (request, response) => {
       )
 
       var message = ''
-      if (otherUserLiked.rowCount === 1) {
+      if (otherUserLiked.rowCount > 0) {
         message = 'Match'
       } else {
         message = 'Like'

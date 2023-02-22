@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 
@@ -18,11 +18,19 @@ const Filters = () => {
   const ageFilters = useSelector(({ ageFilters }) => ageFilters)
   const distanceFilters = useSelector(({ distanceFilters }) => distanceFilters)
   const fameFilters = useSelector(({ fameFilters }) => fameFilters)
+  const likes = useSelector(({ likes }) => likes)
 
   const handleApplyClick = () => {
     const allUsers = [...users]
 
     function passesFilters(u) {
+      if (
+        likes.find(
+          (like) => like.user1 === loggedInUser.id && like.user2 === u.id
+        )
+      ) {
+        return false
+      }
       if (u.age < ageFilters[0] || u.age > ageFilters[1]) return false
       if (tagFilters.length > 0) {
         if (tagFilters.every((tag) => u.tags.includes(tag)) !== true)
@@ -50,11 +58,6 @@ const Filters = () => {
     dispatch(setFilteredUsers(filteredAll))
   }
 
-  useEffect(() => {
-    handleApplyClick()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div className="flex items-center flew-wrap flex-col gap-2 my-3 justify-center">
       <TagFilters />
@@ -63,7 +66,7 @@ const Filters = () => {
       <FameFilters />
       <button
         className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center m-2"
-        onClick={handleApplyClick}
+        onClick={() => handleApplyClick()}
       >
         Apply filters
       </button>
