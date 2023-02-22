@@ -14,6 +14,7 @@ import Setup from './routes/Setup'
 import Chat from './routes/Chat'
 import UserProfile from './routes/UserProfile'
 import Footer from './components/Footer'
+import ResetPassword from './routes/ResetPassword'
 import { Hearts } from 'react-loader-spinner'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -87,7 +88,7 @@ const App = () => {
               element={
                 loggedInUser.username ? <Home socket={socket} /> : <Landing />
               }
-            ></Route>
+            />
             {loggedInUser.completed === true && (
               <Route path='/home' element={<Home socket={socket} />} />
             )}
@@ -146,6 +147,9 @@ const App = () => {
                   <UserProfile selectedUser={selectedUser} socket={socket} />
                 }
               />
+            )}
+            {!loggedInUser.username && (
+              <Route path='/reset_password' element={<ResetPassword />} />
             )}
             <Route path='*' element={<Navigate replace to='/' />} />
           </Routes>

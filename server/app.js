@@ -18,6 +18,7 @@ const uploadRouter = require('./controllers/upload')
 const likesRouter = require('./controllers/likes')
 const matchesRouter = require('./controllers/matches')
 const activateRouter = require('./controllers/activate')
+const emailRouter = require('./controllers/email')
 
 //cookies
 const bodyParser = require('body-parser')
@@ -49,6 +50,7 @@ app.use('/upload', uploadRouter)
 app.use('/likes', likesRouter)
 app.use('/matches', matchesRouter)
 app.use('/activate', activateRouter)
+app.use('/email', emailRouter)
 
 app.use(middleware.authenticateJWT)
 app.use(middleware.unknownEndpoint)

@@ -188,7 +188,6 @@ const Register = () => {
                 </label>
                 <input
                   type='password'
-                  id='passowrd'
                   name='password'
                   className='mt-1
 									mb-10
