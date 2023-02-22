@@ -13,6 +13,7 @@ import Blocked from './routes/Blocked'
 import Setup from './routes/Setup'
 import Chat from './routes/Chat'
 import UserProfile from './routes/UserProfile'
+import Notifications from './routes/Notifications'
 import Footer from './components/Footer'
 import { Hearts } from 'react-loader-spinner'
 
@@ -136,6 +137,9 @@ const App = () => {
                 )
               }
             />
+            {loggedInUser.completed && (
+              <Route path='/notifications' element={<Notifications />} />
+            )}
             {loggedInUser.completed && (
               <Route path='/chat' element={<Chat socket={socket} />} />
             )}

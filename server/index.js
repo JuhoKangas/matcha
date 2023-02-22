@@ -15,11 +15,9 @@ const io = require('socket.io')(server, {
 	}
 })
 
-let onlineUsers = []
 // check the socket connection form client
 io.on('connection', (socket) => {
 	socket.on('join-room', (userId) => {
-		console.log("usder joined room", userId)
 		socket.join(userId)
 	})
 	// send message only to users who are in the current chat
@@ -41,14 +39,6 @@ io.on('connection', (socket) => {
 		data.type === 1 && io.emit('show-notification', data)
 		data.type === 2 && io.emit('show-msg-notification', data)
 	})
-
-/* 	socket.on('is-online', (userId) => {
-		if(!onlineUsers.includes(userId)) {
-			onlineUsers.push(userId)
-		}
-		console.log("In online users ", onlineUsers)
-		io.emit('online-users', onlineUsers)
-	}) */
 })
 
 const PORT = config.PORT || 3001
