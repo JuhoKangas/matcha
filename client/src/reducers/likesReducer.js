@@ -26,13 +26,17 @@ export const initializeLikes = () => {
   }
 }
 
-export const likeUser = (loggedInUserId, userId) => {
+export const likeUser = (loggedInUser, userToLike) => {
   return async (dispatch) => {
-    const response = await likesService.createLike(loggedInUserId, userId)
+    const response = await likesService.createLike(
+      loggedInUser.id,
+      userToLike.id
+    )
     if (response.status === 201) {
       dispatch(initializeLikes())
+      toast.success('Liked!')
       if (response.data.msg === 'Match') {
-        dispatch(matchUsers(loggedInUserId, userId))
+        dispatch(matchUsers(loggedInUser, userToLike))
       }
     } else toast.error('Sorry, could not like this user')
   }
