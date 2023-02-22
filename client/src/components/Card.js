@@ -4,6 +4,7 @@ import Tag from './Tag'
 import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import { likeUser } from '../reducers/likesReducer'
+import { unlikeUser } from '../reducers/unlikesReducer'
 
 const Card = ({ user, socket }) => {
   const loggedInUser = useSelector(({ user }) => user)
@@ -13,28 +14,15 @@ const Card = ({ user, socket }) => {
 
   const handleLike = (userToLike) => {
     dispatch(likeUser(loggedInUser, userToLike))
-
     //SAVE FOR KATA:
     // likeButtonRef.current.style.background = 'red'
     cardUserRef.current.style.display = 'none'
-    socket.emit('notification', {
-      user1: loggedInUser.id,
-      user2: userToLike.id,
-      content: `${user.username} liked you.`,
-      type: 1,
-    })
   }
 
-  //console.log('OH MY LIKES: ', likes)
-
-  // const handleUnlike = (toUnlikeId) => {
-  //   dispatch(removeLikes(loggedUser.id, toUnlikeId))
-  //   dispatch(addUnlikes(loggedUser.id, toUnlikeId))
-
-  //   //when unlike button: remove like if exists, add unlike
-  //   //remove match if exists
-  //   //block profile list?
-  // }
+  const handleUnlike = (userToUnlike) => {
+    dispatch(unlikeUser(loggedInUser, userToUnlike))
+    cardUserRef.current.style.display = 'none'
+  }
 
   const usernamePath = `/${user.username}`
 
@@ -85,7 +73,7 @@ const Card = ({ user, socket }) => {
               <button className="w-10 mt-4" onClick={() => handleLike(user)}>
                 <HeartIcon className="h-8 w-8" />
               </button>
-              <button className="w-10 mt-4">
+              <button className="w-10 mt-4" onClick={() => handleUnlike(user)}>
                 <XMarkIcon className="h-8 w-8" />
               </button>
             </div>

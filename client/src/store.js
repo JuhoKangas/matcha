@@ -12,6 +12,7 @@ import sortingFilterReducer from './reducers/sortingFilterReducer'
 import chatReducer from './reducers/chatReducer'
 import messageReducer from './reducers/messageReducer'
 import likesReducer from './reducers/likesReducer'
+import unlikesReducer from './reducers/unlikesReducer'
 import matchesReducer from './reducers/matchesReducer'
 
 const store = configureStore({
@@ -28,6 +29,7 @@ const store = configureStore({
     chats: chatReducer,
     messages: messageReducer,
     likes: likesReducer,
+    unlikes: unlikesReducer,
     matches: matchesReducer,
   },
 })

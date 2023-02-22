@@ -6,6 +6,7 @@ import { checkUser } from '../utils/checkUser'
 import toast from 'react-hot-toast'
 import { initializeLikes } from '../reducers/likesReducer'
 import { initializeMatches } from '../reducers/matchesReducer'
+import { initializeUnlikes } from '../reducers/unlikesReducer'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const Login = () => {
     if (await checkUser(email, password)) {
       dispatch(loginUser(email, password, coordinates))
       dispatch(initializeLikes())
+      dispatch(initializeUnlikes())
       dispatch(initializeMatches())
       setTimeout(() => {
         navigate('/setup')
