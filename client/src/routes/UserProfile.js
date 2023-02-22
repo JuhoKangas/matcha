@@ -58,7 +58,7 @@ const UserProfile = ({ socket, selectedUser }) => {
       </div>
       <div className='flex justify-center text-xl mt-10'>
         <div className='flex flex-col justify-center'>
-          <div className='mb-3 flex items-center'><div className='text-chitty-chitty flex w-80'>Name:</div> {selectedUser.firstname}</div>
+          <div className='mb-3 flex items-center'><div className='text-chitty-chitty flex w-80'>Name:</div> {selectedUser.firstname} {selectedUser.lastname}</div>
           <div className='mb-3 flex items-center'><div className='text-chitty-chitty flex w-80'>Age:</div> {selectedUser.age}</div>
           <div className='mb-3 flex items-center'><div className='text-chitty-chitty flex w-80'>Gender Identity:</div> {selectedUser.genderIdentity}</div>
           <div className='mb-3 flex items-center'>
