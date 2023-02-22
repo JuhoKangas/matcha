@@ -16,12 +16,10 @@ const Notifications = () => {
       const response = await notificationsService.getAllNotifications(
         loggedInUser.id
       )
-      if (response.status === 200)
+      if (response.status === 200) {
         console.log('RESPONSE FROM NOTIF', response.data)
-      setNotifications(response.data)
-      /* 			const updateReadStatus = await notificationsService.updateReadStatus(
-        loggedInUser.id
-      ) */
+        setNotifications(response.data)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -42,14 +40,13 @@ const Notifications = () => {
           <div className='flex justify-between border border-almost-white border-opacity-30 rounded-md mb-5 mr-10 ml-10 text-almost-white p-3 mb:truncate'>
             <div className='text-lg font-light'>{notification.message}</div>
             <div className='flex opacity-70 text-xs pt-2'>
-              {moment(notification.created).format('hh:mm a')}
+              {moment(notification.created).format('MMMM Do, h:mm:ss a')}
               <div>
                 <i className='flex text-green-600 pl-2'>
                   {notification.recipient === loggedInUser.id &&
                   notification.seen === true ? (
                     <FontAwesomeIcon icon={faCheckDouble} />
                   ) : (
-                    //<FontAwesomeIcon icon={faCheck} />
                     <>NEW</>
                   )}
                 </i>

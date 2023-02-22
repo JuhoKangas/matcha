@@ -163,7 +163,7 @@ usersRouter.delete('/:id', async (request, response) => {
 })
 
 usersRouter.post('/logout', async (request, response) => {
-  await db.query('UPDATE users SET online = 0 WHERE id = $1', [
+  await db.query('UPDATE users SET online = 0, last_seen = CURRENT_TIMESTAMP WHERE id = $1', [
     request.body.userId,
   ])
   response

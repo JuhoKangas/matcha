@@ -40,14 +40,10 @@ chatsRouter.post('/', async (req, res) => {
 chatsRouter.get('/selected', async (req, res) => {
 	try {
 		const result = await db.query('SELECT * FROM chats WHERE id = $1', [req.query.openedChatId])
-		/* const updateUnreadMessages = await db.query('UPDATE chats SET unread_messages = 0 WHERE id = $1 returning unread_messages', [req.query.openedChatId])
-		const updateReadStatus = await db.query('UPDATE messages SET read = 1 WHERE chat_id = $1 returning read', [req.query.openedChatId]) */
 		const chatInfo = result.rows[0]
 		res.status(200).json({ 
 			status: 'success',
 			chats: chatInfo,
-/* 			unreadMessages: updateUnreadMessages.rows[0],
-			readStatus: updateReadStatus.rows[0] */
 		})
 	} catch (err) {
     console.log(err)
@@ -59,13 +55,8 @@ chatsRouter.put('/selected', async (req, res) => {
 	try {
 		const resultChats = await db.query('UPDATE chats SET unread_messages = 0 WHERE id = $1 returning unread_messages', [chatId])
 		const resultMessages = await db.query('UPDATE messages SET read = 1 WHERE chat_id = $1 returning read', [chatId])
-		//console.log("This is result chats", resultChats)
-/* 		const unread_messages = resultChats.rows[0].unread_messages
-		const read = resultMessages.rows[0].read */
 		res.status(200).send({ 
 			status: 'success',
-/* 				unread_messages,
-				read */
 		})
 	} catch (err) {
     console.log(err)
