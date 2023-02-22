@@ -68,7 +68,7 @@ loginRouter.post('/', async (req, res) => {
     console.log('coordinates not updated')
   }
 
-  db.query('UPDATE users SET online = 1 WHERE email = $1', [email])
+  db.query('UPDATE users SET online = 1, token = 0 WHERE email = $1', [email])
   const userForToken = {
     username: user.username,
     id: user.id,
