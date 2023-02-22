@@ -9,31 +9,15 @@ const Card = ({ user, socket }) => {
   const loggedInUser = useSelector(({ user }) => user)
   const dispatch = useDispatch()
 
-  const handleLike = (toLikeId) => {
-    dispatch(likeUser(loggedInUser.id, toLikeId))
+  const handleLike = (userToLike) => {
+    dispatch(likeUser(loggedInUser, userToLike))
 
     socket.emit('notification', {
       user1: loggedInUser.id,
-      user2: toLikeId,
+      user2: userToLike.id,
       content: `${user.username} liked you.`,
       type: 1,
     })
-
-    //notification to other user they were liked
-
-    //IF MATCHED CREATE CHAT
-    // if (otherHasLiked.length !== 0) {
-    //   //NOTIFICATION/ MESSAGE TO ME: NEW MATCH!
-    //   const newChat = {
-    //     loggedUserId: loggedInUser.id,
-    //     loggedUserImg: loggedInUser.profilePicture,
-    //     loggedUserUsername: loggedInUser.username,
-    //     recipientId: user.id,
-    //     recipientImg: user.profilePicture,
-    //     recipientUsername: user.username,
-    //   }
-    //   dispatch(createChat(newChat))
-    // }
   }
 
   //console.log('OH MY LIKES: ', likes)
@@ -45,19 +29,6 @@ const Card = ({ user, socket }) => {
   //   //when unlike button: remove like if exists, add unlike
   //   //remove match if exists
   //   //block profile list?
-  // }
-
-  // const setupChat = () => {
-  //   console.log('setup chat')
-  //   const newChat = {
-  //     loggedUserId: loggedInUser.id,
-  //     loggedUserImg: loggedInUser.profilePicture,
-  //     loggedUserUsername: loggedInUser.username,
-  //     recipientId: user.id,
-  //     recipientImg: user.profilePicture,
-  //     recipientUsername: user.username,
-  //   }
-  //   dispatch(createChat(newChat))
   // }
 
   const usernamePath = `/${user.username}`
@@ -107,7 +78,7 @@ const Card = ({ user, socket }) => {
               <span className="text-gray-400">{user.bio}</span>
             </div>
             <div className="flex flex-row justify-between">
-              <button className="w-10 mt-4" onClick={() => handleLike(user.id)}>
+              <button className="w-10 mt-4" onClick={() => handleLike(user)}>
                 <HeartIcon className="h-8 w-8" />
               </button>
               <button className="w-10 mt-4">

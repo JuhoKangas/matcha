@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-hot-toast'
 import matchesService from '../services/matches'
+import { createChat } from './chatReducer'
 
 const matchesSlice = createSlice({
   name: 'matches',
@@ -25,11 +26,13 @@ export const initializeMatches = () => {
   }
 }
 
-export const matchUsers = (loggedInUserId, userId) => {
+export const matchUsers = (loggedInUser, user) => {
   return async (dispatch) => {
-    const response = await matchesService.createMatch(loggedInUserId, userId)
+    const response = await matchesService.createMatch(loggedInUser.id, user.id)
     if (response.status === 201) {
       dispatch(addMatch(response.data.results.rows[0]))
+      //NOTIFICATION THERE IS A MATCH
+      dispatch(createChat(loggedInUser, user))
     } else toast.error('Sorry,could not match with this user')
   }
 }

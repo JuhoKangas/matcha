@@ -9,14 +9,14 @@ const chatSlice = createSlice({
     selectedChat: null,
   },
   reducers: {
-		setChats: (state, action) => {
-			state.allChats = action.payload
-		},
-/*     setChats(state, action) {
+    setChats: (state, action) => {
+      state.allChats = action.payload
+    },
+    /*     setChats(state, action) {
 			return (state.allChats = action.payload)
     }, */
     setSelectedChat: (state, action) => {
-     state.selectedChat = action.payload
+      state.selectedChat = action.payload
     },
     setNewChat(state, action) {
       return (state = action.payload)
@@ -24,35 +24,39 @@ const chatSlice = createSlice({
   },
 })
 
-export const createChat = (newChat) => {
+export const createChat = (loggedInUser, user) => {
+  const newChat = {
+    loggedUserId: loggedInUser.id,
+    loggedUserImg: loggedInUser.profilePicture,
+    loggedUserUsername: loggedInUser.username,
+    recipientId: user.id,
+    recipientImg: user.profilePicture,
+    recipientUsername: user.username,
+  }
   return async (dispatch) => {
-		const response = await chatService.createNewChat(newChat)
+    const response = await chatService.createNewChat(newChat)
     if (response.status === 201) {
-			toast.success('Matched!')
-			dispatch(setNewChat(response.data))
-		}
-    else
-      console.log('chat creation failed, status: ', response.status)
+      toast.success('Matched!')
+      dispatch(setNewChat(response.data))
+    } else console.log('chat creation failed, status: ', response.status)
   }
 }
 
 export const initializeChats = (userId) => {
   return async (dispatch) => {
-		const response = await chatService.getAllChats(userId)
-		if (response.status === 200) {
-			dispatch(setChats(response.data.chats))
-		} else
-			console.log('chat init failed, status: ', response.status) 
+    const response = await chatService.getAllChats(userId)
+    if (response.status === 200) {
+      dispatch(setChats(response.data.chats))
+    } else console.log('chat init failed, status: ', response.status)
   }
 }
 
 export const selectOneChat = (openedChatId) => {
   return async (dispatch) => {
     const response = await chatService.getSelectedChat(openedChatId)
-		if (response.status === 200) {
-			dispatch(setSelectedChat(response.data.chats))
-		} else
-			console.log('chat init failed, status: ', response.status) 
+    if (response.status === 200) {
+      dispatch(setSelectedChat(response.data.chats))
+    } else console.log('chat init failed, status: ', response.status)
   }
 }
 
@@ -60,17 +64,15 @@ export const updateUnreadMessagesToRead = (chatId) => {
   return async (dispatch) => {
     const response = await chatService.updateUnreadChatMessages(chatId)
     if (response.status === 200) {
-/*			dispatch(setChats(response.updatedChat))
+      /*			dispatch(setChats(response.updatedChat))
        const updatedChats = chatSlice.getState().allChats.map((chat) => {
         if (chat.id === chatId) return response.data
         return chat
       })
       dispatch(setChats(updatedChats)) */
-/* 			console.log("RESPONSE DATA FROM CHAT REDUCER", response.data)
+      /* 			console.log("RESPONSE DATA FROM CHAT REDUCER", response.data)
 			dispatch(setSelectedChat(response.data)) */
-    }
-		else
-			console.log('updatimg messages failed, status: ', response.status) 
+    } else console.log('updatimg messages failed, status: ', response.status)
   }
 }
 
