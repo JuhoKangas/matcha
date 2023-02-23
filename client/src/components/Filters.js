@@ -18,25 +18,11 @@ const Filters = () => {
   const ageFilters = useSelector(({ ageFilters }) => ageFilters)
   const distanceFilters = useSelector(({ distanceFilters }) => distanceFilters)
   const fameFilters = useSelector(({ fameFilters }) => fameFilters)
-  const likes = useSelector(({ likes }) => likes)
-  const unlikes = useSelector(({ unlikes }) => unlikes)
 
   const handleApplyClick = () => {
     const allUsers = [...users]
 
     function passesFilters(u) {
-      if (
-        likes.find(
-          (like) => like.user1 === loggedInUser.id && like.user2 === u.id
-        ) ||
-        unlikes.find(
-          (unlike) =>
-            (unlike.user1 === loggedInUser.id && unlike.user2 === u.id) ||
-            (unlike.user2 === loggedInUser.id && unlike.user1 === u.id)
-        )
-      ) {
-        return false
-      }
       if (u.age < ageFilters[0] || u.age > ageFilters[1]) return false
       if (tagFilters.length > 0) {
         if (tagFilters.every((tag) => u.tags.includes(tag)) !== true)
