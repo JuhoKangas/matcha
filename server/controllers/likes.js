@@ -12,7 +12,7 @@ likesRouter.post('/', async (request, response) => {
     var message = ''
     try {
       const unliked = await db.query(
-        'SELECT * FROM unlikes WHERE (user1 = $1 AND user2 = $2) OR (user2 = $1 AND user1 = $2) returning *',
+        'SELECT * FROM unlikes WHERE (user1 = $1 AND user2 = $2) OR (user2 = $1 AND user1 = $2)',
         [data.loggedInUser, data.userId]
       )
       if (unliked.rowCount > 0) {
@@ -54,7 +54,7 @@ likesRouter.post('/unlike', async (request, response) => {
     var message = ''
     try {
       const unliked = await db.query(
-        'SELECT * FROM unlikes WHERE (user1 = $1 AND user2 = $2) OR (user2 = $1 AND user1 = $2) returning *',
+        'SELECT * FROM unlikes WHERE (user1 = $1 AND user2 = $2) OR (user2 = $1 AND user1 = $2)',
         [data.loggedInUser, data.userId]
       )
       if (unliked.rowCount > 0) {
