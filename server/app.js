@@ -18,10 +18,11 @@ const uploadRouter = require('./controllers/upload')
 const likesRouter = require('./controllers/likes')
 const matchesRouter = require('./controllers/matches')
 const activateRouter = require('./controllers/activate')
+const emailRouter = require('./controllers/email')
+const notificationsRouter = require('./controllers/notifications')
 
 //cookies
 const bodyParser = require('body-parser')
-const notificationsRouter = require('./controllers/notifications')
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 const corsOptions = {
@@ -51,6 +52,7 @@ app.use('/likes', likesRouter)
 app.use('/matches', matchesRouter)
 app.use('/activate', activateRouter)
 app.use('/notifications', notificationsRouter)
+app.use('/email', emailRouter)
 
 app.use(middleware.authenticateJWT)
 app.use(middleware.unknownEndpoint)
