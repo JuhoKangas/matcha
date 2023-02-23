@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { uploadPhoto, deletePhoto } from '../reducers/userReducer'
 import { setSelectedChat } from '../reducers/chatReducer'
 import photosService from '../services/photos'
+import userService from '../services/users'
 import { setPhotos } from '../reducers/userReducer'
 
 const Photos = () => {
@@ -12,8 +13,8 @@ const Photos = () => {
   const [file, setFile] = useState('')
   const [dbPhotoFile, setDbPhotoFile] = useState('')
   const [photoToDelete, setPhotoToDelete] = useState('')
+  const [formImage, setFormImage] = useState('')
 
-  // What is this doing?
   useEffect(() => {
     dispatch(setSelectedChat(null))
   }, [dispatch])
@@ -30,6 +31,7 @@ const Photos = () => {
   const handleChange = (e) => {
     console.log(e.target.files)
     setFile(URL.createObjectURL(e.target.files[0]))
+    setFormImage(e.target.files[0])
     setDbPhotoFile(e.target.files[0].name)
   }
 
@@ -58,12 +60,17 @@ const Photos = () => {
     if (dbPhotoFile === '') {
       toast.error('Please select a photo.')
     } else {
-      const userPhoto = {
-        userId: user.id,
-        photo: dbPhotoFile,
-      }
-
       if (user.photos.length < 4) {
+        const uploadPhotoData = new FormData()
+        uploadPhotoData.append('profile', formImage)
+
+        const response = await userService.uploadPhoto(uploadPhotoData)
+
+        const userPhoto = {
+          userId: user.id,
+          photo: response.data.filename,
+        }
+
         dispatch(uploadPhoto(userPhoto))
         setFile('')
       } else toast.error('You have already uploaded four photos.')

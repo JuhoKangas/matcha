@@ -9,14 +9,11 @@ photosRouter.get('/:id', async (req, res) => {
     userId,
   ])
 
-  console.log(photos)
-
   res.status(200).json({ photos: photos })
 })
 
 photosRouter.post('/', async (req, res) => {
   const userPhoto = req.body
-  console.log(userPhoto)
 
   /* 	const photoName = uuidv4()
 	const finalPhotoName = `${photoName}.jpg` */
