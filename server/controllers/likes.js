@@ -23,6 +23,10 @@ likesRouter.post('/', async (request, response) => {
           'INSERT INTO likes (user1, user2) VALUES ($1, $2) returning *',
           [data.loggedInUser, data.userId]
         )
+        await db.query(
+          'UPDATE users SET fame = (fame+1) WHERE (id = $1 AND fame < 100) returning *',
+          [data.userId]
+        )
         const otherUserLiked = await db.query(
           'SELECT * FROM likes WHERE user1 = $1 AND user2 = $2',
           [data.userId, data.loggedInUser]
@@ -69,7 +73,10 @@ likesRouter.post('/unlike', async (request, response) => {
           'DELETE FROM likes WHERE user1 = $1 AND user2 = $2 returning *',
           [data.loggedInUser, data.userId]
         )
-
+        await db.query(
+          'UPDATE users SET fame = (fame-1) WHERE (id = $1 AND fame > 0) returning *',
+          [data.userId]
+        )
         if (deletedLike.rowCount > 0) {
           message = 'Unmatch'
         } else {
