@@ -1,4 +1,5 @@
-CREATE TABLE IF NOT EXISTS users (
+const tables = [
+  `CREATE TABLE IF NOT EXISTS users (
   id SERIAL NOT NULL PRIMARY KEY,
   username VARCHAR(1000) NOT NULL,
   firstname VARCHAR(1000) NOT NULL,
@@ -23,20 +24,20 @@ CREATE TABLE IF NOT EXISTS users (
 	longitude NUMERIC,
 	profile_picture VARCHAR(1000),
 	distance NUMERIC DEFAULT 10000000
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS tags (
+  `CREATE TABLE IF NOT EXISTS tags (
 	id SERIAL NOT NULL PRIMARY KEY,
   tagname VARCHAR(255) NOT NULL UNIQUE
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS photos ( 
+  `CREATE TABLE IF NOT EXISTS photos ( 
 	id SERIAL NOT NULL PRIMARY KEY,
 	user_id INT NOT NULL,
 	photo VARCHAR(1000)
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS chats (
+  `CREATE TABLE IF NOT EXISTS chats (
 	id SERIAL NOT NULL PRIMARY KEY,
 	matcher_user_id VARCHAR(255),
 	matcher_user_img VARCHAR(255),
@@ -49,40 +50,55 @@ CREATE TABLE IF NOT EXISTS chats (
 	last_message_text VARCHAR(1000),
 	last_message_sender INT, 
 	show_online INT
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS messages (
+  `CREATE TABLE IF NOT EXISTS messages (
 	id SERIAL NOT NULL PRIMARY KEY,
 	chat_id VARCHAR(255),
 	sender VARCHAR(255),
 	text VARCHAR(1000),
 	read SMALLINT DEFAULT 0,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS likes (
+  `CREATE TABLE IF NOT EXISTS likes (
 	id SERIAL NOT NULL PRIMARY KEY,
 	user1 INT NOT NULL,
 	user2 INT NOT NULL
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS unlikes (
+  `CREATE TABLE IF NOT EXISTS unlikes (
 	id SERIAL NOT NULL PRIMARY KEY,
 	user1 INT NOT NULL,
 	user2 INT NOT NULL
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS matches (
+  `CREATE TABLE IF NOT EXISTS matches (
 	id SERIAL NOT NULL PRIMARY KEY,
 	user1 INT NOT NULL,
 	user2 INT NOT NULL
-);
+);`,
 
-CREATE TABLE IF NOT EXISTS notifications (
+  `CREATE TABLE IF NOT EXISTS notifications (
 	id SERIAL NOT NULL PRIMARY KEY,
 	sender INT NOT NULL,
 	recipient INT NOT NULL,
 	message VARCHAR(1000),
 	seen BOOLEAN DEFAULT false,
 	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+);`,
+]
+
+const tableNames = [
+  'users',
+  'tags',
+  'photos',
+  'chats',
+  'messages',
+  'likes',
+  'unlikes',
+  'matches',
+  'notifications',
+]
+
+module.exports = { tables, tableNames }

@@ -2,6 +2,7 @@ const db = require('../db/index')
 const createUsersRouter = require('express').Router()
 const userData = require('../utils/userData')
 const bcrypt = require('bcrypt')
+const sqlSetup = require('../postgres/setup')
 
 const getRandomNumber = (ceil) => {
   return Math.floor(Math.random() * ceil)
@@ -141,10 +142,21 @@ const getRandomFemale = async (index) => {
 }
 
 createUsersRouter.get('/', async (req, res) => {
+  // Drop all tables
+  for (const table of sqlSetup.tableNames) {
+    await db.query(`DROP TABLE ${table}`)
+  }
+
+  // Recreate all tables
+  for (const table of sqlSetup.tables) {
+    await db.query(table)
+  }
+
   for (const tag of userData.tags) {
-    db.query('INSERT INTO tags (tagname) VALUES ($1) ON CONFLICT DO NOTHING', [
-      tag,
-    ])
+    await db.query(
+      'INSERT INTO tags (tagname) VALUES ($1) ON CONFLICT DO NOTHING',
+      [tag]
+    )
   }
 
   for (let i = 0; i < userData.usernames.length; i++) {
