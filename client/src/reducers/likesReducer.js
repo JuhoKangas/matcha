@@ -27,7 +27,7 @@ export const initializeLikes = () => {
   }
 }
 
-export const likeUser = (loggedInUser, userToLike) => {
+export const likeUser = (loggedInUser, userToLike, socket) => {
   return async (dispatch) => {
     const response = await likesService.createLike(
       loggedInUser.id,
@@ -38,6 +38,12 @@ export const likeUser = (loggedInUser, userToLike) => {
       toast.success('Liked!')
       if (response.data.msg === 'Match') {
         dispatch(matchUsers(loggedInUser, userToLike))
+				socket.emit('notification', {
+					user1: loggedInUser.id,
+					user2: userToLike.id,
+					content: `${loggedInUser.username} matched with you.`,
+					type: 1,
+				})
       }
     } else {
       dispatch(initializeUnlikes())
