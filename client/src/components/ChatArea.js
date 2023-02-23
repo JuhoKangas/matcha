@@ -154,7 +154,7 @@ const ChatArea = ({ socket }) => {
                       Number(message.sender) === loggedUser.id && 'justify-end'
                     }`}
                   >
-                    <div className="flex flex-col gap-1">
+                    <div key={message.index} className="flex flex-col gap-1">
                       <h1
                         className={`${
                           Number(message.sender) === loggedUser.id

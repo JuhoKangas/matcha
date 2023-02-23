@@ -39,8 +39,15 @@ const UserProfile = ({ socket, selectedUser }) => {
   const dispatch = useDispatch()
   const likeButtonRef = useRef()
   const handleLike = (userToLike) => {
-    dispatch(likeUser(loggedInUser, userToLike))
+    dispatch(likeUser(loggedInUser, userToLike, socket))
     likeButtonRef.current.style.visibility = 'hidden'
+
+		socket.emit('notification', {
+      user1: loggedInUser.id,
+      user2: selectedUser.id,
+      content: `${loggedInUser.username} liked you.`,
+      type: 1,
+    })
   }
 
   return (

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import notificationsService from '../services/notifications'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
-//import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 const Notifications = () => {
   const loggedInUser = useSelector(({ user }) => user)
