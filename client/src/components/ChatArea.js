@@ -9,16 +9,28 @@ import messageService from '../services/messages'
 import store from '../store'
 import moment from 'moment'
 import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
 
 const ChatArea = ({ socket }) => {
   const loggedUser = useSelector(({ user }) => user)
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
-	console.log("SELECTED CHAT ", selectedChat)
+  console.log('SELECTED CHAT ', selectedChat)
 
   const [newMessage, setNewMessage] = useState('')
   const [messages = [], setMessages] = useState([])
+
+  const [recipient, setRecipient] = useState('')
+
+  useEffect(() => {
+    loggedUser.id === Number(selectedChat.recipient_user_id)
+      ? setRecipient(selectedChat.matcher_user_username)
+      : setRecipient(selectedChat.recipient_user_username)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const usernamePath = `/${recipient}`
 
   const sendNewMessage = (e) => {
     e.preventDefault()
@@ -39,9 +51,12 @@ const ChatArea = ({ socket }) => {
       read: 0,
     })
 
-		socket.emit('notification', {
+    socket.emit('notification', {
       user1: loggedUser.id,
-      user2: loggedUser.id === Number(selectedChat.matcher_user_id) ? Number(selectedChat.recipient_user_id) :  Number(selectedChat.matcher_user_id),
+      user2:
+        loggedUser.id === Number(selectedChat.matcher_user_id)
+          ? Number(selectedChat.recipient_user_id)
+          : Number(selectedChat.matcher_user_id),
       content: `${selectedChat.recipient_user_username} sent you a message.`,
       type: 2,
     })
@@ -105,29 +120,31 @@ const ChatArea = ({ socket }) => {
 
   return (
     <>
-      <div className='flex flex-col justify-between bg-white border rounded-2xl h-[85vh] p-5'>
+      <div className="flex flex-col justify-between bg-white border rounded-2xl h-[85vh] p-5">
         <div>
-          <div className='flex gap-5 items-center mb-2'>
+          <div className="flex gap-5 items-center mb-2">
             <img
               src={`http://localhost:3001/uploads/${
                 loggedUser.id === Number(selectedChat.recipient_user_id)
                   ? selectedChat.matcher_user_img
                   : selectedChat.recipient_user_img
               }`}
-              alt='profile-pic'
-              className='w-10 h-10 rounded-full'
+              alt="profile-pic"
+              className="w-10 h-10 rounded-full"
             />
-            <h1 className='uppercase'>
-              {loggedUser.id === Number(selectedChat.recipient_user_id)
-                ? selectedChat.matcher_user_username
-                : selectedChat.recipient_user_username}
-            </h1>
+            <Link to={usernamePath}>
+              <h1 className="uppercase">
+                {loggedUser.id === Number(selectedChat.recipient_user_id)
+                  ? selectedChat.matcher_user_username
+                  : selectedChat.recipient_user_username}
+              </h1>
+            </Link>
           </div>
           <hr />
         </div>
 
-        <div className='h-[70vh] overflow-y-scroll pr-5 pl-5' id='messages'>
-          <div className='flex flex-col gap-2'>
+        <div className="h-[70vh] overflow-y-scroll pr-5 pl-5" id="messages">
+          <div className="flex flex-col gap-2">
             {messages !== undefined &&
               messages.map((message) => {
                 return (
@@ -137,7 +154,7 @@ const ChatArea = ({ socket }) => {
                       Number(message.sender) === loggedUser.id && 'justify-end'
                     }`}
                   >
-                    <div className='flex flex-col gap-1'>
+                    <div className="flex flex-col gap-1">
                       <h1
                         className={`${
                           Number(message.sender) === loggedUser.id
@@ -147,9 +164,9 @@ const ChatArea = ({ socket }) => {
                       >
                         {message.text}
                       </h1>
-                      <div className='flex justify-end text-sm text-gray-light gap-2'>
+                      <div className="flex justify-end text-sm text-gray-light gap-2">
                         {moment(message.created_at).format('hh:mm a')}
-                        <i className='text-green-600'>
+                        <i className="text-green-600">
                           {Number(message.sender) === loggedUser.id &&
                           Number(message.read) === 1 ? (
                             <FontAwesomeIcon icon={faCheckDouble} />
@@ -165,16 +182,16 @@ const ChatArea = ({ socket }) => {
           </div>
         </div>
         <div>
-          <div className='border-gray-300 rounded-lg border bg-white flex justify-between'>
+          <div className="border-gray-300 rounded-lg border bg-white flex justify-between">
             <input
-              type='text'
-              placeholder='Write a message'
-              className='w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0'
+              type="text"
+              placeholder="Write a message"
+              className="w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
             <button
-              className='bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium'
+              className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium"
               onClick={sendNewMessage}
             >
               <FontAwesomeIcon icon={faPaperPlane} />
