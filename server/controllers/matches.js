@@ -28,7 +28,7 @@ matchesRouter.post('/unmatch', async (request, response) => {
   if (data.loggedInUser && data.userId) {
     try {
       const results = await db.query(
-        'DELETE FROM matches WHERE (user1 = $1 AND user2 = $2) OR (user2 = $1, user1 = $2) returning *',
+        'DELETE FROM matches WHERE (user1 = $1 AND user2 = $2) OR (user2 = $1 AND user1 = $2) returning *',
         [data.loggedInUser, data.userId]
       )
       const deletedChat = await db.query(

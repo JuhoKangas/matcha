@@ -17,7 +17,7 @@ likesRouter.post('/', async (request, response) => {
       )
       if (unliked.rowCount > 0) {
         message = 'Cannot like'
-        response.status(200).json({ results, msg: message })
+        response.status(200).json({ unliked, msg: message })
       } else {
         const results = await db.query(
           'INSERT INTO likes (user1, user2) VALUES ($1, $2) returning *',
@@ -59,7 +59,7 @@ likesRouter.post('/unlike', async (request, response) => {
       )
       if (unliked.rowCount > 0) {
         message = 'Cannot unlike'
-        response.status(200).json({ results, msg: message })
+        response.status(200).json({ unliked, msg: message })
       } else {
         const results = await db.query(
           'INSERT INTO unlikes (user1, user2) VALUES ($1, $2) returning *',

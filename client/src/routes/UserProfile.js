@@ -3,20 +3,17 @@ import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { likeUser } from '../reducers/likesReducer'
+import { unlikeUser } from '../reducers/unlikesReducer'
+import { useNavigate } from 'react-router-dom'
 
 const UserProfile = ({ socket, selectedUser }) => {
   const loggedInUser = useSelector(({ user }) => user)
   const likes = useSelector(({ likes }) => likes)
-  // const unlikes = useSelector(({ unlikes }) => unlikes)
+  const navigate = useNavigate()
 
   const hasLiked = likes.find(
     (like) => like.user1 === loggedInUser.id && like.user2 === selectedUser.id
   )
-
-  // const hasUnliked = unlikes.find(
-  //   (unlike) =>
-  //     unlike.user1 === loggedInUser.id && unlike.user2 === selectedUser.id
-  // )
 
   const showOnlineStatus = () => {
     const status =
@@ -38,9 +35,15 @@ const UserProfile = ({ socket, selectedUser }) => {
 
   const dispatch = useDispatch()
   const likeButtonRef = useRef()
+
   const handleLike = (userToLike) => {
     dispatch(likeUser(loggedInUser, userToLike))
     likeButtonRef.current.style.visibility = 'hidden'
+  }
+
+  const handleUnlike = (userToUnlike) => {
+    dispatch(unlikeUser(loggedInUser, userToUnlike))
+    navigate('/home')
   }
 
   return (
@@ -101,7 +104,10 @@ const UserProfile = ({ socket, selectedUser }) => {
           ) : (
             ''
           )}
-          <button className="w-10 mt-4">
+          <button
+            className="w-10 mt-4"
+            onClick={() => handleUnlike(selectedUser)}
+          >
             <XMarkIcon className="h-12 w-12" />
           </button>
         </div>
