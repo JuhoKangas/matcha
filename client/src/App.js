@@ -123,7 +123,7 @@ const App = () => {
               />
             )}
             {loggedInUser.completed && (
-              <Route path='/photos' element={<Photos user={loggedInUser} />} />
+              <Route path='/photos' element={<Photos />} />
             )}
             {loggedInUser.completed && (
               <Route path='/blocked' element={<Blocked />} />
