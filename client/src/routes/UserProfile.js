@@ -14,7 +14,7 @@ const UserProfile = ({ socket, selectedUser }) => {
   const likes = useSelector(({ likes }) => likes)
   const navigate = useNavigate()
   const [selectedUserPhotos, setSelectedUserPhotos] = useState({})
-  const [visiblePhoto, setVisiblePhoto] = useState('')
+  const [visiblePhoto, setVisiblePhoto] = useState(loggedInUser.profilePicture)
   const [photoIndex, setPhotoIndex] = useState(0)
 
   useEffect(() => {
