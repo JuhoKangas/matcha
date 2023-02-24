@@ -85,7 +85,8 @@ const tables = [
 	recipient INT NOT NULL,
 	message VARCHAR(1000),
 	seen BOOLEAN DEFAULT false,
-	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	category VARCHAR(255)
 );`,
 ]
 
