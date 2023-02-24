@@ -16,7 +16,6 @@ const ChatArea = ({ socket }) => {
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
-  console.log('SELECTED CHAT ', selectedChat)
 
   const [newMessage, setNewMessage] = useState('')
   const [messages = [], setMessages] = useState([])
@@ -59,6 +58,7 @@ const ChatArea = ({ socket }) => {
           : Number(selectedChat.matcher_user_id),
       content: `${selectedChat.recipient_user_username} sent you a message.`,
       type: 2,
+      category: `message`,
     })
 
     // store message in db
@@ -95,7 +95,7 @@ const ChatArea = ({ socket }) => {
             return {
               ...chat,
               unread_messages: 0,
-							key: index
+              key: index,
             }
           }
           return chat
@@ -107,7 +107,7 @@ const ChatArea = ({ socket }) => {
             return {
               ...message,
               read: 1,
-							key: index
+              key: index,
             }
           })
         })

@@ -63,16 +63,9 @@ export const selectOneChat = (openedChatId) => {
 export const updateUnreadMessagesToRead = (chatId) => {
   return async (dispatch) => {
     const response = await chatService.updateUnreadChatMessages(chatId)
-    if (response.status === 200) {
-      /*			dispatch(setChats(response.updatedChat))
-       const updatedChats = chatSlice.getState().allChats.map((chat) => {
-        if (chat.id === chatId) return response.data
-        return chat
-      })
-      dispatch(setChats(updatedChats)) */
-      /* 			console.log("RESPONSE DATA FROM CHAT REDUCER", response.data)
-			dispatch(setSelectedChat(response.data)) */
-    } else console.log('updatimg messages failed, status: ', response.status)
+    if (response.status !== 200) {
+      console.log('updatimg messages failed, status: ', response.status)
+    }
   }
 }
 

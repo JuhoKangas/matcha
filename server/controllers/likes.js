@@ -24,7 +24,7 @@ likesRouter.post('/', async (request, response) => {
           [data.loggedInUser, data.userId]
         )
         await db.query(
-          'UPDATE users SET fame = (fame+1) WHERE (id = $1 AND fame < 100) returning *',
+          'UPDATE users SET fame = (fame+1) WHERE (id = $1 AND fame < 100)',
           [data.userId]
         )
         const otherUserLiked = await db.query(
@@ -74,7 +74,7 @@ likesRouter.post('/unlike', async (request, response) => {
           [data.loggedInUser, data.userId]
         )
         await db.query(
-          'UPDATE users SET fame = (fame-1) WHERE (id = $1 AND fame > 0) returning *',
+          'UPDATE users SET fame = (fame-1) WHERE (id = $1 AND fame > 0)',
           [data.userId]
         )
         if (deletedLike.rowCount > 0) {
@@ -90,6 +90,15 @@ likesRouter.post('/unlike', async (request, response) => {
   } else {
     response.status(400).json({ msg: 'bad request' })
   }
+})
+
+likesRouter.post('/unlikedby', async (request, response) => {
+  const data = request.body
+  const res = await db.query(
+    'SELECT * FROM unlikes WHERE (user1 = $1) AND (user2 = $2)',
+    [data.userId, data.loggedInUserId]
+  )
+  response.json({ data: res.rowCount })
 })
 
 module.exports = likesRouter

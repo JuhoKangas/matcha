@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 import store from '../store'
 
 const UserChatList = ({ socket }) => {
-  //console.log("In online users ", onlineUsers)
   const loggedUser = useSelector(({ user }) => user)
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
@@ -20,21 +19,20 @@ const UserChatList = ({ socket }) => {
         user1: Number(selectedChat.matcher_user_id),
         user2: Number(selectedChat.recipient_user_id),
       })
-    console.log('This is info about selected chat: ', openedChatId)
   }
 
   const getLastMessage = (chat) => {
     if (chat.last_message_text !== '') {
       return (
-        <div className='flex justify-between'>
-          <div className='text-gray-light text-sm'>
+        <div className="flex justify-between">
+          <div className="text-gray-light text-sm">
             {chat.last_message_text && chat.last_message_text.length > 20 ? (
               <p>{chat.last_message_text.substring(0, 20)}...</p>
             ) : (
               chat.last_message_text
             )}
           </div>
-          <div className='text-gray-light text-sm'>
+          <div className="text-gray-light text-sm">
             {chat.last_message_text &&
               moment(chat.updated_at).format('hh:mm a')}
           </div>
@@ -46,7 +44,7 @@ const UserChatList = ({ socket }) => {
   const getUnreadMessages = (chat) => {
     if (chat.unread_messages && chat.last_message_sender !== loggedUser.id) {
       return (
-        <div className='bg-bang-bang text-almost-black text-xs rounded-full h-5 w-5 flex items-center justify-center'>
+        <div className="bg-bang-bang text-almost-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
           {chat.unread_messages}
         </div>
       )
@@ -60,7 +58,6 @@ const UserChatList = ({ socket }) => {
 
   useEffect(() => {
     socket.on('receive-message', (message) => {
-      console.log('amedeo was here', message)
       const tempSelectedChat = store.getState().chats.selectedChat
       let tempAllChats = store.getState().chats.allChats
       if (tempSelectedChat?.id !== message.chat) {
@@ -82,12 +79,11 @@ const UserChatList = ({ socket }) => {
       const otherChats = tempAllChats.filter((chat) => chat.id !== message.chat)
       tempAllChats = [latestChat, ...otherChats]
       dispatch(setChats(tempAllChats))
-      console.log('UP{DATED CHATS', store.getState().chats.allChats)
     })
   }, []) // eslint-disable-line
 
   return (
-    <div className='flex flex-col gap-3 w-96 '>
+    <div className="flex flex-col gap-3 w-96 ">
       {chats.allChats &&
         chats.allChats.map((chat) => {
           return (
@@ -98,21 +94,21 @@ const UserChatList = ({ socket }) => {
               key={chat.id}
               onClick={() => openChat(chat.id)}
             >
-              <div className='flex gap-5 items-center'>
-                <div className='relative'>
+              <div className="flex gap-5 items-center">
+                <div className="relative">
                   <img
                     src={`http://localhost:3001/uploads/${
                       loggedUser.id === Number(chat.recipient_user_id)
                         ? chat.matcher_user_img
                         : chat.recipient_user_img
                     }`}
-                    alt='profile-pic'
-                    className='w-12 h-10 rounded-full'
+                    alt="profile-pic"
+                    className="w-12 h-10 rounded-full"
                   />
                 </div>
-                <div className='flex flex-col gap-1 w-full'>
-                  <div className='flex flex-row justify-between'>
-                    <h1 className=''>
+                <div className="flex flex-col gap-1 w-full">
+                  <div className="flex flex-row justify-between">
+                    <h1 className="">
                       {loggedUser.id === Number(chat.recipient_user_id)
                         ? chat.matcher_user_username
                         : chat.recipient_user_username}

@@ -24,7 +24,7 @@ export const initializeUnlikes = () => {
   }
 }
 
-export const unlikeUser = (loggedInUser, userToUnlike) => {
+export const unlikeUser = (loggedInUser, userToUnlike, socket) => {
   return async (dispatch) => {
     const response = await likesService.createUnlike(
       loggedInUser.id,
@@ -33,7 +33,15 @@ export const unlikeUser = (loggedInUser, userToUnlike) => {
     if (response.status === 201) {
       dispatch(initializeLikes())
       dispatch(initializeUsers(loggedInUser))
+      socket.emit('notification', {
+        user1: loggedInUser.id,
+        user2: userToUnlike.id,
+        content: `${loggedInUser.username} unliked you.`,
+        type: 1,
+        category: `unlike`,
+      })
       toast.success('Sent a friendly no-no')
+
       if (response.data.msg === 'Unmatch') {
         dispatch(unmatchUsers(loggedInUser, userToUnlike))
       }
