@@ -4,7 +4,6 @@ const baseUrl = 'http://localhost:3001/chats'
 const selectedChatUrl = 'http://localhost:3001/chats/selected'
 
 const createNewChat = (newChat) => {
-  console.log('This is new chat from card', newChat)
   return axios.post(baseUrl, newChat)
 }
 

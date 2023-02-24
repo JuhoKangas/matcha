@@ -11,14 +11,16 @@ const UserChatList = ({ socket }) => {
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
-  const openChat = (openedChatId) => {
+  
+	const openChat = (openedChatId) => {
     dispatch(selectOneChat(openedChatId))
-    selectedChat &&
+		if (selectedChat) {
       socket.emit('clear-unread-messages', {
         chat: selectedChat.id,
         user1: Number(selectedChat.matcher_user_id),
         user2: Number(selectedChat.recipient_user_id),
       })
+		}
   }
 
   const getLastMessage = (chat) => {
@@ -85,17 +87,17 @@ const UserChatList = ({ socket }) => {
   return (
     <div className="flex flex-col gap-3 w-96 ">
       {chats.allChats &&
-        chats.allChats.map((chat) => {
+        chats.allChats.map((chat, index) => {
           return (
             <div
               className={`bg-almost-white rounded-2xl p-5 cursor-pointer ${
                 isSelected(chat.id) && 'ring-chitty-chitty ring-4'
               }`}
-              key={chat.id}
+              key={index}
               onClick={() => openChat(chat.id)}
             >
               <div className="flex gap-5 items-center">
-                <div className="relative">
+                {/* <div className="relative">
                   <img
                     src={`http://localhost:3001/uploads/${
                       loggedUser.id === Number(chat.recipient_user_id)
@@ -105,7 +107,7 @@ const UserChatList = ({ socket }) => {
                     alt="profile-pic"
                     className="w-12 h-10 rounded-full"
                   />
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-1 w-full">
                   <div className="flex flex-row justify-between">
                     <h1 className="">

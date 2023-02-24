@@ -10,7 +10,6 @@ import Tag from '../components/Tag'
 import tags from '../services/tags'
 
 const Settings = ({ user }) => {
-  console.log('This is user in settings', user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const initialFirstname = useField('text', user.firstname)
@@ -59,7 +58,6 @@ const Settings = ({ user }) => {
 
   const addTag = (tagName) => {
     const newTags = [...formData.tags, tagName]
-    console.log('Added tags ', newTags)
     setFormData({
       ...formData,
       tags: newTags,
@@ -68,7 +66,6 @@ const Settings = ({ user }) => {
 
   const removeTag = (tagName) => {
     const newTags = formData.tags.filter((tag) => tag !== tagName)
-    console.log('Removed tags', newTags)
     setFormData({
       ...formData,
       tags: newTags,
