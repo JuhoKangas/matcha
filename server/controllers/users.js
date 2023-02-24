@@ -13,17 +13,27 @@ usersRouter.get('/', async (request, response) => {
 })
 
 usersRouter.get('/:id', async (request, response) => {
-  const data = await db.query('SELECT * FROM users WHERE id = $1', [
-    request.params.id,
-  ])
-  const user = data.rows[0]
-  response.json({
-    ...user,
-    profilePicture: user.profile_picture,
-    genderIdentity: user.gender_identity,
-    genderInterest: user.gender_interest,
-    password: '',
-  })
+  try {
+    const data = await db.query('SELECT * FROM users WHERE id = $1', [
+      request.params.id,
+    ])
+
+    const photos = await db.query('SELECT * FROM photos WHERE user_id = $1', [
+      request.params.id,
+    ])
+
+    const user = data.rows[0]
+    response.json({
+      ...user,
+      profilePicture: user.profile_picture,
+      genderIdentity: user.gender_identity,
+      genderInterest: user.gender_interest,
+      password: '',
+      photos: photos.rows,
+    })
+  } catch (e) {
+    console.log(e)
+  }
 })
 
 usersRouter.get('/getSelectedPhotos', async (request, response) => {
