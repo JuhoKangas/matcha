@@ -25,7 +25,6 @@ export const messageSend = (message) => {
     if (response.status === 201 && responseChat.status === 200) {
       dispatch(setNewMessage(response.data))
     } else {
-      console.log('message was not sent, status: ', response.status)
       toast.error('Sending message failed.')
     }
   }

@@ -30,12 +30,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('notification', (data) => {
-    console.log('ONE IN SERVER')
     try {
       data.type === 1 &&
         db.query(
-          'INSERT INTO notifications (sender, recipient, message) VALUES ($1, $2, $3)',
-          [data.user1, data.user2, data.content]
+          'INSERT INTO notifications (sender, recipient, message, category) VALUES ($1, $2, $3, $4)',
+          [data.user1, data.user2, data.content, data.category]
         )
     } catch (err) {
       console.log(err)

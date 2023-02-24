@@ -44,12 +44,10 @@ const update = (updatedUserInfo) => {
 }
 
 const upload = (userPhoto) => {
-  console.log('User photo from service', userPhoto)
   return axios.post(uploadUrl, userPhoto, { withCredentials: true })
 }
 
 const deletePhoto = (deleteUserPhoto) => {
-  console.log('Delete photo from services', deleteUserPhoto)
   return axios.post(deleteUrl, deleteUserPhoto, { withCredentials: true })
 }
 

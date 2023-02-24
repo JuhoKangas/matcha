@@ -23,8 +23,11 @@ const Login = () => {
             lon: pos.coords.longitude,
           })
         },
-        // todo: Handle error with notification or not at all
-        (err) => console.log(err)
+        (err) => {
+          toast.error(
+            'Please enable geolocation to be matched with hotties in your neighbourhood'
+          )
+        }
       )
     }
   }, [])

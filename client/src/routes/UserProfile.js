@@ -6,10 +6,34 @@ import { likeUser } from '../reducers/likesReducer'
 import { unlikeUser } from '../reducers/unlikesReducer'
 import { useNavigate } from 'react-router-dom'
 
+import likesService from '../services/likes'
+
 const UserProfile = ({ socket, selectedUser }) => {
   const loggedInUser = useSelector(({ user }) => user)
   const likes = useSelector(({ likes }) => likes)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const checkBlocked = async () => {
+      const blocked = await likesService.isUnlikedBy(
+        loggedInUser.id,
+        selectedUser.id
+      )
+      if (blocked.data === 1) {
+        navigate('/home')
+      } else {
+        socket.emit('notification', {
+          user1: loggedInUser.id,
+          user2: selectedUser.id,
+          content: `${loggedInUser.username} viewed your profile.`,
+          type: 1,
+          category: `view`,
+        })
+      }
+    }
+    checkBlocked()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const hasLiked = likes.find(
     (like) => like.user1 === loggedInUser.id && like.user2 === selectedUser.id
@@ -23,33 +47,16 @@ const UserProfile = ({ socket, selectedUser }) => {
     return status
   }
 
-  useEffect(() => {
-    socket.emit('notification', {
-      user1: loggedInUser.id,
-      user2: selectedUser.id,
-      content: `${loggedInUser.username} viewed your profile.`,
-      type: 1,
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   const dispatch = useDispatch()
   const likeButtonRef = useRef()
 
   const handleLike = (userToLike) => {
     dispatch(likeUser(loggedInUser, userToLike, socket))
     likeButtonRef.current.style.visibility = 'hidden'
-
-		socket.emit('notification', {
-      user1: loggedInUser.id,
-      user2: selectedUser.id,
-      content: `${loggedInUser.username} liked you.`,
-      type: 1,
-    })
   }
 
   const handleUnlike = (userToUnlike) => {
-    dispatch(unlikeUser(loggedInUser, userToUnlike))
+    dispatch(unlikeUser(loggedInUser, userToUnlike, socket))
     navigate('/home')
   }
 

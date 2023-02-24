@@ -37,6 +37,13 @@ export const likeUser = (loggedInUser, userToLike, socket) => {
     if (response.status === 201) {
       dispatch(initializeLikes())
       dispatch(initializeUsers(loggedInUser))
+      socket.emit('notification', {
+        user1: loggedInUser.id,
+        user2: userToLike.id,
+        content: `${loggedInUser.username} liked you.`,
+        type: 1,
+        category: `like`,
+      })
       toast.success('Liked!')
       if (response.data.msg === 'Match') {
         dispatch(matchUsers(loggedInUser, userToLike))
@@ -45,6 +52,7 @@ export const likeUser = (loggedInUser, userToLike, socket) => {
           user2: userToLike.id,
           content: `${loggedInUser.username} matched with you.`,
           type: 1,
+          category: `match`,
         })
       }
     } else {
