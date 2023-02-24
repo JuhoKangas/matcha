@@ -15,7 +15,7 @@ settingsRouter.put('/', async (req, res) => {
     const results =
       hashedPassword !== ''
         ? await db.query(
-            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, password = $10, email = $11, profile_picture = $12 WHERE id = $13 returning *',
+            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, password = $10, email = $11, profile_picture = $12, tags = $13 WHERE id = $14 returning *',
             [
               formData.firstname,
               formData.lastname,
@@ -29,11 +29,12 @@ settingsRouter.put('/', async (req, res) => {
               hashedPassword,
               sanitizedEmail,
               formData.profilePicture,
+              formData.tags,
               formData.id,
             ]
           )
         : await db.query(
-            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11 WHERE id = $12 returning *',
+            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11, tags = $12 WHERE id = $13 returning *',
             [
               formData.firstname,
               formData.lastname,
@@ -46,6 +47,7 @@ settingsRouter.put('/', async (req, res) => {
               formData.country,
               sanitizedEmail,
               formData.profilePicture,
+              formData.tags,
               formData.id,
             ]
           )

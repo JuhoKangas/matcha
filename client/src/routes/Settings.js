@@ -6,8 +6,11 @@ import { useField } from '../hooks'
 import { updateSettings } from '../reducers/userReducer'
 import { setSelectedChat } from '../reducers/chatReducer'
 import userService from '../services/users'
+import Tag from '../components/Tag'
+import tags from '../services/tags'
 
 const Settings = ({ user }) => {
+  console.log('This is user in settings', user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const initialFirstname = useField('text', user.firstname)
@@ -28,10 +31,13 @@ const Settings = ({ user }) => {
   const [formData, setFormData] = useState({
     genderIdentity: user.genderIdentity,
     genderInterest: user.genderInterest,
+    tags: [],
   })
+  const [newTags, setNewTags] = useState([])
 
   useEffect(() => {
     dispatch(setSelectedChat(null))
+    tags.getAllTags().then((tags) => setNewTags(tags))
   }, [dispatch])
 
   const handleChange = (e) => {
@@ -49,6 +55,42 @@ const Settings = ({ user }) => {
     setDbPhotoFile(e.target.files[0].name)
     setFormImage(e.target.files[0])
     setPictureChanged(true)
+  }
+
+  const addTag = (tagName) => {
+    const newTags = [...formData.tags, tagName]
+    console.log('Added tags ', newTags)
+    setFormData({
+      ...formData,
+      tags: newTags,
+    })
+  }
+
+  const removeTag = (tagName) => {
+    const newTags = formData.tags.filter((tag) => tag !== tagName)
+    console.log('Removed tags', newTags)
+    setFormData({
+      ...formData,
+      tags: newTags,
+    })
+  }
+
+  const handleTag = (e) => {
+    e.preventDefault()
+    const tagName = e.target.innerText
+
+    if (
+      e.target.className ===
+      'px-2 text-chitty-chitty ring-1 ring-chitty-chitty rounded-xl hover:bg-chitty-chitty hover:text-white w-min whitespace-nowrap text-sm cursor-pointer'
+    ) {
+      e.target.className =
+        'px-2 text-white ring-1 ring-chitty-chitty rounded-xl bg-chitty-chitty w-min whitespace-nowrap text-sm cursor-pointer hover:text-chitty-chitty bg-none'
+      addTag(tagName)
+    } else {
+      e.target.className =
+        'px-2 text-chitty-chitty ring-1 ring-chitty-chitty rounded-xl hover:bg-chitty-chitty hover:text-white w-min whitespace-nowrap text-sm cursor-pointer'
+      removeTag(tagName)
+    }
   }
 
   const validateForm = async (formData) => {
@@ -115,10 +157,17 @@ const Settings = ({ user }) => {
       errors.email = 'Please add proper email'
     }
 
+    if (formData.tags.length < 1) {
+      errors.tags =
+        'Please select at least one tag so we can better match you with likeminded people'
+    } else if (formData.tags.length > 5) {
+      errors.tags = 'Okay cowboy chill, select up to 5 tags'
+    }
+
     return errors
   }
 
-  const handleRegister = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault()
 
     const updatedUserInfo = {
@@ -135,6 +184,7 @@ const Settings = ({ user }) => {
       country: initialCountry.value,
       bio: initialBio.value,
       profilePicture: dbPhotoFile,
+      tags: formData.tags,
     }
 
     if (updatedUserInfo.password !== confirmPassword) {
@@ -179,15 +229,15 @@ const Settings = ({ user }) => {
       </div>
       <div className="flex justify-center items-center">
         <form
-          onSubmit={handleRegister}
-          className=" bg-almost-black shadow-sm rounded px-10 pt-10 pb-8"
+          onSubmit={handleUpdate}
+          className='bg-almost-black shadow-sm rounded px-10 pt-10 pb-8'
         >
-          <div className="flex flex-row space-x-20">
-            <div className="w-80 mb-15">
-              <div className="mb-4">
+          <div className='flex flex-row justify-center space-x-20'>
+            <div className=' mb-15'>
+              <div className='mb-4'>
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="userName"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='userName'
                 >
                   Username
                 </label>
@@ -197,14 +247,13 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.username}
                   {...initialUsername}
                   required
                 />
@@ -213,8 +262,8 @@ const Settings = ({ user }) => {
               <div>
                 <div className="mb-4">
                   <label
-                    className="block font-montserrat font-medium mb-2 text-almost-white"
-                    htmlFor="email"
+                    className=' font-montserrat font-medium mb-2 text-almost-white'
+                    htmlFor='email'
                   >
                     Email
                   </label>
@@ -224,14 +273,13 @@ const Settings = ({ user }) => {
                     className="mt-1
 										mb-10
 										font-montserrat
-										block
+										
 										w-full
 										rounded-md
 										border-gray-300
 										shadow-sm
 										text-gray-700
 										focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                    //value={user.email}
                     {...initialEmail}
                     required
                   />
@@ -240,8 +288,8 @@ const Settings = ({ user }) => {
 
               <div className="mb-4">
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="password"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='password'
                 >
                   Password
                 </label>
@@ -251,22 +299,21 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.password}
                   {...initialPassword}
                 />
               </div>
 
               <div className="mb-4">
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="password"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='password'
                 >
                   Repeat Password
                 </label>
@@ -277,7 +324,7 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
@@ -291,8 +338,8 @@ const Settings = ({ user }) => {
 
               <div className="mb-4">
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="firstname"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='firstname'
                 >
                   First Name
                 </label>
@@ -302,14 +349,13 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.firstname}
                   {...initialFirstname}
                   required
                 />
@@ -317,8 +363,8 @@ const Settings = ({ user }) => {
 
               <div className="mb-4">
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="lastname"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='lastname'
                 >
                   Last Name
                 </label>
@@ -328,25 +374,24 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.lastname}
                   {...initialLastname}
                   required
                 />
               </div>
             </div>
 
-            <div className="w-80 mb-20">
-              <div className="mb-4">
+            <div className=' mb-20'>
+              <div className='mb-4'>
                 <label
-                  htmlFor="age"
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor='age'
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
                 >
                   Age
                 </label>
@@ -356,14 +401,13 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.age}
                   {...initialAge}
                   required
                 />
@@ -371,8 +415,8 @@ const Settings = ({ user }) => {
 
               <div className="">
                 <label
-                  htmlFor="gender-identity"
-                  className="block font-montserrat font-medium mb-4 text-almost-white"
+                  htmlFor='gender-identity'
+                  className=' font-montserrat font-medium mb-4 text-almost-white'
                 >
                   Gender
                   <div className="flex justify-start mb-10">
@@ -424,8 +468,8 @@ const Settings = ({ user }) => {
 
               <div className="mb-4">
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="city"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='city'
                 >
                   City
                 </label>
@@ -434,14 +478,13 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.city}
                   {...initialCity}
                   required
                 />
@@ -449,8 +492,8 @@ const Settings = ({ user }) => {
 
               <div className="mb-4">
                 <label
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
-                  htmlFor="country"
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor='country'
                 >
                   Country
                 </label>
@@ -459,14 +502,13 @@ const Settings = ({ user }) => {
                   className="mt-1
 									mb-10
 									font-montserrat
-									block
+									
 									w-full
 									rounded-md
 									border-gray-300
 									shadow-sm
 									text-gray-700
 									focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20"
-                  //value={user.country}
                   {...initialCountry}
                   required
                 />
@@ -474,8 +516,8 @@ const Settings = ({ user }) => {
 
               <div className="">
                 <label
-                  htmlFor="gender-interest"
-                  className="block font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor='gender-interest'
+                  className=' font-montserrat font-medium mb-2 text-almost-white'
                 >
                   Show Me
                 </label>
@@ -526,40 +568,48 @@ const Settings = ({ user }) => {
               </div>
             </div>
           </div>
-          <div>
+          <div className='flex flex-col justify-center ml-96 mr-96'>
             <label
-              className="block font-montserrat font-medium mb-2 text-almost-white"
-              htmlFor="bio"
+              className='font-montserrat font-medium mb-2 text-almost-white'
+              htmlFor='bio'
             >
               Bio
             </label>
             <textarea
-              id="bio"
-              name="bio"
-              className="mt-1
-				mb-10
-				font-montserrat
-				block
-				w-full
-				rounded-md
-				border-gray-300
-				shadow-sm
-				text-gray-700
-				focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20
-				resize-y"
-              //value={user.bio}
+              id='bio'
+              name='bio'
+              className='mt-1
+								mb-10
+								font-montserrat
+								w-full
+								rounded-md
+								border-gray-300
+								shadow-sm
+								text-gray-700
+								focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20
+								resize-y'
               {...initialBio}
               required
             ></textarea>
           </div>
-          <div className="flex flex-col justify-center w-80">
+          <div className='flex flex-col justify-center ml-96 mr-96'>
+            <label className='flex flex-col font-montserrat font-medium text-almost-white mb-3'>
+              Interests
+            </label>
+            <div className='flex flex-wrap justify-center font-montserrat font-medium mb-2 text-almost-white text-lg'>
+              {newTags.map((tag) => (
+                <Tag key={tag.id} tagName={tag.tagname} onClick={handleTag} />
+              ))}
+            </div>
+          </div>
+          <div className='flex justify-start ml-96 mt-10'>
             <label
-              className="block font-montserrat font-medium mb-2 text-almost-white"
-              htmlFor="lastname"
+              className='flex justify-center font-montserrat font-medium text-almost-white'
+              htmlFor='lastname'
             >
               Profile Picture
             </label>
-            <div className="flex flex-col items-center justify-center gap-12 md:mb-0 mb-10">
+            <div className='flex flex-col items-center justify-center gap-12 md:mb-0 mb-10 mt-10'>
               {file ? (
                 <img
                   className="object-cover rounded-full h-60 w-60"

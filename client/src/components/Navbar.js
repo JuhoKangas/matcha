@@ -48,7 +48,7 @@ const Navbar = ({ socket }) => {
     try {
       const response = await notificationsService.getUnreadNotifications(
         loggedInUser.id
-      )('Response DATA from NAVBAR upon LOGIN', response)
+      )
       if (response.status === 200) {
         if (response.data.unreadNotifications.length > 0)
           setUnreadNotifications(true)
