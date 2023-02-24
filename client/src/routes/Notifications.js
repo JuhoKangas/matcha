@@ -36,7 +36,7 @@ const Notifications = () => {
       </h1>
       {notifications?.notifications?.map((notification) => {
         return (
-          <div className='flex justify-between border border-almost-white border-opacity-30 rounded-md mb-5 mr-10 ml-10 text-almost-white p-3 mb:truncate'>
+          <div key={notification.id} className='flex justify-between border border-almost-white border-opacity-30 rounded-md mb-5 mr-10 ml-10 text-almost-white p-3 mb:truncate'>
             <div className='text-lg font-light'>{notification.message}</div>
             <div className='flex opacity-70 text-xs pt-2'>
               {moment(notification.created).format('MMMM Do, h:mm:ss a')}

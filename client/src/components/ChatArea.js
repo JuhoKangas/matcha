@@ -90,11 +90,12 @@ const ChatArea = ({ socket }) => {
       const tempSelectedChat = store.getState().chats.selectedChat
 
       if (data.chat === tempSelectedChat?.id) {
-        const updatedChats = tempAllChats.map((chat) => {
+        const updatedChats = tempAllChats.map((chat, index) => {
           if (chat.id === data.chat) {
             return {
               ...chat,
               unread_messages: 0,
+							key: index
             }
           }
           return chat
@@ -102,10 +103,11 @@ const ChatArea = ({ socket }) => {
         dispatch(setChats(updatedChats))
 
         setMessages((prevMessages) => {
-          return prevMessages.map((message) => {
+          return prevMessages.map((message, index) => {
             return {
               ...message,
               read: 1,
+							key: index
             }
           })
         })
@@ -154,7 +156,7 @@ const ChatArea = ({ socket }) => {
                       Number(message.sender) === loggedUser.id && 'justify-end'
                     }`}
                   >
-                    <div key={message.index} className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1">
                       <h1
                         className={`${
                           Number(message.sender) === loggedUser.id
