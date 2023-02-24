@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { getIP } from '../utils/getIP'
 import toast from 'react-hot-toast'
 import { registerUser } from '../reducers/userReducer'
+import emailService from '../services/email'
+import userService from '../services/users'
 
 const Register = () => {
   const dispatch = useDispatch()
@@ -20,7 +22,7 @@ const Register = () => {
   })
   const [registrationLinkSent, setRegistrationLinkSent] = useState(false)
 
-  const validateForm = (formData) => {
+  const validateForm = async (formData) => {
     const errors = {}
 
     if (!formData.firstName) {
@@ -42,6 +44,13 @@ const Register = () => {
     } else if (formData.userName.length > 60) {
       errors.userName =
         "Your username can't be over 60 characters. It's just arbitary limit that I came up with, in fact our database would handle usernames up to 1000 characters but it would probably break the styling of the page so we just gonna have it like this now."
+    } else {
+      const findUserByUsername = await userService.getUserByUsername(
+        formData.userName
+      )
+      if (findUserByUsername.data.user.rowCount > 0) {
+        errors.username = 'Username is already taken'
+      }
     }
 
     if (!formData.age) {
@@ -77,6 +86,11 @@ const Register = () => {
       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
     ) {
       errors.email = 'Please add proper email'
+    } else {
+      const userExists = await emailService.getUserByEmail(formData.email)
+      if (userExists.userFound) {
+        errors.email = 'Email already in use'
+      }
     }
 
     return errors
@@ -99,7 +113,7 @@ const Register = () => {
       return
     }
 
-    const errors = validateForm(formData)
+    const errors = await validateForm(formData)
 
     if (errors !== {}) {
       for (const error in errors) {

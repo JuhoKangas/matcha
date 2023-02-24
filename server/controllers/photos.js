@@ -1,6 +1,6 @@
 const photosRouter = require('express').Router()
 const db = require('../db/index')
-const { v4: uuidv4 } = require('uuid')
+const fs = require('fs')
 
 photosRouter.get('/:id', async (req, res) => {
   const userId = req.params.id
@@ -15,8 +15,6 @@ photosRouter.get('/:id', async (req, res) => {
 photosRouter.post('/', async (req, res) => {
   const userPhoto = req.body
 
-  /* 	const photoName = uuidv4()
-	const finalPhotoName = `${photoName}.jpg` */
   try {
     const result = await db.query(
       'INSERT INTO photos (user_id, photo) VALUES ($1, $2) returning *',
@@ -40,17 +38,16 @@ photosRouter.post('/', async (req, res) => {
 })
 
 photosRouter.post('/delete', async (req, res) => {
-  const photoName = req.body
+  const { photoName, userId } = req.body
 
   try {
-    const result = await db.query(
-      'DELETE FROM photos WHERE photo = $1 returning *',
-      [photoName.photoName]
-    )
+    await db.query('DELETE FROM photos WHERE photo = $1', [photoName])
+
+    fs.unlinkSync(`${__dirname}/../uploads/${photoName}`)
 
     const photosData = await db.query(
       'SELECT photo FROM photos WHERE user_id = $1',
-      [photoName.userId]
+      [userId]
     )
     const photos = photosData.rows
 
