@@ -83,6 +83,8 @@ loginRouter.post('/', async (req, res) => {
       httpOnly: false,
       maxAge: 24 * 60 * 60 * 1000,
       path: '/',
+      sameSite: 'none',
+      secure: true,
     })
     .send({
       ...user,

@@ -1,22 +1,37 @@
 import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { uploadPhoto, deletePhoto } from '../reducers/userReducer'
 import { setSelectedChat } from '../reducers/chatReducer'
+import photosService from '../services/photos'
+import userService from '../services/users'
+import { setPhotos } from '../reducers/userReducer'
 
-const Photos = ({ user }) => {
+const Photos = () => {
   const dispatch = useDispatch()
+  const user = useSelector(({ user }) => user)
   const [file, setFile] = useState('')
   const [dbPhotoFile, setDbPhotoFile] = useState('')
   const [photoToDelete, setPhotoToDelete] = useState('')
+  const [formImage, setFormImage] = useState('')
 
   useEffect(() => {
     dispatch(setSelectedChat(null))
   }, [dispatch])
 
+  useEffect(() => {
+    const getUserPhotos = async () => {
+      const data = await photosService.getUserPhotos(user.id)
+      dispatch(setPhotos(data.photos.rows))
+    }
+    getUserPhotos()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch])
+
   const handleChange = (e) => {
     console.log(e.target.files)
     setFile(URL.createObjectURL(e.target.files[0]))
+    setFormImage(e.target.files[0])
     setDbPhotoFile(e.target.files[0].name)
   }
 
@@ -45,12 +60,17 @@ const Photos = ({ user }) => {
     if (dbPhotoFile === '') {
       toast.error('Please select a photo.')
     } else {
-      const userPhoto = {
-        userId: user.id,
-        photo: dbPhotoFile,
-      }
-
       if (user.photos.length < 4) {
+        const uploadPhotoData = new FormData()
+        uploadPhotoData.append('profile', formImage)
+
+        const response = await userService.uploadPhoto(uploadPhotoData)
+
+        const userPhoto = {
+          userId: user.id,
+          photo: response.data.filename,
+        }
+
         dispatch(uploadPhoto(userPhoto))
         setFile('')
       } else toast.error('You have already uploaded four photos.')
@@ -93,8 +113,9 @@ const Photos = ({ user }) => {
       <div className='flex flex-col justify-center items-center'>
         <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
           {user.photos
-            ? user.photos.map((photo) => (
+            ? user.photos.map((photo, index) => (
                 <img
+                  key={index}
                   src={`http://localhost:3001/uploads/${photo.photo}`}
                   alt=''
                   className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'

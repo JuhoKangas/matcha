@@ -53,13 +53,14 @@ const Profile = ({ user }) => {
       </h2>
       <div className='flex flex-col justify-center items-center'>
         <div className='flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10'>
-          {/* {user.photos.map((photo) => (
+          {user.photos.map((photo, index) => (
             <img
-              src={require(`../assets/img/${photo.photo}`)}
+              key={index}
+              src={`http://localhost:3001/uploads/${photo.photo}`}
               alt=''
               className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
             />
-          ))} */}
+          ))}
         </div>
       </div>
       <div className='p-10 flex justify-center gap-10 mt-8'>

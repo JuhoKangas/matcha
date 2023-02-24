@@ -163,11 +163,18 @@ usersRouter.delete('/:id', async (request, response) => {
 })
 
 usersRouter.post('/logout', async (request, response) => {
-  await db.query('UPDATE users SET online = 0, last_seen = CURRENT_TIMESTAMP WHERE id = $1', [
-    request.body.userId,
-  ])
+  await db.query(
+    'UPDATE users SET online = 0, last_seen = CURRENT_TIMESTAMP WHERE id = $1',
+    [request.body.userId]
+  )
   response
-    .clearCookie('authorization', { domain: 'localhost', path: '/' })
+    .cookie('authorization', '', {
+      maxAge: 1,
+      path: '/',
+      sameSite: 'none',
+      secure: true,
+      httpOnly: false,
+    })
     .send({})
 })
 
