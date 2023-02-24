@@ -595,7 +595,7 @@ const Settings = ({ user }) => {
             <label className='flex flex-col font-montserrat font-medium text-almost-white mb-3'>
               Interests
             </label>
-            <div className='flex flex-wrap justify-start font-montserrat font-medium mb-2 text-almost-white text-lg'>
+            <div className='flex flex-wrap justify-center font-montserrat font-medium mb-2 text-almost-white text-lg'>
               {newTags.map((tag) => (
                 <Tag key={tag.id} tagName={tag.tagname} onClick={handleTag} />
               ))}
