@@ -54,6 +54,11 @@ settingsRouter.put('/', async (req, res) => {
       formData.id,
     ])
 
+    const userPhotos = await db.query(
+      'SELECT * FROM photos WHERE user_id = $1',
+      [formData.id]
+    )
+
     res.status(200).json({
       status: 'success',
       data: {
@@ -63,8 +68,8 @@ settingsRouter.put('/', async (req, res) => {
           genderInterest: results.rows[0].gender_interest,
           profilePicture: results.rows[0].profile_picture,
           password: '',
+          photos: userPhotos.rows,
         },
-        //results.rows[0],
       },
     })
   } catch (err) {
