@@ -55,7 +55,7 @@ const Settings = ({ user }) => {
     setPictureChanged(true)
   }
 
-  const validateForm = (formData) => {
+  const validateForm = async (formData) => {
     const errors = {}
 
     if (!formData.firstname) {
@@ -77,6 +77,13 @@ const Settings = ({ user }) => {
     } else if (formData.username.length > 60) {
       errors.username =
         "Your username can't be over 60 characters. It's just arbitary limit that I came up with, in fact our database would handle usernames up to 1000 characters but it would probably break the styling of the page so we just gonna have it like this now."
+    } else {
+      const findUserByUsername = await userService.getUserByUsername(
+        formData.userName
+      )
+      if (findUserByUsername.data.user.rowCount > 0) {
+        errors.username = 'Username is already taken'
+      }
     }
 
     if (!formData.age) {
@@ -141,7 +148,7 @@ const Settings = ({ user }) => {
       return
     }
 
-    const errors = validateForm(updatedUserInfo)
+    const errors = await validateForm(updatedUserInfo)
 
     if (errors !== {}) {
       for (const error in errors) {

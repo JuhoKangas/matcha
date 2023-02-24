@@ -4,6 +4,20 @@ const { sendEmail } = require('../utils/sendEmail')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
+emailRouter.get('/get/:email', async (req, res) => {
+  const email = req.params.email
+
+  try {
+    const userFound = await db.query('SELECT * FROM users WHERE email = $1', [
+      email,
+    ])
+
+    res.status(200).json({ userFound: userFound.rowCount })
+  } catch (e) {
+    console.log('Error fetching email')
+  }
+})
+
 emailRouter.get('/:email', async (req, res) => {
   const email = req.params.email
   try {

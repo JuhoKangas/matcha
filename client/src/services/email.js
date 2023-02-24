@@ -6,6 +6,12 @@ const checkEmail = (email) => {
     .then((res) => res.data)
 }
 
+const getUserByEmail = (email) => {
+  return axios
+    .get(`http://localhost:3001/email/get/${email}`)
+    .then((res) => res.data)
+}
+
 const checkToken = (token) => {
   return axios
     .get(`http://localhost:3001/email/token/${token}`)
@@ -23,4 +29,4 @@ const resetPassword = (password, id, token) => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { checkEmail, checkToken, resetPassword }
+export default { checkEmail, checkToken, resetPassword, getUserByEmail }

@@ -54,6 +54,14 @@ const Photos = () => {
     }
   }
 
+  const className = (photo) => {
+    if (photo === photoToDelete) {
+      return 'object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg border-bang-bang border-4'
+    } else {
+      return 'object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
+    }
+  }
+
   const handleUpload = async (e) => {
     e.preventDefault()
 
@@ -118,7 +126,7 @@ const Photos = () => {
                   key={index}
                   src={`http://localhost:3001/uploads/${photo.photo}`}
                   alt=''
-                  className='object-cover h-96 w-96 border border-almost-white hover:cursor-pointer rounded-lg hover:border-bang-bang hover:border-4'
+                  className={className(photo.photo)}
                   onClick={() => choosePicToDelete(photo.photo)}
                 />
               ))
