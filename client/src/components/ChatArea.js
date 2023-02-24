@@ -98,7 +98,10 @@ const ChatArea = ({ socket }) => {
               key: index,
             }
           }
-          return chat
+          return {
+            chat,
+            key: index,
+          }
         })
         dispatch(setChats(updatedChats))
 
@@ -148,10 +151,10 @@ const ChatArea = ({ socket }) => {
         <div className='h-[70vh] overflow-y-scroll pr-5 pl-5' id='messages'>
           <div className='flex flex-col gap-2'>
             {messages !== undefined &&
-              messages.map((message) => {
+              messages.map((message, index) => {
                 return (
                   <div
-                    key={message.id}
+                    key={index}
                     className={`flex ${
                       Number(message.sender) === loggedUser.id && 'justify-end'
                     }`}

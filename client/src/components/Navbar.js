@@ -49,10 +49,9 @@ const Navbar = ({ socket }) => {
       const response = await notificationsService.getUnreadNotifications(
         loggedInUser.id
       )
-			console.log("Response DATA from NAVBAR upon LOGIN", response)
       if (response.status === 200) {
-        if (response.data.unreadNotifications.length > 0) 
-					setUnreadNotifications(true)
+        if (response.data.unreadNotifications.length > 0)
+          setUnreadNotifications(true)
       }
     } catch (err) {
       console.log(err)
@@ -141,7 +140,7 @@ const Navbar = ({ socket }) => {
                     onClick={resetMsgNotification}
                   >
                     <div className='relative'>
-                      {newMsgNotification && (
+                      {(newMsgNotification) && (
                         <div className='w-4 h-4 bg-red-600 rounded-full p-1 text-xs flex items-center justify-center absolute ml-4'></div>
                       )}
                       <ChatBubbleLeftRightIcon className='h-6 w-6' />
