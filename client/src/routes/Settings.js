@@ -227,7 +227,6 @@ const Settings = ({ user }) => {
       dispatch(updateSettings(updatedUserInfo))
     }
 
-    // TODO: only navigate user to profile page if info successfuly updated
     navigate('/profile')
   }
 
@@ -241,14 +240,14 @@ const Settings = ({ user }) => {
       <div className='flex justify-center items-center'>
         <form
           onSubmit={handleUpdate}
-          className='bg-almost-black shadow-sm rounded px-10 pt-10 pb-8'
+          className="bg-almost-black shadow-sm rounded px-10 pt-10 pb-8"
         >
-          <div className='flex flex-row justify-center space-x-20'>
-            <div className=' mb-15'>
-              <div className='mb-4'>
+          <div className="flex flex-row justify-center space-x-20">
+            <div className=" mb-15">
+              <div className="mb-4">
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='userName'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="userName"
                 >
                   Username
                 </label>
@@ -273,8 +272,8 @@ const Settings = ({ user }) => {
               <div>
                 <div className='mb-4'>
                   <label
-                    className=' font-montserrat font-medium mb-2 text-almost-white'
-                    htmlFor='email'
+                    className=" font-montserrat font-medium mb-2 text-almost-white"
+                    htmlFor="email"
                   >
                     Email
                   </label>
@@ -299,8 +298,8 @@ const Settings = ({ user }) => {
 
               <div className='mb-4'>
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='password'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="password"
                 >
                   Password
                 </label>
@@ -323,8 +322,8 @@ const Settings = ({ user }) => {
 
               <div className='mb-4'>
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='password'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="password"
                 >
                   Repeat Password
                 </label>
@@ -349,8 +348,8 @@ const Settings = ({ user }) => {
 
               <div className='mb-4'>
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='firstname'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="firstname"
                 >
                   First Name
                 </label>
@@ -374,8 +373,8 @@ const Settings = ({ user }) => {
 
               <div className='mb-4'>
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='lastname'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="lastname"
                 >
                   Last Name
                 </label>
@@ -398,11 +397,11 @@ const Settings = ({ user }) => {
               </div>
             </div>
 
-            <div className=' mb-20'>
-              <div className='mb-4'>
+            <div className=" mb-20">
+              <div className="mb-4">
                 <label
-                  htmlFor='age'
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor="age"
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
                 >
                   Age
                 </label>
@@ -426,8 +425,8 @@ const Settings = ({ user }) => {
 
               <div className=''>
                 <label
-                  htmlFor='gender-identity'
-                  className=' font-montserrat font-medium mb-4 text-almost-white'
+                  htmlFor="gender-identity"
+                  className=" font-montserrat font-medium mb-4 text-almost-white"
                 >
                   Gender
                   <div className='flex justify-start mb-10'>
@@ -479,8 +478,8 @@ const Settings = ({ user }) => {
 
               <div className='mb-4'>
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='city'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="city"
                 >
                   City
                 </label>
@@ -503,8 +502,8 @@ const Settings = ({ user }) => {
 
               <div className='mb-4'>
                 <label
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
-                  htmlFor='country'
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
+                  htmlFor="country"
                 >
                   Country
                 </label>
@@ -527,8 +526,8 @@ const Settings = ({ user }) => {
 
               <div className=''>
                 <label
-                  htmlFor='gender-interest'
-                  className=' font-montserrat font-medium mb-2 text-almost-white'
+                  htmlFor="gender-interest"
+                  className=" font-montserrat font-medium mb-2 text-almost-white"
                 >
                   Show Me
                 </label>
@@ -579,17 +578,17 @@ const Settings = ({ user }) => {
               </div>
             </div>
           </div>
-          <div className='flex flex-col justify-center ml-96 mr-96'>
+          <div className="flex flex-col justify-center ml-96 mr-96">
             <label
-              className='font-montserrat font-medium mb-2 text-almost-white'
-              htmlFor='bio'
+              className="font-montserrat font-medium mb-2 text-almost-white"
+              htmlFor="bio"
             >
               Bio
             </label>
             <textarea
-              id='bio'
-              name='bio'
-              className='mt-1
+              id="bio"
+              name="bio"
+              className="mt-1
 								mb-10
 								font-montserrat
 								w-full
@@ -598,29 +597,29 @@ const Settings = ({ user }) => {
 								shadow-sm
 								text-gray-700
 								focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20
-								resize-y'
+								resize-y"
               {...initialBio}
               required
             ></textarea>
           </div>
-          <div className='flex flex-col justify-center ml-96 mr-96'>
-            <label className='flex flex-col font-montserrat font-medium text-almost-white mb-3'>
+          <div className="flex flex-col justify-center ml-96 mr-96">
+            <label className="flex flex-col font-montserrat font-medium text-almost-white mb-3">
               Interests
             </label>
-            <div className='flex flex-wrap justify-center font-montserrat font-medium mb-2 text-almost-white text-lg'>
+            <div className="flex flex-wrap justify-center font-montserrat font-medium mb-2 text-almost-white text-lg">
               {newTags.map((tag) => (
                 <Tag key={tag.id} tagName={tag.tagname} onClick={handleTag} />
               ))}
             </div>
           </div>
-          <div className='flex justify-start ml-96 mt-10'>
+          <div className="flex justify-start ml-96 mt-10">
             <label
-              className='flex justify-center font-montserrat font-medium text-almost-white'
-              htmlFor='lastname'
+              className="flex justify-center font-montserrat font-medium text-almost-white"
+              htmlFor="lastname"
             >
               Profile Picture
             </label>
-            <div className='flex flex-col items-center justify-center gap-12 md:mb-0 mb-10 mt-10'>
+            <div className="flex flex-col items-center justify-center gap-12 md:mb-0 mb-10 mt-10">
               {file ? (
                 <img
                   className='object-cover rounded-full h-60 w-60'

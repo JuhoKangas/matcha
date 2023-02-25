@@ -28,5 +28,20 @@ const resetPassword = (password, id, token) => {
     .then((res) => res.data)
 }
 
+const reportAccount = (id, reportedId) => {
+  axios
+    .post('http://localhost:3001/email/report', {
+      id: id,
+      reportedId: reportedId,
+    })
+    .then((res) => res.data)
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { checkEmail, checkToken, resetPassword, getUserByEmail }
+export default {
+  checkEmail,
+  checkToken,
+  resetPassword,
+  getUserByEmail,
+  reportAccount,
+}

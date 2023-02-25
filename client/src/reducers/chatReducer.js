@@ -12,9 +12,6 @@ const chatSlice = createSlice({
     setChats: (state, action) => {
       state.allChats = action.payload
     },
-    /*     setChats(state, action) {
-			return (state.allChats = action.payload)
-    }, */
     setSelectedChat: (state, action) => {
       state.selectedChat = action.payload
     },

@@ -31,7 +31,6 @@ export const matchUsers = (loggedInUser, user) => {
     const response = await matchesService.createMatch(loggedInUser.id, user.id)
     if (response.status === 201) {
       dispatch(addMatch(response.data.results.rows[0]))
-      //NOTIFICATION THERE IS A MATCH
       dispatch(createChat(loggedInUser, user))
     } else toast.error('Sorry, could not match with this user')
   }
@@ -42,7 +41,6 @@ export const unmatchUsers = (loggedInUser, user) => {
     const response = await matchesService.deleteMatch(loggedInUser.id, user.id)
     if (response.status === 201) {
       dispatch(initializeMatches())
-      //NOTIFICATION UNMATCH
       dispatch(initializeChats())
     } else toast.error('Sorry, could not unmatch this user')
   }

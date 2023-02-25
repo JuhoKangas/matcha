@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import photosService from '../services/photos'
 
 import likesService from '../services/likes'
+import { toast } from 'react-hot-toast'
+import emailService from '../services/email'
 
 const UserProfile = ({ socket, selectedUser }) => {
   const dispatch = useDispatch()
@@ -86,6 +88,16 @@ const UserProfile = ({ socket, selectedUser }) => {
     }
   }
 
+  const handleReportAccountClick = async (e) => {
+    e.preventDefault()
+    emailService.reportAccount(loggedInUser.id, selectedUser.id)
+
+    toast.success(
+      `You reported this user as fake. The team takes this seriously and will look into it before taking action. Meanwhile, you can block the user.`,
+      { duration: 6000 }
+    )
+  }
+
   return (
     <div className="flex flex-col ml-32 mr-56 mt-20 text-almost-white">
       <div className="flex flex-col items-center justify-center">
@@ -152,6 +164,14 @@ const UserProfile = ({ socket, selectedUser }) => {
             <XMarkIcon className="h-12 w-12" />
           </button>
         </div>
+      </div>
+      <div className="flex items-center justify-center mt-10 mb-10">
+        <button
+          className="ring-1 ring-chitty-chitty rounded-xl whitespace-nowrap px-2 inline-block align-baseline font-semibold text-sm text-chitty-chitty  hover:bg-chitty-chitty hover:text-white"
+          onClick={handleReportAccountClick}
+        >
+          Report this account as fake
+        </button>
       </div>
     </div>
   )

@@ -100,4 +100,11 @@ emailRouter.post('/password', async (req, res) => {
   }
 })
 
+emailRouter.post('/report', async (req, res) => {
+  const { id, reportedId } = req.body
+  const email = 'matchateam7@gmail.com'
+  sendEmail('report', email, '', id, reportedId)
+  res.status(200).json({ msg: 'Account reported!' })
+})
+
 module.exports = emailRouter

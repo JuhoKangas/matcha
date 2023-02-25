@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-const sendEmail = (type, email, token, id, reported) => {
+const sendEmail = (type, email, token, id, reportedId) => {
   let subject = ''
   let html = ''
   let to = ''
@@ -21,6 +21,10 @@ const sendEmail = (type, email, token, id, reported) => {
     subject = 'Password reset'
     to = email
     html = `<h1>Your password has been reset</h1><p>Follow <a href="http://localhost:3000/reset_password?token=${token}">this link</a> to reset your password</p><br><br><p>If you did not request this, just ignore this email</p>`
+  } else if (type === 'report') {
+    subject = 'Reported fake account'
+    to = email
+    html = `<h1>A user reported a fake account</h1><p>User with id "${id}" has reported the account with id "${reportedId}" as fake.</p><br><br><p>Time to investigate.</p>`
   }
 
   const mailOptions = {
