@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export const checkUser = async (email, password) => {
+export const checkUser = async (username, password) => {
   try {
     const response = await axios.post('http://localhost:3001/login/check', {
-      email: email,
+      username: username,
       password: password,
     })
     if (response.data.error) {

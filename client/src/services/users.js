@@ -27,11 +27,11 @@ const uploadPhoto = (imageData) => {
   return axios.post(uploadPicUrl, imageData)
 }
 
-const checkUser = (email, password, coordinates) => {
+const checkUser = (username, password, coordinates) => {
   return axios.post(
     loginUrl,
     {
-      email,
+      username,
       password,
       coordinates,
     },

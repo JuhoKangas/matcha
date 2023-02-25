@@ -34,10 +34,10 @@ const Login = () => {
 
   const login = async (event) => {
     event.preventDefault()
-    const email = event.target.email.value
+    const username = event.target.username.value
     const password = event.target.password.value
-    if (await checkUser(email, password)) {
-      dispatch(loginUser(email, password, coordinates))
+    if (await checkUser(username, password)) {
+      dispatch(loginUser(username, password, coordinates))
       dispatch(initializeLikes())
       dispatch(initializeUnlikes())
       dispatch(initializeMatches())
@@ -68,15 +68,15 @@ const Login = () => {
           <div className="mb-4">
             <label
               className="block font-montserrat font-medium mb-2 text-almost-white"
-              htmlFor="email"
+              htmlFor="username"
             >
-              Email
+              Username
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Username"
               className="mt-1
 					mb-10
 					font-montserrat

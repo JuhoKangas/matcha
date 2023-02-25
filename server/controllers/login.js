@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt')
 const db = require('../db/index')
 
 loginRouter.post('/check', async (req, res) => {
-  const { email, password } = req.body
+  const { username, password } = req.body
 
-  const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
+  const data = await db.query('SELECT * FROM users WHERE username = $1', [
+    username,
+  ])
   const user = data.rows[0]
 
   if (!user) {
@@ -33,9 +35,11 @@ loginRouter.post('/check', async (req, res) => {
 })
 
 loginRouter.post('/', async (req, res) => {
-  const { email, password, coordinates } = req.body
+  const { username, password, coordinates } = req.body
 
-  const data = await db.query('SELECT * FROM users WHERE email = $1', [email])
+  const data = await db.query('SELECT * FROM users WHERE username = $1', [
+    username,
+  ])
   const user = data.rows[0]
 
   if (!user) {
@@ -68,7 +72,9 @@ loginRouter.post('/', async (req, res) => {
     console.log('coordinates not updated')
   }
 
-  db.query('UPDATE users SET online = 1, token = 0 WHERE email = $1', [email])
+  db.query('UPDATE users SET online = 1, token = 0 WHERE username = $1', [
+    username,
+  ])
   const userForToken = {
     username: user.username,
     id: user.id,
