@@ -120,6 +120,15 @@ const ChatArea = ({ socket }) => {
     messagesContainer.scrollTop = messagesContainer.scrollHeight
   }, [messages])
 
+  const handleMessageChange = (e) => {
+    if (newMessage.length < 420) {
+      setNewMessage(e.target.value)
+    } else {
+      setNewMessage(e.target.value.slice(0, 420))
+      toast.error('The message is too long')
+    }
+  }
+
   return (
     <>
       <div className='flex flex-col justify-between bg-white border rounded-2xl h-[85vh] p-5'>
@@ -190,7 +199,7 @@ const ChatArea = ({ socket }) => {
               placeholder='Write a message'
               className='w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0'
               value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              onChange={handleMessageChange}
             />
             <button
               className='bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium'
