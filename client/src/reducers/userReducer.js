@@ -50,7 +50,7 @@ export const logoutUser = (userId) => {
       dispatch(setLikes([]))
       dispatch(setUnlikes([]))
       dispatch(setMatches([]))
-      dispatch(setMessages([]))
+      dispatch(setMessages({ messages: [], newMessage: '' }))
     } else console.log('logoutUser failed, status: ', response.status)
   }
 }
