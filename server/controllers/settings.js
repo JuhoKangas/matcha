@@ -12,45 +12,55 @@ settingsRouter.put('/', async (req, res) => {
   const sanitizedEmail = formData.email.toLowerCase()
 
   try {
-    const results =
-      hashedPassword !== ''
-        ? await db.query(
-            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, password = $10, email = $11, profile_picture = $12, tags = $13 WHERE id = $14 returning *',
-            [
-              formData.firstname,
-              formData.lastname,
-              formData.username,
-              formData.age,
-              formData.genderIdentity,
-              formData.genderInterest,
-              formData.bio,
-              formData.city,
-              formData.country,
-              hashedPassword,
-              sanitizedEmail,
-              formData.profilePicture,
-              formData.tags,
-              formData.id,
-            ]
-          )
-        : await db.query(
-            'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11, tags = $12 WHERE id = $13 returning *',
-            [
-              formData.firstname,
-              formData.lastname,
-              formData.username,
-              formData.age,
-              formData.genderIdentity,
-              formData.genderInterest,
-              formData.bio,
-              formData.city,
-              formData.country,
-              sanitizedEmail,
-              formData.profilePicture,
-              formData.tags,
-              formData.id,
-            ]
-          )
+    let results = ''
+    if (hashedPassword !== '') {
+      results = await db.query(
+        'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, password = $10, email = $11, profile_picture = $12, tags = $13 WHERE id = $14 returning *',
+        [
+          formData.firstname,
+          formData.lastname,
+          formData.username,
+          formData.age,
+          formData.genderIdentity,
+          formData.genderInterest,
+          formData.bio,
+          formData.city,
+          formData.country,
+          hashedPassword,
+          sanitizedEmail,
+          formData.profilePicture,
+          formData.tags,
+          formData.id,
+        ]
+      )
+      await db.query(
+        'UPDATE users SET latitude = $1, longitude = $2 WHERE id = $3',
+        [formData.coordinates[0], formData.coordinates[1], formData.id]
+      )
+    } else {
+      results = await db.query(
+        'UPDATE users SET firstname = $1, lastname = $2, username = $3, age = $4, gender_identity = $5, gender_interest = $6, bio = $7, city = $8, country = $9, email = $10, profile_picture = $11, tags = $12 WHERE id = $13 returning *',
+        [
+          formData.firstname,
+          formData.lastname,
+          formData.username,
+          formData.age,
+          formData.genderIdentity,
+          formData.genderInterest,
+          formData.bio,
+          formData.city,
+          formData.country,
+          sanitizedEmail,
+          formData.profilePicture,
+          formData.tags,
+          formData.id,
+        ]
+      )
+      await db.query(
+        'UPDATE users SET latitude = $1, longitude = $2 WHERE id = $3',
+        [formData.coordinates[0], formData.coordinates[1], formData.id]
+      )
+    }
 
     const user = await db.query('SELECT * FROM users WHERE id = $1', [
       formData.id,

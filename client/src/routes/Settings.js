@@ -22,6 +22,8 @@ const Settings = ({ user }) => {
   const initialCity = useField('text', user.city)
   const initialCountry = useField('text', user.country)
   const initialBio = useField('text', user.bio)
+  const [latitude, setLatitude] = useState(user.latitude)
+  const [longitude, setLongitude] = useState(user.longitude)
 
   const [confirmPassword, setConfirmPassword] = useState('')
   const [file, setFile] = useState('')
@@ -173,6 +175,18 @@ const Settings = ({ user }) => {
       errors.bio = 'The bio can be maximum of 255 characters'
     }
 
+    if (
+      formData.coordinates.longitude > 180 ||
+      formData.coordinates.longitude < -180
+    ) {
+      errors.coordinates = 'not valid longitude'
+    } else if (
+      formData.coordinates.latitude > 90 ||
+      formData.coordinates.latitude < -90
+    ) {
+      errors.coordinates = 'not valid latitude'
+    }
+
     return errors
   }
 
@@ -194,6 +208,7 @@ const Settings = ({ user }) => {
       bio: initialBio.value,
       profilePicture: dbPhotoFile,
       tags: formData.tags,
+      coordinates: [latitude, longitude],
     }
 
     if (updatedUserInfo.password !== confirmPassword) {
@@ -578,6 +593,35 @@ const Settings = ({ user }) => {
                       Everyone
                     </div>
                   </label>
+                </div>
+              </div>
+
+              {/* GPS Coordinates */}
+              <div className='flex'>
+                <label className='font-montserrat font-medium mb-2 text-almost-white'>
+                  GPS
+                </label>
+                <div className='ml-3'>
+                  <div className='text-white'>
+                    latitude
+                    <input
+                      value={latitude}
+                      onChange={(e) => setLatitude(e.target.value)}
+                      className='mb-4 font-montserrat w-full rounded-md border-gray-300 shadow-sm text-gray-700
+                              focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20'
+                      type='text'
+                    />
+                  </div>
+                  <div className='text-white'>
+                    longitude
+                    <input
+                      value={longitude}
+                      onChange={(e) => setLongitude(e.target.value)}
+                      className='font-montserrat w-full rounded-md border-gray-300 shadow-sm text-gray-700
+                      focus:border-chitty-chitty focus:ring focus:ring-chitty-chitty focus:ring-opacity-20'
+                      type='text'
+                    />
+                  </div>
                 </div>
               </div>
             </div>
