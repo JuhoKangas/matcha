@@ -11,16 +11,16 @@ const UserChatList = ({ socket }) => {
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
-  
-	const openChat = (openedChatId) => {
+
+  const openChat = (openedChatId) => {
     dispatch(selectOneChat(openedChatId))
-		if (selectedChat) {
+    if (selectedChat) {
       socket.emit('clear-unread-messages', {
         chat: selectedChat.id,
         user1: Number(selectedChat.matcher_user_id),
         user2: Number(selectedChat.recipient_user_id),
       })
-		}
+    }
   }
 
   const getLastMessage = (chat) => {
@@ -97,17 +97,6 @@ const UserChatList = ({ socket }) => {
               onClick={() => openChat(chat.id)}
             >
               <div className="flex gap-5 items-center">
-                {/* <div className="relative">
-                  <img
-                    src={`http://localhost:3001/uploads/${
-                      loggedUser.id === Number(chat.recipient_user_id)
-                        ? chat.matcher_user_img
-                        : chat.recipient_user_img
-                    }`}
-                    alt="profile-pic"
-                    className="w-12 h-10 rounded-full"
-                  />
-                </div> */}
                 <div className="flex flex-col gap-1 w-full">
                   <div className="flex flex-row justify-between">
                     <h1 className="">

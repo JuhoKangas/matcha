@@ -4,12 +4,10 @@ import { Routes, Route, useMatch, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Register from './routes/Register'
 import Login from './routes/Login'
-import Matches from './routes/Matches'
 import Browse from './routes/Browse'
 import Profile from './routes/Profile'
 import Settings from './routes/Settings'
 import Photos from './routes/Photos'
-import Blocked from './routes/Blocked'
 import Setup from './routes/Setup'
 import Chat from './routes/Chat'
 import UserProfile from './routes/UserProfile'
@@ -40,13 +38,8 @@ const App = () => {
     : null
 
   useEffect(() => {
-    // join the room
     if (loggedInUser) {
       socket && socket.emit('join-room', loggedInUser.id)
-      /* 			socket.emit('is-online', user.id)
-				socket.on('online-users', (users) => {
-					setOnlineUsers(users)
-				}) */
     }
   }, [loggedInUser])
 
@@ -67,95 +60,88 @@ const App = () => {
   }, [])
 
   return (
-    <div className='flex flex-col justify-between min-h-screen bg-almost-black'>
+    <div className="flex flex-col justify-between min-h-screen bg-almost-black">
       {loggedInUser.bio && <Navbar socket={socket} />}
-      <Toaster position='top-center' reverseOrder={false} />
-      <div className='grow'>
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="grow">
         {isLoading ? (
-          // Todo: fix the css to position the hearts to the middle of the page
           <Hearts
-            height='80'
-            width='80'
-            color='#007991'
-            ariaLabel='hearts-loading'
+            height="80"
+            width="80"
+            color="#007991"
+            ariaLabel="hearts-loading"
             wrapperStyle={{}}
-            wrapperClass=''
+            wrapperClass=""
             visible={true}
           />
         ) : (
           <Routes>
             <Route
-              path='/'
+              path="/"
               element={
                 loggedInUser.username ? <Home socket={socket} /> : <Landing />
               }
             />
             {loggedInUser.completed === true && (
-              <Route path='/home' element={<Home socket={socket} />} />
+              <Route path="/home" element={<Home socket={socket} />} />
             )}
             <Route
-              path='/login'
+              path="/login"
               element={
                 loggedInUser.username === undefined ? (
                   <Login />
                 ) : (
-                  <Navigate replace to='/setup' />
+                  <Navigate replace to="/setup" />
                 )
               }
             />
-            <Route path='/register' element={<Register />} />
+            <Route path="/register" element={<Register />} />
             {loggedInUser.completed && (
-              <Route path='/matches' element={<Matches />} />
-            )}
-            {loggedInUser.completed && (
-              <Route path='/browse' element={<Browse />} />
+              <Route path="/browse" element={<Browse />} />
             )}
             {loggedInUser.completed && (
               <Route
-                path='/profile'
+                path="/profile"
                 element={<Profile user={loggedInUser} />}
               />
             )}
             {loggedInUser.completed && (
               <Route
-                path='/settings'
+                path="/settings"
                 element={<Settings user={loggedInUser} />}
               />
             )}
             {loggedInUser.completed && (
-              <Route path='/photos' element={<Photos />} />
-            )}
-            {loggedInUser.completed && (
-              <Route path='/blocked' element={<Blocked />} />
+              <Route path="/photos" element={<Photos />} />
             )}
             <Route
-              path='/setup'
+              path="/setup"
               element={
                 loggedInUser.completed === false ? (
                   <Setup />
                 ) : (
-                  <Navigate replace to='/home' />
+                  <Navigate replace to="/home" />
                 )
               }
             />
             {loggedInUser.completed && (
-              <Route path='/notifications' element={<Notifications />} />
+              <Route path="/notifications" element={<Notifications />} />
             )}
             {loggedInUser.completed && (
-              <Route path='/chat' element={<Chat socket={socket} />} />
+              <Route path="/chat" element={<Chat socket={socket} />} />
             )}
             {selectedUser && (
               <Route
-                path='/:username'
+                path="/:username"
                 element={
                   <UserProfile selectedUser={selectedUser} socket={socket} />
                 }
               />
             )}
             {!loggedInUser.username && (
-              <Route path='/reset_password' element={<ResetPassword />} />
+              <Route path="/reset_password" element={<ResetPassword />} />
             )}
-            <Route path='*' element={<Navigate replace to='/' />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Routes>
         )}
       </div>
