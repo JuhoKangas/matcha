@@ -144,7 +144,7 @@ const getRandomFemale = async (index) => {
 createUsersRouter.get('/', async (req, res) => {
   // Drop all tables
   for (const table of sqlSetup.tableNames) {
-    await db.query(`DROP TABLE ${table}`)
+    await db.query(`DROP TABLE IF EXISTS ${table}`)
   }
 
   // Recreate all tables
