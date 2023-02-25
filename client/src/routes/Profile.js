@@ -51,7 +51,7 @@ const Profile = ({ user }) => {
       </h2>
       <div className="flex flex-col justify-center items-center">
         <div className="flex items-center justify-center h-96 p-2 mt-10 gap-10 mb-10">
-          {user.photos.map((photo, index) => (
+          {user.photos?.map((photo, index) => (
             <img
               key={index}
               src={`http://localhost:3001/uploads/${photo.photo}`}
