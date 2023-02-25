@@ -6,6 +6,7 @@ import { setSelectedChat } from '../reducers/chatReducer'
 import photosService from '../services/photos'
 import userService from '../services/users'
 import { setPhotos } from '../reducers/userReducer'
+import { isImage } from '../utils/checkFile'
 
 const Photos = () => {
   const dispatch = useDispatch()
@@ -28,10 +29,17 @@ const Photos = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
-  const handleChange = (e) => {
-    setFile(URL.createObjectURL(e.target.files[0]))
-    setFormImage(e.target.files[0])
-    setDbPhotoFile(e.target.files[0].name)
+  const handleChange = async (e) => {
+    if (await isImage(e.target.files[0])) {
+      setFile(URL.createObjectURL(e.target.files[0]))
+      setFormImage(e.target.files[0])
+      setDbPhotoFile(e.target.files[0].name)
+    } else {
+      setFile('')
+      setFormImage('')
+      setDbPhotoFile('')
+      toast.error('Only jpg/jpeg or pngs please')
+    }
   }
 
   const choosePicToDelete = (photo) => {

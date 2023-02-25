@@ -6,6 +6,7 @@ import tags from '../services/tags'
 import Tag from '../components/Tag'
 import toast from 'react-hot-toast'
 import userService from '../services/users'
+import { isImage } from '../utils/checkFile'
 
 const Setup = () => {
   const dispatch = useDispatch()
@@ -27,10 +28,17 @@ const Setup = () => {
     tags.getAllTags().then((tags) => setAllTags(tags))
   }, [])
 
-  const handlePhotoChange = (e) => {
-    setFormImage(e.target.files[0])
-    setFile(URL.createObjectURL(e.target.files[0]))
-    setDbPhotoFile(e.target.files[0].name)
+  const handlePhotoChange = async (e) => {
+    if (await isImage(e.target.files[0])) {
+      setFormImage(e.target.files[0])
+      setFile(URL.createObjectURL(e.target.files[0]))
+      setDbPhotoFile(e.target.files[0].name)
+    } else {
+      setFile('')
+      setFormImage('')
+      setDbPhotoFile('')
+      toast.error('Only jpg/jpeg or pngs please')
+    }
   }
 
   const handleChange = (e) => {

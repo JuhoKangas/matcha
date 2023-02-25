@@ -8,6 +8,7 @@ import { setSelectedChat } from '../reducers/chatReducer'
 import userService from '../services/users'
 import Tag from '../components/Tag'
 import tags from '../services/tags'
+import { isImage } from '../utils/checkFile'
 
 const Settings = ({ user }) => {
   const navigate = useNavigate()
@@ -49,11 +50,18 @@ const Settings = ({ user }) => {
     }))
   }
 
-  const handlePhotoChange = (e) => {
-    setFile(URL.createObjectURL(e.target.files[0]))
-    setDbPhotoFile(e.target.files[0].name)
-    setFormImage(e.target.files[0])
-    setPictureChanged(true)
+  const handlePhotoChange = async (e) => {
+    if (await isImage(e.target.files[0])) {
+      setFile(URL.createObjectURL(e.target.files[0]))
+      setDbPhotoFile(e.target.files[0].name)
+      setFormImage(e.target.files[0])
+      setPictureChanged(true)
+    } else {
+      setFile('')
+      setFormImage('')
+      setDbPhotoFile('')
+      toast.error('Only jpg/jpeg or pngs please')
+    }
   }
 
   const addTag = (tagName) => {
