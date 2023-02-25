@@ -4,17 +4,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons'
 import { messageSend } from '../reducers/messageReducer'
-import { setChats } from '../reducers/chatReducer'
+import { setChats, initializeChats } from '../reducers/chatReducer'
 import messageService from '../services/messages'
 import store from '../store'
 import moment from 'moment'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
+import likesService from '../services/likes'
+import { useNavigate } from 'react-router-dom'
 
 const ChatArea = ({ socket }) => {
   const loggedUser = useSelector(({ user }) => user)
   const selectedChat = useSelector(({ chats }) => chats.selectedChat)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [newMessage, setNewMessage] = useState('')
   const [messages = [], setMessages] = useState([])
@@ -34,6 +37,22 @@ const ChatArea = ({ socket }) => {
     e.preventDefault()
     const loggedUserId = loggedUser.id
     const chatId = selectedChat.id
+
+    const checkBlocked = async () => {
+      const blocked1 = await likesService.isUnlikedBy(
+        Number(selectedChat.matcher_user_id),
+        Number(selectedChat.recipient_user_id)
+      )
+      const blocked2 = await likesService.isUnlikedBy(
+        Number(selectedChat.recipient_user_id),
+        Number(selectedChat.matcher_user_id)
+      )
+      if (blocked1.data === 1 || blocked2.data === 1) {
+        dispatch(initializeChats(loggedUserId))
+        navigate('/home')
+      }
+    }
+    checkBlocked()
 
     const message = {
       text: newMessage,
@@ -122,20 +141,20 @@ const ChatArea = ({ socket }) => {
 
   return (
     <>
-      <div className='flex flex-col justify-between bg-white border rounded-2xl h-[85vh] p-5'>
+      <div className="flex flex-col justify-between bg-white border rounded-2xl h-[85vh] p-5">
         <div>
-          <div className='flex gap-5 items-center mb-2'>
+          <div className="flex gap-5 items-center mb-2">
             <img
               src={`http://localhost:3001/uploads/${
                 loggedUser.id === Number(selectedChat.recipient_user_id)
                   ? selectedChat.matcher_user_img
                   : selectedChat.recipient_user_img
               }`}
-              alt='profile-pic'
-              className='w-10 h-10 rounded-full'
+              alt="profile-pic"
+              className="w-10 h-10 rounded-full"
             />
             <Link to={usernamePath}>
-              <h1 className='uppercase'>
+              <h1 className="uppercase">
                 {loggedUser.id === Number(selectedChat.recipient_user_id)
                   ? selectedChat.matcher_user_username
                   : selectedChat.recipient_user_username}
@@ -145,8 +164,8 @@ const ChatArea = ({ socket }) => {
           <hr />
         </div>
 
-        <div className='h-[70vh] overflow-y-scroll pr-5 pl-5' id='messages'>
-          <div className='flex flex-col gap-2'>
+        <div className="h-[70vh] overflow-y-scroll pr-5 pl-5" id="messages">
+          <div className="flex flex-col gap-2">
             {messages !== undefined &&
               messages.map((message, index) => {
                 return (
@@ -156,7 +175,7 @@ const ChatArea = ({ socket }) => {
                       Number(message.sender) === loggedUser.id && 'justify-end'
                     }`}
                   >
-                    <div className='flex flex-col gap-1'>
+                    <div className="flex flex-col gap-1">
                       <div
                         className={`${
                           Number(message.sender) === loggedUser.id
@@ -164,11 +183,11 @@ const ChatArea = ({ socket }) => {
                             : 'bg-almost-white text-chitty-chitty rounded-tr-none'
                         } p-3 rounded-xl max-w-xl`}
                       >
-                        <p className='break-words'>{message.text}</p>
+                        <p className="break-words">{message.text}</p>
                       </div>
-                      <div className='flex justify-end text-sm text-gray-light gap-2'>
+                      <div className="flex justify-end text-sm text-gray-light gap-2">
                         {moment(message.created_at).format('hh:mm a')}
-                        <i className='text-green-600'>
+                        <i className="text-green-600">
                           {Number(message.sender) === loggedUser.id &&
                           Number(message.read) === 1 ? (
                             <FontAwesomeIcon icon={faCheckDouble} />
@@ -184,16 +203,16 @@ const ChatArea = ({ socket }) => {
           </div>
         </div>
         <div>
-          <div className='border-gray-300 rounded-lg border bg-white flex justify-between'>
+          <div className="border-gray-300 rounded-lg border bg-white flex justify-between">
             <input
-              type='text'
-              placeholder='Write a message'
-              className='w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0'
+              type="text"
+              placeholder="Write a message"
+              className="w-[99%] h-full rounded-lg border-0 border-transparent focus:border-transparent focus:ring-0"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
             <button
-              className='bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium'
+              className="bg-gradient-to-r from-chitty-chitty to-bang-bang hover:bg-gradient-to-l text-almost-black py-2 px-6 rounded focus:outline-none focus:shadow-outline font-montserrat font-medium"
               onClick={sendNewMessage}
             >
               <FontAwesomeIcon icon={faPaperPlane} />
