@@ -11,30 +11,23 @@ const UserChatList = ({ socket }) => {
   const chats = useSelector(({ chats }) => chats)
   const selectedChat = chats.selectedChat
   const dispatch = useDispatch()
-  
-	const openChat = (openedChatId) => {
+
+  const openChat = (openedChatId) => {
     dispatch(selectOneChat(openedChatId))
-		if (selectedChat) {
-      socket.emit('clear-unread-messages', {
-        chat: selectedChat.id,
-        user1: Number(selectedChat.matcher_user_id),
-        user2: Number(selectedChat.recipient_user_id),
-      })
-		}
   }
 
   const getLastMessage = (chat) => {
     if (chat.last_message_text !== '') {
       return (
-        <div className="flex justify-between">
-          <div className="text-gray-light text-sm">
+        <div className='flex justify-between'>
+          <div className='text-gray-light text-sm'>
             {chat.last_message_text && chat.last_message_text.length > 20 ? (
               <p>{chat.last_message_text.substring(0, 20)}...</p>
             ) : (
               chat.last_message_text
             )}
           </div>
-          <div className="text-gray-light text-sm">
+          <div className='text-gray-light text-sm'>
             {chat.last_message_text &&
               moment(chat.updated_at).format('hh:mm a')}
           </div>
@@ -46,9 +39,7 @@ const UserChatList = ({ socket }) => {
   const getUnreadMessages = (chat) => {
     if (chat.unread_messages && chat.last_message_sender !== loggedUser.id) {
       return (
-        <div className="bg-bang-bang text-almost-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
-          {chat.unread_messages}
-        </div>
+        <div className='bg-bang-bang text-almost-black text-xs rounded-full h-5 w-5 flex items-center justify-center'></div>
       )
     }
   }
@@ -85,7 +76,7 @@ const UserChatList = ({ socket }) => {
   }, []) // eslint-disable-line
 
   return (
-    <div className="flex flex-col gap-3 w-96 ">
+    <div className='flex flex-col gap-3 w-96 '>
       {chats.allChats &&
         chats.allChats.map((chat, index) => {
           return (
@@ -96,21 +87,21 @@ const UserChatList = ({ socket }) => {
               key={index}
               onClick={() => openChat(chat.id)}
             >
-              <div className="flex gap-5 items-center">
-                {/* <div className="relative">
+              <div className='flex gap-5 items-center'>
+                <div className='relative'>
                   <img
                     src={`http://localhost:3001/uploads/${
                       loggedUser.id === Number(chat.recipient_user_id)
                         ? chat.matcher_user_img
                         : chat.recipient_user_img
                     }`}
-                    alt="profile-pic"
-                    className="w-12 h-10 rounded-full"
+                    alt='profile-pic'
+                    className='w-12 h-10 rounded-full'
                   />
-                </div> */}
-                <div className="flex flex-col gap-1 w-full">
-                  <div className="flex flex-row justify-between">
-                    <h1 className="">
+                </div>
+                <div className='flex flex-col gap-1 w-full'>
+                  <div className='flex flex-row justify-between'>
+                    <h1 className=''>
                       {loggedUser.id === Number(chat.recipient_user_id)
                         ? chat.matcher_user_username
                         : chat.recipient_user_username}

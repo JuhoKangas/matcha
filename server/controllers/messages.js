@@ -17,8 +17,7 @@ messagesRouter.post('/', async (req, res) => {
 		])
 		res.status(201).json({ 
 			status: 'success',
-			result,
-			//lastMessageSender: updateChat.rows[0] 
+			result
 		})
 	} catch (err) {
 		console.log(err)

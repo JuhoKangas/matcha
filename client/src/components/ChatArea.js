@@ -13,8 +13,7 @@ import { Link } from 'react-router-dom'
 
 const ChatArea = ({ socket }) => {
   const loggedUser = useSelector(({ user }) => user)
-  const chats = useSelector(({ chats }) => chats)
-  const selectedChat = chats.selectedChat
+  const selectedChat = useSelector(({ chats }) => chats.selectedChat)
   const dispatch = useDispatch()
 
   const [newMessage, setNewMessage] = useState('')
@@ -43,28 +42,29 @@ const ChatArea = ({ socket }) => {
     }
 
     // send message to server using socket
-    socket.emit('send-message', {
-      ...message,
-      user1: Number(selectedChat.matcher_user_id),
-      user2: Number(selectedChat.recipient_user_id),
-      read: 0,
-    })
+    if (message.text !== '') {
+      socket.emit('send-message', {
+        ...message,
+        user1: Number(selectedChat.matcher_user_id),
+        user2: Number(selectedChat.recipient_user_id),
+        read: 0,
+      })
 
-    socket.emit('notification', {
-      user1: loggedUser.id,
-      user2:
-        loggedUser.id === Number(selectedChat.matcher_user_id)
-          ? Number(selectedChat.recipient_user_id)
-          : Number(selectedChat.matcher_user_id),
-      content: `${selectedChat.recipient_user_username} sent you a message.`,
-      type: 2,
-      category: `message`,
-    })
+      socket.emit('notification', {
+        user1: loggedUser.id,
+        user2:
+          loggedUser.id === Number(selectedChat.matcher_user_id)
+            ? Number(selectedChat.recipient_user_id)
+            : Number(selectedChat.matcher_user_id),
+        content: `${selectedChat.recipient_user_username} sent you a message.`,
+        type: 2,
+        category: `message`,
+      })
 
-    // store message in db
-    if (message.text !== '') dispatch(messageSend(message))
-    else toast.error('Cannot send an empty message')
-    setNewMessage('')
+      // store message in db
+      dispatch(messageSend(message))
+      setNewMessage('')
+    } else toast.error('Cannot send an empty message')
   }
 
   const getMessages = async () => {
@@ -90,27 +90,24 @@ const ChatArea = ({ socket }) => {
       const tempSelectedChat = store.getState().chats.selectedChat
 
       if (data.chat === tempSelectedChat?.id) {
-        const updatedChats = tempAllChats.map((chat, index) => {
+        const updatedChats = tempAllChats.map((chat) => {
           if (chat.id === data.chat) {
             return {
               ...chat,
               unread_messages: 0,
-              key: index,
             }
           }
           return {
             chat,
-            key: index,
           }
         })
         dispatch(setChats(updatedChats))
 
         setMessages((prevMessages) => {
-          return prevMessages.map((message, index) => {
+          return prevMessages.map((message) => {
             return {
               ...message,
               read: 1,
-              key: index,
             }
           })
         })
@@ -160,15 +157,15 @@ const ChatArea = ({ socket }) => {
                     }`}
                   >
                     <div className='flex flex-col gap-1'>
-                      <h1
+                      <div
                         className={`${
                           Number(message.sender) === loggedUser.id
                             ? 'bg-chitty-chitty text-almost-white rounded-bl-none'
                             : 'bg-almost-white text-chitty-chitty rounded-tr-none'
-                        } p-3 rounded-xl`}
+                        } p-3 rounded-xl max-w-xl`}
                       >
-                        {message.text}
-                      </h1>
+                        <p className='break-words'>{message.text}</p>
+                      </div>
                       <div className='flex justify-end text-sm text-gray-light gap-2'>
                         {moment(message.created_at).format('hh:mm a')}
                         <i className='text-green-600'>
