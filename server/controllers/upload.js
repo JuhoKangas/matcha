@@ -2,7 +2,11 @@ const uploadRouter = require('express').Router()
 const { upload } = require('../utils/uploadPhoto')
 
 uploadRouter.post('/', upload.single('profile'), async (req, res) => {
-  res.json({ filename: req.file.filename })
+  if (!req.file) {
+    res.status(200).json({ error: 'Wrong filetype' })
+  } else {
+    res.status(200).json({ filename: req.file.filename })
+  }
 })
 
 module.exports = uploadRouter
