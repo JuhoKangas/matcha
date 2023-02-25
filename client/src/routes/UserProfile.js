@@ -3,13 +3,15 @@ import { HeartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { likeUser } from '../reducers/likesReducer'
-import { unlikeUser } from '../reducers/unlikesReducer'
+import { initializeUnlikes, unlikeUser } from '../reducers/unlikesReducer'
 import { useNavigate } from 'react-router-dom'
 import photosService from '../services/photos'
 
 import likesService from '../services/likes'
 
 const UserProfile = ({ socket, selectedUser }) => {
+  const dispatch = useDispatch()
+
   const loggedInUser = useSelector(({ user }) => user)
   const likes = useSelector(({ likes }) => likes)
   const navigate = useNavigate()
@@ -24,6 +26,7 @@ const UserProfile = ({ socket, selectedUser }) => {
         selectedUser.id
       )
       if (blocked.data === 1) {
+        dispatch(initializeUnlikes())
         navigate('/home')
       } else {
         socket.emit('notification', {
@@ -61,7 +64,6 @@ const UserProfile = ({ socket, selectedUser }) => {
     return status
   }
 
-  const dispatch = useDispatch()
   const likeButtonRef = useRef()
 
   const handleLike = (userToLike) => {
