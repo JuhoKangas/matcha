@@ -30,12 +30,13 @@ export const initializeUser = (userId) => {
   }
 }
 
-export const loginUser = (username, password, coordinates) => {
+export const loginUser = (username, password, coordinates, userIP) => {
   return async (dispatch) => {
     const response = await userService.checkUser(
       username,
       password,
-      coordinates
+      coordinates,
+      userIP
     )
     if (response.status === 200) {
       toast.success('You are successfully logged in!')

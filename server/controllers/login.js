@@ -2,6 +2,7 @@ const loginRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const db = require('../db/index')
+const geoip = require('geoip-lite')
 
 loginRouter.post('/check', async (req, res) => {
   const { username, password } = req.body
@@ -35,7 +36,7 @@ loginRouter.post('/check', async (req, res) => {
 })
 
 loginRouter.post('/', async (req, res) => {
-  const { username, password, coordinates } = req.body
+  const { username, password, coordinates, userIP } = req.body
 
   const data = await db.query('SELECT * FROM users WHERE username = $1', [
     username,
@@ -69,7 +70,12 @@ loginRouter.post('/', async (req, res) => {
     )
     console.log('coordinates updated to:', updatedCoordinates.rows[0])
   } else {
-    console.log('coordinates not updated')
+    const location = geoip.lookup(userIP)
+    const updatedCoordinates = await db.query(
+      'UPDATE users SET latitude = $1, longitude = $2 WHERE id = $3 RETURNING latitude, longitude',
+      [location.ll[0], location.ll[1], user.id]
+    )
+    console.log('coordinates updated to:', updatedCoordinates.rows[0])
   }
 
   db.query('UPDATE users SET online = 1, token = 0 WHERE username = $1', [
