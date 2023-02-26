@@ -85,6 +85,11 @@ loginRouter.post('/', async (req, res) => {
     username: user.username,
     id: user.id,
   }
+  const userData = await db.query('SELECT * FROM users WHERE username = $1', [
+    username,
+  ])
+
+  const updatedUser = userData.rows[0]
 
   const token = jwt.sign(userForToken, process.env.SECRET)
 
@@ -98,10 +103,10 @@ loginRouter.post('/', async (req, res) => {
       secure: true,
     })
     .send({
-      ...user,
-      genderIdentity: user.gender_identity,
-      genderInterest: user.gender_interest,
-      profilePicture: user.profile_picture,
+      ...updatedUser,
+      genderIdentity: updatedUser.gender_identity,
+      genderInterest: updatedUser.gender_interest,
+      profilePicture: updatedUser.profile_picture,
       photos: photos,
       password: '',
     })

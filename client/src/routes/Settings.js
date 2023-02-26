@@ -175,15 +175,9 @@ const Settings = ({ user }) => {
       errors.bio = 'The bio can be maximum of 255 characters'
     }
 
-    if (
-      formData.coordinates.longitude > 180 ||
-      formData.coordinates.longitude < -180
-    ) {
+    if (formData.coordinates[1] > 180 || formData.coordinates[1] < -180) {
       errors.coordinates = 'not valid longitude'
-    } else if (
-      formData.coordinates.latitude > 90 ||
-      formData.coordinates.latitude < -90
-    ) {
+    } else if (formData.coordinates[0] > 90 || formData.coordinates[0] < -90) {
       errors.coordinates = 'not valid latitude'
     }
 
